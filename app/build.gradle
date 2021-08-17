@@ -25,6 +25,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            if ('release' == variant.buildType.name) {
+                outputFileName = "ColorOSTool_v${variant.versionName}.apk"
+            }
+            if ('debug' == variant.buildType.name) {
+                outputFileName = "ColorOSTool_v${variant.versionName}_debug.apk"
+            }
+        }
+    }
 }
 
 dependencies {
