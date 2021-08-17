@@ -20,7 +20,7 @@ public class XposedInit implements IXposedHookLoadPackage {
             XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    Class<?> clazz = null;
+                    Class<?> clazz;
                     ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                     try {
                         clazz = cl.loadClass("com.coloros.safecenter.startupapp.b");
@@ -30,10 +30,10 @@ public class XposedInit implements IXposedHookLoadPackage {
                     }
                     Method[] methods = clazz.getDeclaredMethods();
                     Method wantMethod = null;
-                    for (int i = 0; i < methods.length; i++) {
-                        if (methods[i].toString().equals("public int com.coloros.safecenter.startupapp.b.v()")){
-                            wantMethod = methods[i];
-                            Log.d("ColorOSTool","Hook startupapp.b.v() success!");
+                    for (Method method : methods) {
+                        if (method.toString().equals("public int com.coloros.safecenter.startupapp.b.v()")) {
+                            wantMethod = method;
+                            Log.d("ColorOSTool", "Hook startupapp.b.v() success!");
                         }
                     }
                     XposedBridge.hookMethod(wantMethod, new XC_MethodHook() {
