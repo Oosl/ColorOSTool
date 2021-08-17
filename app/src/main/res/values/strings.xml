@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ColorOSTool</string>
+    <string name="xposed_description">ColorOS 功能增强</string>
 </resources>
