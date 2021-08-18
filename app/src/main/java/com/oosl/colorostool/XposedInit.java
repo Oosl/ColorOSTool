@@ -4,11 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import java.lang.reflect.Method;
-
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -28,11 +25,11 @@ public class XposedInit implements IXposedHookLoadPackage {
                     } catch (Exception e) {
                         return;
                     }
-                    XposedHelpers.findAndHookMethod(clazz, "v", new XC_MethodHook() {
+                    XposedHelpers.findAndHookMethod(clazz, "c", Context.class, new XC_MethodHook() {
                         @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            XposedHelpers.setIntField(param.thisObject, "b", 114514);
-                            Log.d("ColorOSTool","Hook success! the max startup allowed app is " + XposedHelpers.getIntField(param.thisObject, "b"));
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            XposedHelpers.setStaticIntField(clazz, "b", 114514);
+                            Log.d("ColorOSTool","After Hook c ! the max startup allowed app is " + XposedHelpers.getStaticIntField(clazz, "b"));
                         }
                     });
                 }
