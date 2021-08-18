@@ -28,15 +28,7 @@ public class XposedInit implements IXposedHookLoadPackage {
                     } catch (Exception e) {
                         return;
                     }
-                    Method[] methods = clazz.getDeclaredMethods();
-                    Method wantMethod = null;
-                    for (Method method : methods) {
-                        if (method.toString().equals("public int com.coloros.safecenter.startupapp.b.v()")) {
-                            wantMethod = method;
-                            Log.d("ColorOSTool", "Hook startupapp.b.v() success!");
-                        }
-                    }
-                    XposedBridge.hookMethod(wantMethod, new XC_MethodHook() {
+                    XposedHelpers.findAndHookMethod(clazz, "v", new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             XposedHelpers.setIntField(param.thisObject, "b", 114514);
