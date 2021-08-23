@@ -63,4 +63,20 @@ public class XposedInit implements IXposedHookLoadPackage {
             });
         }
     }
+
+    //用于打印堆栈
+    public void PrStackTrace(){
+        Log.d("ColorOSTool","Dump Stack:---------------start----------------");
+        Throwable ex = new Throwable();
+        StackTraceElement[] stackElements = ex.getStackTrace();
+        if (stackElements != null){
+            for (int i =0; i< stackElements.length; i++){
+                Log.i("ColorOSTool", i + ":"+ stackElements[i].getMethodName()
+                        +" in "+stackElements[i].getFileName()
+                        +":"+stackElements[i].getLineNumber()
+                        +" -> "+stackElements[i].getClassName());
+            }
+        }
+        Log.i("ColorOSTool","Dump Stack:---------------over----------------");
+    }
 }
