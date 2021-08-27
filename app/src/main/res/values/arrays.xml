@@ -3,5 +3,6 @@
     <string-array name="xposed_scope">
         <item>com.coloros.safecenter</item>
         <item>com.oppo.launcher</item>
+        <item>com.android.packageinstaller</item>
     </string-array>
 </resources>
