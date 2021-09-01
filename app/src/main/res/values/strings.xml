@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">ColorOSTool</string>
     <string name="xposed_description">ColorOS 功能增强</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="safecenter_header">安全中心</string>
+    <string name="launcher_header">启动器</string>
+    <string name="packageinstaller_header">APK安装器</string>
+
+    <!-- safecenter Preferences -->
+    <string name="startup_title">自启动限制</string>
+    <string name="startup_summary">解除仅限5个自启动应用的限制</string>
+
+    <!-- launcher Preferences -->
+    <string name="app_lock_title">后台锁定</string>
+    <string name="app_lock_summary">解除（多任务列表）仅能锁定5个后台应用的限制</string>
+
+    <!-- packageinstaller Preferences -->
+    <string name="aosp_installer_title">替换APK安装器</string>
+    <string name="aosp_installer_summary_on">当前：使用原生的apk安装器（安装时界面有点不好看）</string>
+    <string name="aosp_installer_summary_off">当前：使用 ColoOS 的 apk安装器</string>
+    <string name="safe_installer_title">安全验证</string>
+    <string name="safe_installer_summary">解除偶尔安装前会出现的的安全验证</string>
 </resources>
