@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory app:title="@string/HelpInfo_title"
+        app:summary="@string/HelpInfo_summary"
+        app:iconSpaceReserved="false"/>
+
     <PreferenceCategory app:title="@string/safecenter_header"
         app:iconSpaceReserved="false">
 
@@ -8,6 +12,7 @@
             app:key="startup"
             app:title="@string/startup_title"
             app:summary="@string/startup_summary"
+            app:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>
@@ -19,6 +24,7 @@
             app:key="app_lock"
             app:title="@string/app_lock_title"
             app:summary="@string/app_lock_summary"
+            app:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>
@@ -27,17 +33,18 @@
         app:iconSpaceReserved="false">
 
         <SwitchPreferenceCompat
+            app:key="safe_installer"
+            app:title="@string/safe_installer_title"
+            app:summary="@string/safe_installer_summary"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
+        <SwitchPreferenceCompat
             app:key="aosp_installer"
             app:summaryOff="@string/aosp_installer_summary_off"
             app:summaryOn="@string/aosp_installer_summary_on"
             app:title="@string/aosp_installer_title"
-            app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-            app:key="safe_installer"
-            app:dependency="aosp_installer"
-            app:title="@string/safe_installer_title"
-            app:summary="@string/safe_installer_summary"
+            app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>

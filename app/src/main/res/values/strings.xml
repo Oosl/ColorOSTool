@@ -1,4 +1,5 @@
 <resources>
+    <string name="HelpInfo_title">注意：启停相关功能开关后</string>
     <string name="app_name">ColorOSTool</string>
     <string name="xposed_description">ColorOS 功能增强</string>
     <string name="title_activity_settings">SettingsActivity</string>
@@ -22,4 +23,9 @@
     <string name="aosp_installer_summary_off">当前：使用 ColoOS 的 apk安装器</string>
     <string name="safe_installer_title">安全验证</string>
     <string name="safe_installer_summary">解除偶尔安装前会出现的的安全验证</string>
+    <string name="not_supported">看起来你的LSP版本太旧了或者是没激活，请更新或激活LSP后再试试。</string>
+    <string name="ignore">忽略</string>
+
+    <!-- helpInfo Preferences -->
+    <string name="HelpInfo_summary">需要停止对应应用才会生效</string>
 </resources>
