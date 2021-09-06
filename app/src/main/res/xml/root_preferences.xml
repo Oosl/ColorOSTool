@@ -49,4 +49,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/gamespace_header"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="root_hecker"
+            app:title="@string/root_hecker_title"
+            app:summary="@string/root_hecker_summary"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

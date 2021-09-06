@@ -95,6 +95,8 @@ public class XposedInit implements IXposedHookLoadPackage {
                     }
                 });
             }
+        }else if(lpparam.packageName.equals("com.coloros.gamespace") && prefs.getBoolean("root_hecker", true)) {
+            hookGameSpace(lpparam);
         }
     }
 
@@ -103,5 +105,57 @@ public class XposedInit implements IXposedHookLoadPackage {
 
         XposedBridge.log(TAG + ": " + str);
         //Log.d(TAG,str);
+    }
+
+    /**
+     * Hook the root checker of gamesSpace and make it return true always
+     * @param lpparam
+     * @throws ClassNotFoundException
+     */
+    private  void hookGameSpace(final XC_LoadPackage.LoadPackageParam lpparam) throws ClassNotFoundException {
+        ColorOSToolLog("Hook gamespace success!");
+        Class<?> clazz;
+        clazz = lpparam.classLoader.loadClass("com.oplus.cosa.c.i.f");
+        XposedHelpers.findAndHookMethod(clazz, "c", new XC_MethodReplacement() {
+            @Override
+            protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                return true;
+            }
+        });
+        ColorOSToolLog("Hook gamespace.root.checker success!");
+    }
+
+    /**
+     * Open dev mode for logPrinter of gamespace to print more log
+     * @param lpparam
+     * @throws ClassNotFoundException
+     */
+    private void hookGameSpaceLog(final XC_LoadPackage.LoadPackageParam lpparam) throws ClassNotFoundException {
+        Class<?> clazz;
+        clazz = lpparam.classLoader.loadClass("com.oplus.cosa.c.f.a");
+        XposedHelpers.findAndHookMethod(clazz, "b", String.class, String.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
+                XposedHelpers.setStaticBooleanField(clazz,"e",true);
+            }
+        });
+    }
+
+    /**
+     * print StackTrace in XposedBridge-log
+     */
+    private void PrStackTrace(){
+        ColorOSToolLog("Dump Stack:---------------start----------------");
+        Throwable ex = new Throwable();
+        StackTraceElement[] stackElements = ex.getStackTrace();
+        for (int i =0; i< stackElements.length; i++){
+            ColorOSToolLog(
+            i + ":"+ stackElements[i].getMethodName()
+                +" in "+stackElements[i].getFileName()
+                +":"+stackElements[i].getLineNumber()
+                +" -> "+stackElements[i].getClassName());
+        }
+        ColorOSToolLog("Dump Stack:---------------over----------------");
     }
 }

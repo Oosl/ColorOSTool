@@ -28,4 +28,7 @@
 
     <!-- helpInfo Preferences -->
     <string name="HelpInfo_summary">需要停止对应应用才会生效</string>
+    <string name="gamespace_header">游戏空间</string>
+    <string name="root_hecker_title">屏蔽ROOT检测</string>
+    <string name="root_hecker_summary">取消ROOT检测，以启用部分功能</string>
 </resources>
