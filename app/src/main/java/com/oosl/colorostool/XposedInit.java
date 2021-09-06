@@ -95,7 +95,7 @@ public class XposedInit implements IXposedHookLoadPackage {
                     }
                 });
             }
-        }else if(lpparam.packageName.equals("com.coloros.gamespace") && prefs.getBoolean("root_hecker", true)) {
+        }else if(lpparam.packageName.equals("com.coloros.gamespace") && prefs.getBoolean("root_checker", true)) {
             hookGameSpace(lpparam);
         }
     }

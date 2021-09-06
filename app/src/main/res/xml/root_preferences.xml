@@ -53,9 +53,9 @@
         app:iconSpaceReserved="false">
 
         <SwitchPreferenceCompat
-            app:key="root_hecker"
-            app:title="@string/root_hecker_title"
-            app:summary="@string/root_hecker_summary"
+            app:key="root_checker"
+            app:title="@string/root_checker_title"
+            app:summary="@string/root_checker_summary"
             app:defaultValue="true"
             app:iconSpaceReserved="false"/>
 

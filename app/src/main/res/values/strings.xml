@@ -8,6 +8,7 @@
     <string name="safecenter_header">安全中心</string>
     <string name="launcher_header">启动器</string>
     <string name="packageinstaller_header">APK安装器</string>
+    <string name="gamespace_header">游戏空间</string>
 
     <!-- safecenter Preferences -->
     <string name="startup_title">自启动限制</string>
@@ -28,7 +29,8 @@
 
     <!-- helpInfo Preferences -->
     <string name="HelpInfo_summary">需要停止对应应用才会生效</string>
-    <string name="gamespace_header">游戏空间</string>
-    <string name="root_hecker_title">屏蔽ROOT检测</string>
-    <string name="root_hecker_summary">取消ROOT检测，以启用部分功能</string>
+
+    <!-- gamespace Preferences -->
+    <string name="root_checker_title">屏蔽ROOT检测</string>
+    <string name="root_checker_summary">取消ROOT检测，以启用部分功能</string>
 </resources>
