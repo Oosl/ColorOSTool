@@ -154,10 +154,18 @@ public class XposedInit implements IXposedHookLoadPackage {
         String tag = "PackageInstaller";
         ColorOSToolLog(tag,"Hook packageinstaller success!");
         // 去除安装前的验证
-        if(prefs.getBoolean("safe_installer", true)) {
-            Class<?> clazz;
-            clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
-            XposedHelpers.findAndHookMethod(clazz, "continueOppoSafeInstall", new XC_MethodReplacement() {
+        Class<?> clazz0, clazz1;
+        clazz0 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.AccountVerifyControl");
+        clazz1 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
+        if(prefs.getBoolean("safe_installer", true)){
+            XposedHelpers.findAndHookMethod(clazz0, "needAccountVerify", Context.class, String.class, new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    ColorOSToolLog(tag,"replace AccountVerify OK!!");
+                    return false;
+                }
+            });
+            XposedHelpers.findAndHookMethod(clazz1, "continueOppoSafeInstall", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     ColorOSToolLog(tag,"replace OppoSafeInstall() OK!!");
@@ -166,7 +174,22 @@ public class XposedInit implements IXposedHookLoadPackage {
                 }
             });
         }
-        // 使用原生安装器而非OPPO自己写的, false暂时禁用
+        if (prefs.getBoolean("installer_warn", false)){
+            XposedHelpers.findAndHookMethod(clazz1, "showDialogInner", int.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    param.args[0] = 0;
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    XposedHelpers.callMethod(param.thisObject,"continueAppInstall");
+                }
+            });
+        }
+        // 使用原生安装器而非OPPO自己写的
         if(prefs.getBoolean("aosp_installer", false)) {
             Class<?> clazz;
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.FeatureOption");
