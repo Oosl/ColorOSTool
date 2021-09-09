@@ -38,7 +38,7 @@ public class XposedInit implements IXposedHookLoadPackage {
      */
     private static void ColorOSToolLog(String tag, String logMesg){
         final String TAG = "ColorOSTool";
-        XposedBridge.log(TAG + "-"+ tag + " " + logMesg);
+        XposedBridge.log("[" + TAG + "-"+ tag + "]: " + logMesg);
     }
 
     /**
@@ -46,7 +46,7 @@ public class XposedInit implements IXposedHookLoadPackage {
      * @param lpparam
      * @throws ClassNotFoundException
      */
-    private  void hookGameSpace(final XC_LoadPackage.LoadPackageParam lpparam) throws ClassNotFoundException {
+    private void hookGameSpace(final XC_LoadPackage.LoadPackageParam lpparam) throws ClassNotFoundException {
         String tag = "GameSpace";
         ColorOSToolLog(tag,"Hook gamespace success!");
         Class<?> clazz;
