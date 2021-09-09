@@ -26,6 +26,8 @@ public class XposedInit implements IXposedHookLoadPackage {
             hookPackageInstaller(lpparam);
         }else if(lpparam.packageName.equals("com.coloros.gamespace") && prefs.getBoolean("root_checker", true)) {
             hookGameSpace(lpparam);
+        }else if(lpparam.packageName.equals("com.android.systemui") && prefs.getBoolean("lock_red_one", false)) {
+            hookSystemUI();
         }
     }
 
@@ -202,5 +204,25 @@ public class XposedInit implements IXposedHookLoadPackage {
                 }
             });
         }
+    }
+
+    private void hookSystemUI() {
+        String tag = "SystemUI";
+        ColorOSToolLog(tag, "Hook SystemUI success!");
+        XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Class<?> clazz;
+                ClassLoader cl = ((Context) param.args[0]).getClassLoader();
+                try {
+                    clazz = cl.loadClass("com.coloros.systemui.keyguard.clock.RedTextClock");
+                    ColorOSToolLog(tag, "Hook RedClock success!");
+                } catch (Exception e) {
+                    return;
+                }
+                // the read one in lock screen
+                XposedHelpers.setStaticObjectField(clazz,"NUMBER_ONE","");
+            }
+        });
     }
 }

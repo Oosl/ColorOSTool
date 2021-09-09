@@ -56,6 +56,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/systemui_header"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="lock_red_one"
+            app:title="@string/lock_red_one_title"
+            app:summary="@string/lock_red_one_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/gamespace_header"
         app:iconSpaceReserved="false">
 

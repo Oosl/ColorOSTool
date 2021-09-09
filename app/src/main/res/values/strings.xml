@@ -9,6 +9,7 @@
     <string name="launcher_header">启动器</string>
     <string name="packageinstaller_header">APK安装器</string>
     <string name="gamespace_header">游戏空间</string>
+    <string name="systemui_header">系统界面（重启生效）</string>
 
     <!-- safecenter Preferences -->
     <string name="startup_title">自启动限制</string>
@@ -35,4 +36,8 @@
     <string name="root_checker_summary">取消ROOT检测，以启用部分功能</string>
     <string name="installer_warn_title">安装警告</string>
     <string name="installer_warn_summary">关闭安装前的警告（低版本、版本相同等）</string>
+
+    <!-- systemui Preferences -->
+    <string name="lock_red_one_title">小时红1</string>
+    <string name="lock_red_one_summary">去除锁屏界面中小时的红色1</string>
 </resources>
