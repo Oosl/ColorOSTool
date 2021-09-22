@@ -2,9 +2,12 @@
 <resources>
     <string-array name="xposed_scope">
         <item>com.coloros.safecenter</item>
+        <item>com.oplus.safecenter</item>
         <item>com.oppo.launcher</item>
+        <item>com.android.launcher</item>
         <item>com.android.packageinstaller</item>
         <item>com.coloros.gamespace</item>
+        <item>com.oplus.games</item>
         <item>com.android.systemui</item>
     </string-array>
 </resources>
