@@ -4,7 +4,7 @@ import android.os.Build;
 
 import de.robv.android.xposed.XposedBridge;
 
-public class Log {
+public final class Log {
 
     private final static String TAG = "ColorOSTool";
     private static int debug = 1;
