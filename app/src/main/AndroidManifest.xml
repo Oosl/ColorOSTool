@@ -8,7 +8,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ColorOSTool">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:exported="true"
             >
             <intent-filter>
