@@ -1,4 +1,4 @@
-package com.oosl.colorostool;
+package com.oosl.colorostool.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.oosl.colorostool.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
