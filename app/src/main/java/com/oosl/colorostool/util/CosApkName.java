@@ -9,9 +9,10 @@ public final class CosApkName {
     private static final String packageInstallerName = "com.android.packageinstaller";
     private static final String systemUIName = "com.android.systemui";
     private static final String settingsName = "com.android.settings";
+    private static final int systemVersion = Build.VERSION.SDK_INT;
 
     static {
-        if (Build.VERSION.SDK_INT == 31){
+        if (systemVersion == 31){
             safeCenterName = "com.oplus.safecenter";
             luncherName = "com.android.launcher";
             gamesToolName = "com.oplus.games";
@@ -45,5 +46,9 @@ public final class CosApkName {
 
     public static String getSystemUIName() {
         return systemUIName;
+    }
+
+    public static int getSystemVersion() {
+        return systemVersion;
     }
 }

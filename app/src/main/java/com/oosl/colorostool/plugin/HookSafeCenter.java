@@ -1,11 +1,11 @@
 package com.oosl.colorostool.plugin;
 
+import com.oosl.colorostool.util.CosApkName;
 import com.oosl.colorostool.util.Log;
 import com.oosl.colorostool.util.ColorToolPrefs;
 
 import android.app.Application;
 import android.content.Context;
-
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -13,7 +13,9 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class HookSafeCenter extends HookBase {
 
-    public HookSafeCenter() {
+    @Override
+    public void hook() {
+        super.hook();
         if(ColorToolPrefs.getPrefs("startup", true)) {
             hookSafeCenter();
         }

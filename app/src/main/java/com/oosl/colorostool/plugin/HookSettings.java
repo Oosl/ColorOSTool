@@ -8,7 +8,15 @@ import com.oosl.colorostool.util.Log;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
-public class HookSettings {
+public class HookSettings extends HookBase{
+
+    @Override
+    public void hook() {
+        super.hook();
+        //todo add a pref judgment
+        hookSettings();
+    }
+
     private void hookSettings() {
         String tag = "Settings";
         Log.d(tag, "Hook Settings success!");

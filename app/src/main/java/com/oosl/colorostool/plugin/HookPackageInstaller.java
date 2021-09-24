@@ -14,12 +14,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookPackageInstaller extends HookBase{
 
-    public HookPackageInstaller(XC_LoadPackage.LoadPackageParam lpparam) {
-        super(lpparam);
-    }
-
     @Override
-    protected void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+    public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         super.hook(lpparam);
         hookPackageInstaller(lpparam);
     }

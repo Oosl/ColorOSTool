@@ -1,5 +1,7 @@
 package com.oosl.colorostool.plugin;
 
+import com.oosl.colorostool.util.ColorToolPrefs;
+import com.oosl.colorostool.util.CosApkName;
 import com.oosl.colorostool.util.Log;
 
 import android.app.Application;
@@ -11,9 +13,11 @@ import de.robv.android.xposed.XposedHelpers;
 public class HookOppoLauncher extends HookBase{
 
     @Override
-    protected void hook() {
+    public void hook() {
         super.hook();
-        hookOppoLauncher();
+        if (ColorToolPrefs.getPrefs("app_lock", true)){
+            hookOppoLauncher();
+        }
     }
 
     private void hookOppoLauncher(){

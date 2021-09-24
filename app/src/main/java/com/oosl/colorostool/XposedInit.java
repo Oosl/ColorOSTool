@@ -6,7 +6,6 @@ import com.oosl.colorostool.plugin.HookPackageInstaller;
 import com.oosl.colorostool.plugin.HookSafeCenter;
 import com.oosl.colorostool.plugin.HookSettings;
 import com.oosl.colorostool.plugin.HookSystemUI;
-import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.CosApkName;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -17,22 +16,18 @@ public class XposedInit implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 
-        if (lpparam.packageName.equals(CosApkName.getSafeCenterName())
-                && ColorToolPrefs.getPrefs("startup", true)) {
-            new HookSafeCenter();
-        }else if (lpparam.packageName.equals(CosApkName.getLuncherName())
-                && ColorToolPrefs.getPrefs("app_lock", true)) {
-            new HookOppoLauncher();
+        if (lpparam.packageName.equals(CosApkName.getSafeCenterName())) {
+            new HookSafeCenter().hook();
+        }else if (lpparam.packageName.equals(CosApkName.getLuncherName())) {
+            new HookOppoLauncher().hook();
         }else if (lpparam.packageName.equals(CosApkName.getPackageInstallerName())) {
-            new HookPackageInstaller(lpparam);
-        }else if(lpparam.packageName.equals(CosApkName.getGamesToolName())
-                && ColorToolPrefs.getPrefs("root_checker", true)) {
-            new HookGameSpace(lpparam);
-        }else if(lpparam.packageName.equals(CosApkName.getSystemUIName())
-                && ColorToolPrefs.getPrefs("lock_red_one", false)) {
-            new HookSystemUI();
+            new HookPackageInstaller().hook(lpparam);
+        }else if(lpparam.packageName.equals(CosApkName.getGamesToolName())) {
+            new HookGameSpace().hook(lpparam);
+        }else if(lpparam.packageName.equals(CosApkName.getSystemUIName())) {
+            new HookSystemUI().hook();
         }else if(lpparam.packageName.equals(CosApkName.getSettingsName())) {
-            new HookSettings();
+            new HookSettings().hook();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.oosl.colorostool.plugin;
 
+import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -9,13 +10,12 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookGameSpace extends HookBase {
 
-    public HookGameSpace(XC_LoadPackage.LoadPackageParam lpparam){
-       hook(lpparam);
-    }
-
+    @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam){
         super.hook();
-        hookGameSpace(lpparam);
+        if(ColorToolPrefs.getPrefs("root_checker", true)){
+            hookGameSpace(lpparam);
+        }
     }
 
     private void hookGameSpace(final XC_LoadPackage.LoadPackageParam lpparam){

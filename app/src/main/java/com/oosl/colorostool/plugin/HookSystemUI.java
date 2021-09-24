@@ -3,6 +3,7 @@ package com.oosl.colorostool.plugin;
 import android.app.Application;
 import android.content.Context;
 
+import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -13,7 +14,9 @@ public class HookSystemUI extends HookBase{
     @Override
     public void hook() {
         super.hook();
-        hookSystemUI();
+        if (ColorToolPrefs.getPrefs("lock_red_one", false)){
+            hookSystemUI();
+        }
     }
 
     private void hookSystemUI() {
