@@ -29,16 +29,15 @@ public class HookSafeCenter extends HookBase {
         }
     }
 
-
     @Override
     public void hook() {
         super.hook();
         if(ColorToolPrefs.getPrefs("startup", true)) {
-            hookSafeCenter();
+            hookMaxStartup();
         }
     }
 
-    private void hookSafeCenter() {
+    private void hookMaxStartup() {
         //去除只能开启5个应用自启动的限制
         Log.d(tag, "Hook safecenter success!");
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
@@ -64,7 +63,6 @@ public class HookSafeCenter extends HookBase {
                     }
                 });
             }
-
         });
     }
 }

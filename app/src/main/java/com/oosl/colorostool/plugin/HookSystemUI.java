@@ -15,11 +15,11 @@ public class HookSystemUI extends HookBase{
     public void hook() {
         super.hook();
         if (ColorToolPrefs.getPrefs("lock_red_one", false)){
-            hookSystemUI();
+            hookRedOne();
         }
     }
 
-    private void hookSystemUI() {
+    private void hookRedOne() {
         String tag = "SystemUI";
         Log.d(tag, "Hook SystemUI success!");
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {

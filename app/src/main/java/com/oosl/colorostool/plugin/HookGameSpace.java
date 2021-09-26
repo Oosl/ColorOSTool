@@ -20,12 +20,12 @@ public class HookGameSpace extends HookBase {
     public void hook(XC_LoadPackage.LoadPackageParam lpparam){
         super.hook();
         if(ColorToolPrefs.getPrefs("root_checker", true)){
-            hookGameSpace(lpparam);
+            hookRootChecker(lpparam);
             //hookGameSpaceLog(lpparam);
         }
     }
 
-    private void hookGameSpace(final XC_LoadPackage.LoadPackageParam lpparam){
+    private void hookRootChecker(final XC_LoadPackage.LoadPackageParam lpparam){
         Log.d(tag,"Hook gamespace success!");
         Class<?> clazz;
         if (CosApkName.isCos12()){

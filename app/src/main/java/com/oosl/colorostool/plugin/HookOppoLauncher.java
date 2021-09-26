@@ -12,23 +12,24 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class HookOppoLauncher extends HookBase{
 
-    @Override
-    public void hook() {
-        super.hook();
-        if (ColorToolPrefs.getPrefs("app_lock", true)){
-            hookOppoLauncher();
-        }
-    }
-
-    private void hookOppoLauncher(){
-        String tag = "OppoLauncher";
-        String lockManagerClass;
-
+    private static final String tag = "OppoLauncher";
+    private static final String lockManagerClass;
+    static {
         if (CosApkName.isCos12())
             lockManagerClass = "com.oplus.quickstep.applock.OplusLockManager";
         else
             lockManagerClass = "com.coloros.quickstep.applock.ColorLockManager";
+    }
 
+    @Override
+    public void hook() {
+        super.hook();
+        if (ColorToolPrefs.getPrefs("app_lock", true)){
+            hookMaxAppLock();
+        }
+    }
+
+    private void hookMaxAppLock(){
         // 去除多任务后台只能锁定5个的限制
         Log.d(tag,"Hook oppoLauncher success!");
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
