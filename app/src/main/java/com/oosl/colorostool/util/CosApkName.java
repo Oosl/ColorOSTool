@@ -9,10 +9,9 @@ public final class CosApkName {
     private static final String packageInstallerName = "com.android.packageinstaller";
     private static final String systemUIName = "com.android.systemui";
     private static final String settingsName = "com.android.settings";
-    private static final int systemVersion = Build.VERSION.SDK_INT;
 
     static {
-        if (systemVersion == 31){
+        if (isCos12()){
             safeCenterName = "com.oplus.safecenter";
             luncherName = "com.android.launcher";
             gamesToolName = "com.oplus.games";
@@ -21,7 +20,6 @@ public final class CosApkName {
             luncherName = "com.oppo.launcher";
             gamesToolName = "com.coloros.gamespace";
         }
-        Log.d("CosApkName", "safeCenterName is " + safeCenterName);
     }
 
     public static String getLuncherName() {
@@ -48,7 +46,7 @@ public final class CosApkName {
         return systemUIName;
     }
 
-    public static int getSystemVersion() {
-        return systemVersion;
+    public static boolean isCos12(){
+        return Build.VERSION.SDK_INT == 31;
     }
 }
