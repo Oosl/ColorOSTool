@@ -24,7 +24,7 @@ public class HookOppoLauncher extends HookBase{
         String tag = "OppoLauncher";
         String lockManagerClass;
 
-        if (CosApkName.getSystemVersion() == 31)
+        if (CosApkName.isCos12())
             lockManagerClass = "com.oplus.quickstep.applock.OplusLockManager";
         else
             lockManagerClass = "com.coloros.quickstep.applock.ColorLockManager";
