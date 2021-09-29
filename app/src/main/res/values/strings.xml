@@ -24,7 +24,7 @@
     <string name="aosp_installer_summary_on">当前：使用原生的apk安装器（安装时界面有点不好看）</string>
     <string name="aosp_installer_summary_off">当前：使用 ColoOS 的 apk安装器</string>
     <string name="safe_installer_title">安全验证</string>
-    <string name="safe_installer_summary">解除偶尔安装前会出现的的安全验证</string>
+    <string name="safe_installer_summary">去除安装包扫描以及偶尔安装前会出现的的账号安全验证</string>
     <string name="not_supported">看起来你的LSP版本太旧了或者是没激活，请更新或激活LSP后再试试。</string>
     <string name="ignore">忽略</string>
 
