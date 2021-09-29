@@ -1,7 +1,5 @@
 package com.oosl.colorostool.util;
 
-import com.oosl.colorostool.util.Log;
-
 public final class PrStackTrace {
     /**
      * print StackTrace in XposedBridge-log

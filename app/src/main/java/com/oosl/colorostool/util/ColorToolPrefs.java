@@ -12,7 +12,7 @@ public final class ColorToolPrefs {
     }
 
     public static boolean getPrefs(String prefsName, Boolean defaultValue){
-        Log.d("prefs:", prefsName + ": " + prefs.getBoolean(prefsName, defaultValue));
+        //Log.d("prefs:", prefsName + ": " + prefs.getBoolean(prefsName, defaultValue));
         return prefs.getBoolean(prefsName, defaultValue);
     }
 }
