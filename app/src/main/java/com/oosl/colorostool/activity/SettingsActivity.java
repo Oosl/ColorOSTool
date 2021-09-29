@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
@@ -26,6 +27,12 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) finishAndRemoveTask();
+        return super.onKeyDown(keyCode, event);
+    }
+
     @SuppressLint("WorldReadableFiles")
     private void checkEdXposed() {
         try {
@@ -37,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         } catch (SecurityException exception) {
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.not_supported))
-                    .setPositiveButton(android.R.string.ok, (dialog12, which) -> finish())
+                    .setPositiveButton(android.R.string.ok, (dialog12, which) -> exit())
                     .setNegativeButton(R.string.ignore, null)
                     .show();
         }
@@ -49,5 +56,10 @@ public class SettingsActivity extends AppCompatActivity {
             getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
+    }
+
+    private void exit(){
+        this.finishAndRemoveTask();
+        System.exit(0);
     }
 }
