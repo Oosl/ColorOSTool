@@ -4,12 +4,26 @@ import android.app.Application;
 import android.content.Context;
 
 import com.oosl.colorostool.util.ColorToolPrefs;
+import com.oosl.colorostool.util.CosApkName;
 import com.oosl.colorostool.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class HookSystemUI extends HookBase{
+
+    private static final String redTextClock;
+    private static final String redHorizontalDualClock;
+    static {
+        if (CosApkName.isCos12()) {
+            redTextClock =  "com.oplusos.systemui.keyguard.clock.RedTextClock";
+            redHorizontalDualClock = "com.oplusos.systemui.keyguard.clock.RedHorizontalDualClock";
+        }
+        else {
+            redTextClock = "com.coloros.systemui.keyguard.clock.RedTextClock";
+            redHorizontalDualClock = "com.coloros.systemui.keyguard.clock.RedHorizontalDualClock";
+        }
+    }
 
     @Override
     public void hook() {
@@ -28,17 +42,18 @@ public class HookSystemUI extends HookBase{
                 Class<?> clazz, clazz1;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    clazz = cl.loadClass("com.coloros.systemui.keyguard.clock.RedTextClock");
+                    clazz = cl.loadClass(redTextClock);
+                    //clazz1 = cl.loadClass(redHorizontalDualClock);
                     Log.d(tag, "Hook Class success!");
 
                     // the read one in lock screen
                     XposedHelpers.setStaticObjectField(clazz,"NUMBER_ONE","");
+                    //XposedHelpers.setObjectField(clazz1,"NUMBER_ONE","");
                     Log.d(tag, "Hook RedClock success!");
 
                 } catch (Exception e) {
                     return;
                 }
-
             }
         });
     }
