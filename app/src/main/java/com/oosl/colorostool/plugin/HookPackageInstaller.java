@@ -34,39 +34,41 @@ public class HookPackageInstaller extends HookBase{
 
     @SuppressLint("PrivateApi")
     private void removeVerify(XC_LoadPackage.LoadPackageParam lpparam){
-        Class<?> clazz0, clazz1;
+        Class<?> clazz;
         try {
-            //clazz0 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.AccountVerifyControl");
-            clazz1 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
+            clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
+            // account verify
+            XposedHelpers.findAndHookMethod(clazz, "startAccountVerification", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    Log.d(tag, "replace startAccountVerification() OK!!");
+                    XposedHelpers.callMethod(param.thisObject, "continueAppInstall");
+                    return null;
+                }
+            });
+
+            //app detail
+            XposedHelpers.findAndHookMethod(clazz, "preSafeInstall", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    XposedHelpers.callMethod(param.thisObject,"startSafeInstall");
+                    return null;
+                }
+            });
+
+            //apk scan
+            XposedHelpers.findAndHookMethod(clazz, "checkToScanRisk", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    Log.d(tag,"replace checkToScanRisk OK!!");
+                    XposedHelpers.callMethod(param.thisObject,"initiateInstall");
+                    return null;
+                }
+            });
+
         }catch (Exception e){
-            return;
+            Log.error(tag, e);
         }
-
-//        XposedHelpers.findAndHookMethod(clazz0, "needAccountVerify", Context.class, String.class, new XC_MethodReplacement() {
-//            @Override
-//            protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-//                Log.d(tag,"replace AccountVerify OK!!");
-//                return false;
-//            }
-//        });
-
-        XposedHelpers.findAndHookMethod(clazz1, "checkToScanRisk", new XC_MethodReplacement() {
-            @Override
-            protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                Log.d(tag,"replace checkToScanRisk OK!!");
-                XposedHelpers.callMethod(param.thisObject,"initiateInstall");
-                return null;
-            }
-        });
-
-        XposedHelpers.findAndHookMethod(clazz1, "continueOppoSafeInstall", new XC_MethodReplacement() {
-            @Override
-            protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                Log.d(tag,"replace OppoSafeInstall() OK!!");
-                XposedHelpers.callMethod(param.thisObject,"continueAppInstall");
-                return null;
-            }
-        });
     }
 
     @SuppressLint("PrivateApi")
@@ -98,17 +100,17 @@ public class HookPackageInstaller extends HookBase{
         Class<?> clazz;
         try {
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.FeatureOption");
+            Log.d(tag,"sIsClosedSuperFirewall is " + XposedHelpers.getStaticBooleanField(clazz, "sIsClosedSuperFirewall"));
+            XposedHelpers.findAndHookMethod(clazz, "setIsClosedSuperFirewall", Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    XposedHelpers.setStaticBooleanField(clazz, "sIsClosedSuperFirewall", true);
+                    //ColorOSToolLog(tag,"after sIsClosedSuperFirewall is " + XposedHelpers.getStaticBooleanField(clazz, "sIsClosedSuperFirewall"));
+                }
+            });
         }catch (Exception e){
-            return;
+            Log.error(tag, e);
         }
-        Log.d(tag,"sIsClosedSuperFirewall is " + XposedHelpers.getStaticBooleanField(clazz, "sIsClosedSuperFirewall"));
-        XposedHelpers.findAndHookMethod(clazz, "setIsClosedSuperFirewall", Context.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticBooleanField(clazz, "sIsClosedSuperFirewall", true);
-                //ColorOSToolLog(tag,"after sIsClosedSuperFirewall is " + XposedHelpers.getStaticBooleanField(clazz, "sIsClosedSuperFirewall"));
-            }
-        });
     }
 
     @SuppressLint("PrivateApi")
@@ -117,7 +119,8 @@ public class HookPackageInstaller extends HookBase{
         try{
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.OppoLog");
             XposedHelpers.setStaticBooleanField(clazz, "DEVELOP_MODE", true);
-        }catch (Exception ignored){
+        }catch (Exception e){
+            Log.error(tag, e);
         }
 
     }
