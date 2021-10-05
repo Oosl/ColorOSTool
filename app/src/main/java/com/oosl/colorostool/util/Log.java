@@ -1,7 +1,5 @@
 package com.oosl.colorostool.util;
 
-import android.os.Build;
-
 import de.robv.android.xposed.XposedBridge;
 
 public final class Log {
@@ -18,5 +16,9 @@ public final class Log {
     //normal
     public static void n(String tag, String logMesg){
         XposedBridge.log("[" + TAG + "-"+ tag + "]: " + logMesg);
+    }
+
+    public static void error(String tag, Exception e){
+        XposedBridge.log("[" + TAG + "-"+ tag + "]: " + e.getLocalizedMessage());
     }
 }
