@@ -25,8 +25,8 @@
     <string name="aosp_installer_summary_off">当前：使用 ColoOS 的 apk安装器</string>
     <string name="safe_installer_title">安全验证</string>
     <string name="safe_installer_summary">去除安装包扫描以及偶尔安装前会出现的的账号安全验证</string>
-    <string name="not_supported">看起来你的LSP版本太旧了或者是没激活，请更新或激活LSP后再试试。</string>
-    <string name="ignore">忽略</string>
+    <string name="installer_ads_title">界面净化</string>
+    <string name="installer_ads_summary">去除安装完成时的跳转商店提示</string>
 
     <!-- helpInfo Preferences -->
     <string name="HelpInfo_summary">需要停止对应应用才会生效</string>
@@ -40,4 +40,8 @@
     <!-- systemui Preferences -->
     <string name="lock_red_one_title">小时红1</string>
     <string name="lock_red_one_summary">去除锁屏界面中小时的红色1</string>
+
+    <!-- Dont Active Module Warning -->
+    <string name="not_supported">看起来你的LSP版本太旧了或者是没激活，请更新或激活LSP后再试试。</string>
+    <string name="ignore">忽略</string>
 </resources>

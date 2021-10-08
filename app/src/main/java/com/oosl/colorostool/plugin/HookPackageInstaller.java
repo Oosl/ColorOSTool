@@ -1,11 +1,14 @@
 package com.oosl.colorostool.plugin;
 
 import com.oosl.colorostool.util.Log;
+import com.oosl.colorostool.util.ColorToolPrefs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Message;
+import android.view.View;
+import android.widget.LinearLayout;
 
-import com.oosl.colorostool.util.ColorToolPrefs;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -19,17 +22,19 @@ public class HookPackageInstaller extends HookBase{
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         super.hook(lpparam);
-        //packageInstallerLog(lpparam);
-        if(ColorToolPrefs.getPrefs("safe_installer", true)){
+        if (ColorToolPrefs.getPrefs("safe_installer", true)) {
             removeVerify(lpparam);
         }
-        if(ColorToolPrefs.getPrefs("aosp_installer", false)) {
+        if (ColorToolPrefs.getPrefs("aosp_installer", false)) {
             replaceInstaller(lpparam);
         }
-        if (ColorToolPrefs.getPrefs("installer_warn", false)){
+        if (ColorToolPrefs.getPrefs("installer_warn", false)) {
             removeWarn(lpparam);
         }
-        Log.d(tag,"Hook packageinstaller success!");
+        if (ColorToolPrefs.getPrefs("installer_ads", true)) {
+            makeClear(lpparam);
+        }
+        Log.d(tag, "Hook packageinstaller success!");
     }
 
     @SuppressLint("PrivateApi")
@@ -76,22 +81,22 @@ public class HookPackageInstaller extends HookBase{
         Class<?> clazz;
         try {
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
-        }catch (Exception e){
-            return;
-        }
-        XposedHelpers.findAndHookMethod(clazz, "showDialogInner", int.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                super.beforeHookedMethod(param);
-                param.args[0] = 0;
-            }
+            XposedHelpers.findAndHookMethod(clazz, "showDialogInner", int.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    param.args[0] = 0;
+                }
 
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-                XposedHelpers.callMethod(param.thisObject,"continueAppInstall");
-            }
-        });
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    XposedHelpers.callMethod(param.thisObject,"continueAppInstall");
+                }
+            });
+        }catch (Exception e){
+            Log.error(tag, e);
+        }
     }
 
     // 使用原生安装器而非OPPO自己写的
@@ -110,6 +115,41 @@ public class HookPackageInstaller extends HookBase{
             });
         }catch (Exception e){
             Log.error(tag, e);
+        }
+    }
+
+    //hide the suggest layout when install successfully
+    @SuppressLint("PrivateApi")
+    private void makeClear(XC_LoadPackage.LoadPackageParam lpparam) {
+        Class<?> clazz1 = null, clazz0 = null;
+        final LinearLayout[] installDoneSuggestB = new LinearLayout[1];
+
+        try {
+            clazz0 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.InstallAppProgress");
+            clazz1 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.InstallAppProgress$1");
+
+        } catch (Exception e) {
+            Log.error(tag, e);
+        }
+
+        try {
+            XposedHelpers.findAndHookMethod(clazz0, "initView", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    installDoneSuggestB[0] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutB");
+                }
+            });
+
+            XposedHelpers.findAndHookMethod(clazz1, "handleMessage", Message.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    installDoneSuggestB[0].setVisibility(View.GONE);
+                }
+            });
+            Log.d(tag, "Hide installed suggest layout successfully");
+        }catch (Exception e){
+            Log.error(tag,e);
         }
     }
 

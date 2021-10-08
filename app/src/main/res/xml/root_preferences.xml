@@ -47,6 +47,13 @@
             app:iconSpaceReserved="false"/>
 
         <SwitchPreferenceCompat
+            app:key="installer_ads"
+            app:title="@string/installer_ads_title"
+            app:summary="@string/installer_ads_summary"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
+        <SwitchPreferenceCompat
             app:key="aosp_installer"
             app:summaryOff="@string/aosp_installer_summary_off"
             app:summaryOn="@string/aosp_installer_summary_on"
