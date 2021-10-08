@@ -82,7 +82,7 @@
             app:key="root_checker"
             app:title="@string/root_checker_title"
             app:summary="@string/root_checker_summary"
-            app:defaultValue="true"
+            app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>

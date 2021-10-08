@@ -32,8 +32,8 @@
     <string name="HelpInfo_summary">需要停止对应应用才会生效</string>
 
     <!-- gamespace Preferences -->
-    <string name="root_checker_title">屏蔽ROOT检测</string>
-    <string name="root_checker_summary">取消ROOT检测，以启用部分功能</string>
+    <string name="root_checker_title">游戏滤镜</string>
+    <string name="root_checker_summary">即使Root了，也可启用游戏滤镜</string>
     <string name="installer_warn_title">安装警告</string>
     <string name="installer_warn_summary">关闭安装前的警告（低版本、版本相同等）</string>
 
