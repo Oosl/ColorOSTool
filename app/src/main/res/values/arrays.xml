@@ -9,5 +9,6 @@
         <item>com.coloros.gamespace</item>
         <item>com.oplus.games</item>
         <item>com.android.systemui</item>
+        <item>com.android.settings</item>
     </string-array>
 </resources>

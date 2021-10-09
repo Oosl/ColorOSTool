@@ -1,46 +1,128 @@
 package com.oosl.colorostool.plugin;
 
+import android.annotation.SuppressLint;
+import android.app.AndroidAppHelper;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import com.oosl.colorostool.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Objects;
+
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class HookSettings extends HookBase{
 
+    private final String tag = "Settings";
+
     @Override
     public void hook() {
         super.hook();
+        hookDarkMode();
         //todo add a pref judgment
-        hookSettings();
+        Log.n(tag, "Hook Settings success!");
     }
 
-    private void hookSettings() {
-        String tag = "Settings";
-        Log.d(tag, "Hook Settings success!");
+    private void hookDarkMode() {
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    clazz = cl.loadClass("com.oplus.settings.utils.aj");
-                    Log.d(tag, "Hook setting log success!");
+                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.a.b");
+                    XposedHelpers.findAndHookMethod(clazz, "a", Reader.class, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            File darkModeList = getDarkModelist();
+                            Reader reader = new FileReader(darkModeList);
+                            param.args[0] = reader;
+                        }
+                    });
+                    Log.n(tag, "Hook Darkmode success!");
                 } catch (Exception e) {
+                    Log.error(tag, e);
+                }
+            }
+        });
+    }
+
+    private File getDarkModelist(){
+        @SuppressLint("SdCardPath") File darkModeList = new File( "/data/data/com.android.settings/files/dark_mode_list.xml");
+        if (!darkModeList.exists()){
+            try{
+                Log.d(tag,"darkModeList dont exist");
+                File dir = new File(Objects.requireNonNull(darkModeList.getParent()));
+                if (!dir.exists()) dir.mkdir();
+                if (!darkModeList.createNewFile()) throw new Exception();
+                updateDarkModeList(darkModeList);
+                Log.d(tag, "darkModeList create successfully");
+            } catch (Exception e){
+                Log.error(tag,e);
+            }
+        }else {
+            Log.d(tag,"darkModeList alrady exists");
+        }
+        return darkModeList;
+    }
+
+    @SuppressLint("WrongConstant")
+    private void updateDarkModeList(File darkModeList) {
+        String listStart = "<filter-conf>\n" +
+                " <version>202105141050</version>\n" +
+                " <isOpen>1</isOpen>\n" +
+                " <filter-name>sys_dark_mode_third_app_managed</filter-name>\n";
+        StringBuilder itemList = new StringBuilder();
+        PackageManager packageManager = AndroidAppHelper.currentApplication().getPackageManager();
+        @SuppressLint("QueryPermissionsNeeded") List<ApplicationInfo> packageInfos = packageManager.getInstalledApplications(PackageManager.INSTALL_REASON_USER);
+        for (int i =0; i < packageInfos.size(); i++){
+            ApplicationInfo packageInfo = packageInfos.get(i);
+            if ((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0){
+                itemList.append("<p attr=\"");
+                itemList.append(packageInfo.packageName);
+                itemList.append("\" />\n");
+            }
+        }
+        String listEnd = "</filter-conf>";
+        byte[] listBytes = (listStart + itemList.toString() + listEnd).getBytes(StandardCharsets.UTF_8);
+        try {
+            FileOutputStream outputStream = new FileOutputStream(darkModeList);
+            outputStream.write(listBytes);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void hookLog() {
+        super.hookLog();
+        XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Class<?> clazz;
+                ClassLoader cl = ((Context) param.args[0]).getClassLoader();
+                try {
+                    clazz = cl.loadClass("com.oplus.settings.utils.am");
+                } catch (Exception e) {
+                    Log.error(tag, e);
                     return;
                 }
                 XposedHelpers.setStaticIntField(clazz,"a", 2);
                 XposedHelpers.setStaticBooleanField(clazz, "b", true);
-
-                XposedHelpers.findAndHookMethod(clazz, "b", String.class, String.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        //ColorOSToolLog(tag, "tag is " + param.args[0]);
-                    }
-                });
+                Log.n(tag, "Enable Settings Log success!");
             }
         });
     }
