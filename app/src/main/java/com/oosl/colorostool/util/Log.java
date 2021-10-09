@@ -5,7 +5,7 @@ import de.robv.android.xposed.XposedBridge;
 public final class Log {
 
     private final static String TAG = "ColorOSTool";
-    private static int debug = 1;
+    private final static int debug = 1;
 
     //debug
     public static void d(String tag, String logMesg){
@@ -19,6 +19,6 @@ public final class Log {
     }
 
     public static void error(String tag, Exception e){
-        XposedBridge.log("[" + TAG + "-"+ tag + "]: " + e.getLocalizedMessage());
+        XposedBridge.log("[COST-ERROR:-"+ tag + "]: " + e.getLocalizedMessage());
     }
 }
