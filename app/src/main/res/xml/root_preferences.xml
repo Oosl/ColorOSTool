@@ -63,6 +63,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/system_settings_header"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="more_dark_mode"
+            app:title="@string/more_dark_mode_title"
+            app:summary="@string/more_dark_mode_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/systemui_header"
         app:iconSpaceReserved="false">
 

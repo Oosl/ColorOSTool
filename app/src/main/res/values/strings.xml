@@ -44,4 +44,7 @@
     <!-- Dont Active Module Warning -->
     <string name="not_supported">看起来你的LSP版本太旧了或者是没激活，请更新或激活LSP后再试试。</string>
     <string name="ignore">忽略</string>
+    <string name="system_settings_header">设置</string>
+    <string name="more_dark_mode_title">三方应用暗色</string>
+    <string name="more_dark_mode_summary">添加用户安装的所有APP到三方应用暗色列表中</string>
 </resources>

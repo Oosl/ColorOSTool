@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class HookSettings extends HookBase{
     @Override
     public void hook() {
         super.hook();
-        hookDarkMode();
+        if (ColorToolPrefs.getPrefs("more_dark_mode", false)) hookDarkMode();
         //todo add a pref judgment
         Log.n(tag, "Hook Settings success!");
     }
