@@ -4,14 +4,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 abstract class HookBase {
 
-    static final boolean enableLog = true;
+    static final boolean enableLog = false;
 
     public void hook(){
-        hookLog();
+        if (enableLog) hookLog();
     }
 
     public void hook(XC_LoadPackage.LoadPackageParam lpparam){
-        hookLog(lpparam);
+        if (enableLog) hookLog(lpparam);
     }
 
     public void hookLog(){}
