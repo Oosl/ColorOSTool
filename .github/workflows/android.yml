@@ -10,7 +10,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
+    
     steps:
     - uses: actions/checkout@v2
     - name: set up JDK 11
@@ -23,4 +24,6 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: |
+        ./gradlew build
+        ls ${{ github.workspace }}/app/build/outputs/apk/release
