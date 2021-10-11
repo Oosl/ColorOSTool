@@ -5,15 +5,14 @@ import com.oosl.colorostool.util.ColorToolPrefs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -44,21 +43,23 @@ public class HookPackageInstaller extends HookBase{
         Class<?> clazz;
         try {
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
+
+            // Skip install guide
+            XposedHelpers.findAndHookMethod(clazz, "isStartAppDetail", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    param.setResult(false);
+                }
+            });
+
             // account verify
             XposedHelpers.findAndHookMethod(clazz, "startAccountVerification", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                    Log.d(tag, "replace startAccountVerification() OK!!");
+                    XposedHelpers.setObjectField(XposedHelpers.getObjectField(param.thisObject, "mInstallFlowAnalytics"),"mLoginWindows","0");
                     XposedHelpers.callMethod(param.thisObject, "continueAppInstall");
-                    return null;
-                }
-            });
-
-            //app detail
-            XposedHelpers.findAndHookMethod(clazz, "preSafeInstall", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                    XposedHelpers.callMethod(param.thisObject,"startSafeInstall");
+                    Log.d(tag, "replace startAccountVerification() OK!!");
                     return null;
                 }
             });
@@ -67,12 +68,33 @@ public class HookPackageInstaller extends HookBase{
             XposedHelpers.findAndHookMethod(clazz, "checkToScanRisk", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                    Log.d(tag,"replace checkToScanRisk OK!!");
                     XposedHelpers.callMethod(param.thisObject,"initiateInstall");
+                    Log.d(tag,"replace checkToScanRisk OK!!");
                     return null;
                 }
             });
 
+            XposedHelpers.findAndHookMethod(clazz, "checkAppSuggest", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    return null;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod(clazz, "checkGameSuggest", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    return null;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod(clazz, "onCreate", Bundle.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    XposedHelpers.setBooleanField(param.thisObject,"mIsOPPOMarketExists", false);
+                }
+            });
         }catch (Exception e){
             Log.error(tag, e);
         }
