@@ -61,6 +61,7 @@ public class HookGameSpace extends HookBase {
     @Override
     public void hookLog(XC_LoadPackage.LoadPackageParam lpparam) {
         super.hookLog(lpparam);
+        if (!enableLog) return;
         Log.d(tag,"Hook gamespaceLog success!");
         Class<?> clazz;
         if (CosApkName.isCos12()){
