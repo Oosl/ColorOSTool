@@ -26,4 +26,9 @@ jobs:
     - name: Build with Gradle
       run: |
         ./gradlew build
-        ls ${{ github.workspace }}/app/build/outputs/apk/release
+    - name: Upload built apk
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: snapshot
+        path: ${{ github.workspace }}/app/build/outputs/apk/release/ColorOSTool_v1.8.apk
