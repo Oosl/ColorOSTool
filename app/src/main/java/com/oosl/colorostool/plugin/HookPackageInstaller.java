@@ -8,10 +8,12 @@ import android.content.Context;
 import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -122,12 +124,11 @@ public class HookPackageInstaller extends HookBase{
     @SuppressLint("PrivateApi")
     private void makeClear(XC_LoadPackage.LoadPackageParam lpparam) {
         Class<?> clazz1 = null, clazz0 = null;
-        final LinearLayout[] installDoneSuggestB = new LinearLayout[1];
-
+        final LinearLayout[] installDoneSuggestLayout = new LinearLayout[3];
+        final RelativeLayout[] relativeLayout = new RelativeLayout[1];
         try {
             clazz0 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.InstallAppProgress");
             clazz1 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.InstallAppProgress$1");
-
         } catch (Exception e) {
             Log.error(tag, e);
         }
@@ -137,14 +138,20 @@ public class HookPackageInstaller extends HookBase{
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    installDoneSuggestB[0] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutB");
+                    installDoneSuggestLayout[0] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutA");
+                    installDoneSuggestLayout[1] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutB");
+                    installDoneSuggestLayout[2] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutC");
+                    relativeLayout[0] = (RelativeLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutATitle");
                 }
             });
 
             XposedHelpers.findAndHookMethod(clazz1, "handleMessage", Message.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    installDoneSuggestB[0].setVisibility(View.GONE);
+                    installDoneSuggestLayout[0].setVisibility(View.GONE);
+                    installDoneSuggestLayout[1].setVisibility(View.GONE);
+                    installDoneSuggestLayout[2].setVisibility(View.GONE);
+                    relativeLayout[0].setVisibility(View.GONE);
                 }
             });
             Log.d(tag, "Hide installed suggest layout successfully");
