@@ -31,7 +31,6 @@ public class HookSettings extends HookBase{
     public void hook() {
         super.hook();
         if (ColorToolPrefs.getPrefs("more_dark_mode", false)) hookDarkMode();
-        //todo add a pref judgment
         Log.n(tag, "Hook Settings success!");
     }
 
@@ -68,7 +67,6 @@ public class HookSettings extends HookBase{
                 File dir = new File(Objects.requireNonNull(darkModeList.getParent()));
                 if (!dir.exists()) dir.mkdir();
                 if (!darkModeList.createNewFile()) throw new Exception();
-                updateDarkModeList(darkModeList);
                 Log.d(tag, "darkModeList create successfully");
             } catch (Exception e){
                 Log.error(tag,e);
@@ -76,28 +74,29 @@ public class HookSettings extends HookBase{
         }else {
             Log.d(tag,"darkModeList alrady exists");
         }
+        updateDarkModeList(darkModeList);
         return darkModeList;
     }
 
     @SuppressLint("WrongConstant")
     private void updateDarkModeList(File darkModeList) {
-        String listStart = "<filter-conf>\n" +
-                " <version>202105141050</version>\n" +
-                " <isOpen>1</isOpen>\n" +
-                " <filter-name>sys_dark_mode_third_app_managed</filter-name>\n";
         StringBuilder itemList = new StringBuilder();
+        itemList.append("<filter-conf>\n" +
+                "\t<version>202105141050</version>\n" +
+                "\t<isOpen>1</isOpen>\n" +
+                "\t<filter-name>sys_dark_mode_third_app_managed</filter-name>\n");
         PackageManager packageManager = AndroidAppHelper.currentApplication().getPackageManager();
         @SuppressLint("QueryPermissionsNeeded") List<ApplicationInfo> packageInfos = packageManager.getInstalledApplications(PackageManager.INSTALL_REASON_USER);
         for (int i =0; i < packageInfos.size(); i++){
             ApplicationInfo packageInfo = packageInfos.get(i);
             if ((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0){
-                itemList.append("<p attr=\"");
+                itemList.append("\t<p attr=\"");
                 itemList.append(packageInfo.packageName);
                 itemList.append("\" />\n");
             }
         }
-        String listEnd = "</filter-conf>";
-        byte[] listBytes = (listStart + itemList.toString() + listEnd).getBytes(StandardCharsets.UTF_8);
+        itemList.append("</filter-conf>");
+        byte[] listBytes = itemList.toString().getBytes(StandardCharsets.UTF_8);
         try {
             FileOutputStream outputStream = new FileOutputStream(darkModeList);
             outputStream.write(listBytes);
