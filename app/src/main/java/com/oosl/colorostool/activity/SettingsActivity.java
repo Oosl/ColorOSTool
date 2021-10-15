@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
@@ -13,6 +15,24 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.oosl.colorostool.R;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private SharedPreferences sharedPreferences;
+    private Context mContext = null;
+    private final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = (sharedPreferences, key) -> {
+        if (key.equals("all_120hz")){
+            if (sharedPreferences.getBoolean(key,false)){
+                try {
+                    Runtime.getRuntime().exec("su -c service call SurfaceFlinger 1035 i32 13");
+                    Toast.makeText(mContext,"全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(mContext,"全局 120HZ 设置失败",Toast.LENGTH_SHORT).show();
+                    Log.e("ColorOSTool", e.getMessage());
+                }
+            }else {
+                Toast.makeText(mContext,"请再打开开关以生效",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
+        mContext = getApplicationContext();
+        sharedPreferences = getSharedPreferences("ColorToolPrefs",MODE_PRIVATE);
     }
 
     @Override
@@ -56,6 +78,18 @@ public class SettingsActivity extends AppCompatActivity {
             getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     private void exit(){
