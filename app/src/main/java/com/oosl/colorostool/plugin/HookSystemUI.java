@@ -4,26 +4,12 @@ import android.app.Application;
 import android.content.Context;
 
 import com.oosl.colorostool.util.ColorToolPrefs;
-import com.oosl.colorostool.util.CosApkName;
 import com.oosl.colorostool.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class HookSystemUI extends HookBase {
-
-    private static final String redTextClock;
-    private static final String redHorizontalDualClock;
-
-    static {
-        if (CosApkName.isCos12()) {
-            redTextClock = "com.oplusos.systemui.keyguard.clock.RedTextClock";
-            redHorizontalDualClock = "com.oplusos.systemui.keyguard.clock.RedHorizontalDualClock";
-        } else {
-            redTextClock = "com.coloros.systemui.keyguard.clock.RedTextClock";
-            redHorizontalDualClock = "com.coloros.systemui.keyguard.clock.RedHorizontalDualClock";
-        }
-    }
 
     @Override
     public void hook() {
@@ -42,7 +28,7 @@ public class HookSystemUI extends HookBase {
                 Class<?> clazz, clazz1;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    clazz = cl.loadClass(redTextClock);
+                    clazz = cl.loadClass("com.oplusos.systemui.keyguard.clock.RedTextClock");
                     //clazz1 = cl.loadClass(redHorizontalDualClock);
                     Log.d(tag, "Hook Class success!");
 

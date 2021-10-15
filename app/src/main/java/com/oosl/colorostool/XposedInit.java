@@ -6,7 +6,6 @@ import com.oosl.colorostool.plugin.HookPackageInstaller;
 import com.oosl.colorostool.plugin.HookSafeCenter;
 import com.oosl.colorostool.plugin.HookSettings;
 import com.oosl.colorostool.plugin.HookSystemUI;
-import com.oosl.colorostool.util.CosApkName;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -16,17 +15,17 @@ public class XposedInit implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 
-        if (lpparam.packageName.equals(CosApkName.getSafeCenterName())) {
+        if (lpparam.packageName.equals("com.oplus.safecenter")) {
             new HookSafeCenter().hook();
-        }else if (lpparam.packageName.equals(CosApkName.getLuncherName())) {
+        }else if (lpparam.packageName.equals("com.android.launcher")) {
             new HookOppoLauncher().hook();
-        }else if (lpparam.packageName.equals(CosApkName.getPackageInstallerName())) {
+        }else if (lpparam.packageName.equals("com.android.packageinstaller")) {
             new HookPackageInstaller().hook(lpparam);
-        }else if(lpparam.packageName.equals(CosApkName.getGamesToolName())) {
+        }else if(lpparam.packageName.equals("com.oplus.games")) {
             new HookGameSpace().hook(lpparam);
-        }else if(lpparam.packageName.equals(CosApkName.getSystemUIName())) {
+        }else if(lpparam.packageName.equals("com.android.systemui")) {
             new HookSystemUI().hook();
-        }else if(lpparam.packageName.equals(CosApkName.getSettingsName())) {
+        }else if(lpparam.packageName.equals("com.android.settings")) {
             new HookSettings().hook();
         }
     }

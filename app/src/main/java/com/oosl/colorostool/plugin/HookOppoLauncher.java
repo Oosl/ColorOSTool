@@ -1,7 +1,6 @@
 package com.oosl.colorostool.plugin;
 
 import com.oosl.colorostool.util.ColorToolPrefs;
-import com.oosl.colorostool.util.CosApkName;
 import com.oosl.colorostool.util.Log;
 
 import android.app.Application;
@@ -13,13 +12,6 @@ import de.robv.android.xposed.XposedHelpers;
 public class HookOppoLauncher extends HookBase{
 
     private static final String tag = "OppoLauncher";
-    private static final String lockManagerClass;
-    static {
-        if (CosApkName.isCos12())
-            lockManagerClass = "com.oplus.quickstep.applock.OplusLockManager";
-        else
-            lockManagerClass = "com.coloros.quickstep.applock.ColorLockManager";
-    }
 
     @Override
     public void hook() {
@@ -38,7 +30,7 @@ public class HookOppoLauncher extends HookBase{
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    clazz = cl.loadClass(lockManagerClass);
+                    clazz = cl.loadClass("com.oplus.quickstep.applock.OplusLockManager");
                     Log.d(tag,"Hook launcher app_lock success!");
                 } catch (Exception e) {
                     return;

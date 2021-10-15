@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.oosl.colorostool.util.ColorToolPrefs;
-import com.oosl.colorostool.util.CosApkName;
 import com.oosl.colorostool.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -28,32 +27,19 @@ public class HookGameSpace extends HookBase {
     private void hookRootChecker(final XC_LoadPackage.LoadPackageParam lpparam){
         Log.d(tag,"Hook gamespace success!");
         Class<?> clazz;
-        if (CosApkName.isCos12()){
-            try {
-                clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.h.d");
-                XposedHelpers.findAndHookMethod(clazz, "c", Context.class, String.class, new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        super.afterHookedMethod(param);
-                        Bundle bundle = (Bundle) param.getResult();
-                        bundle.putInt("isSafe", 0);
-                    }
-                });
-            }catch (Exception e){
-                return;
-            }
-        } else {
-            try {
-                clazz = lpparam.classLoader.loadClass("com.oplus.cosa.c.i.f");
-                XposedHelpers.findAndHookMethod(clazz, "c", new XC_MethodReplacement() {
-                    @Override
-                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                        return true;
-                    }
-                });
-            } catch (Exception e) {
-                return;
-            }
+
+        try {
+            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.h.d");
+            XposedHelpers.findAndHookMethod(clazz, "c", Context.class, String.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    Bundle bundle = (Bundle) param.getResult();
+                    bundle.putInt("isSafe", 0);
+                }
+            });
+        }catch (Exception e){
+            Log.error(tag,e);
         }
         Log.d(tag,"Hook gamespace.root.checker success!");
     }
@@ -64,27 +50,12 @@ public class HookGameSpace extends HookBase {
         if (!enableLog) return;
         Log.d(tag,"Hook gamespaceLog success!");
         Class<?> clazz;
-        if (CosApkName.isCos12()){
-            try{
-                clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.j.a");
-                XposedHelpers.setStaticBooleanField(clazz,"i",true);
-                Log.d(tag,"Hook gamespace LogClass success!");
-            } catch (Exception e){
-                return;
-            }
-        }else {
-            try{
-                clazz = lpparam.classLoader.loadClass("com.oplus.cosa.c.f.a");
-                XposedHelpers.findAndHookMethod(clazz, "b", String.class, String.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        XposedHelpers.setStaticBooleanField(clazz,"e",true);
-                    }
-                });
-            } catch (Exception e){
-                return;
-            }
+        try{
+            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.j.a");
+            XposedHelpers.setStaticBooleanField(clazz,"i",true);
+            Log.d(tag,"Hook gamespace LogClass success!");
+        } catch (Exception e){
+            Log.error(tag,e);
         }
     }
 }
