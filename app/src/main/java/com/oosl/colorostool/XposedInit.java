@@ -1,5 +1,6 @@
 package com.oosl.colorostool;
 
+import com.oosl.colorostool.plugin.HookAndroid;
 import com.oosl.colorostool.plugin.HookGameSpace;
 import com.oosl.colorostool.plugin.HookOppoLauncher;
 import com.oosl.colorostool.plugin.HookPackageInstaller;
@@ -28,6 +29,8 @@ public class XposedInit implements IXposedHookLoadPackage {
             new HookSystemUI().hook();
         }else if(lpparam.packageName.equals(CosApkName.getSettingsName())) {
             new HookSettings().hook();
+        }else if(lpparam.packageName.equals(CosApkName.getAndroidName())) {
+            new HookAndroid().hook(lpparam);
         }
     }
 }

@@ -47,4 +47,6 @@
     <string name="system_settings_header">设置</string>
     <string name="more_dark_mode_title">三方应用暗色</string>
     <string name="more_dark_mode_summary">添加用户安装的所有APP到三方应用暗色列表中</string>
+    <string name="usb_install_title">禁用usb安装确认</string>
+    <string name="usb_install_summary">去除usb安装确认，自动静默安装</string>
 </resources>

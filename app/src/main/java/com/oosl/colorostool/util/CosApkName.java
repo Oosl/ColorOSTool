@@ -9,6 +9,7 @@ public final class CosApkName {
     private static final String packageInstallerName = "com.android.packageinstaller";
     private static final String systemUIName = "com.android.systemui";
     private static final String settingsName = "com.android.settings";
+    private static final String androidName = "android";
 
     static {
         if (isCos12()){
@@ -44,6 +45,10 @@ public final class CosApkName {
 
     public static String getSystemUIName() {
         return systemUIName;
+    }
+
+    public static String getAndroidName() {
+        return androidName;
     }
 
     public static boolean isCos12(){

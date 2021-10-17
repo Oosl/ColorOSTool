@@ -61,6 +61,13 @@
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="usb_install"
+            app:title="@string/usb_install_title"
+            app:summary="@string/usb_install_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/system_settings_header"
