@@ -51,5 +51,5 @@
     <string name="all_120hz_summary">开关一次生效（需ROOT）</string>
     <string name="usb_install_title">禁用usb安装确认</string>
     <string name="usb_install_summary">去除usb安装确认，自动静默安装</string>
-    <string name="android">系统服务</string>
+    <string name="android">系统框架</string>
 </resources>
