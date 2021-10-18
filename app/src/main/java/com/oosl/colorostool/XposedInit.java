@@ -15,18 +15,25 @@ public class XposedInit implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 
-        if (lpparam.packageName.equals("com.oplus.safecenter")) {
-            new HookSafeCenter().hook();
-        }else if (lpparam.packageName.equals("com.android.launcher")) {
-            new HookOppoLauncher().hook();
-        }else if (lpparam.packageName.equals("com.android.packageinstaller")) {
-            new HookPackageInstaller().hook(lpparam);
-        }else if(lpparam.packageName.equals("com.oplus.games")) {
-            new HookGameSpace().hook(lpparam);
-        }else if(lpparam.packageName.equals("com.android.systemui")) {
-            new HookSystemUI().hook();
-        }else if(lpparam.packageName.equals("com.android.settings")) {
-            new HookSettings().hook();
+        switch (lpparam.packageName) {
+            case "com.oplus.safecenter":
+                new HookSafeCenter().hook();
+                break;
+            case "com.android.launcher":
+                new HookOppoLauncher().hook();
+                break;
+            case "com.android.packageinstaller":
+                new HookPackageInstaller().hook(lpparam);
+                break;
+            case "com.oplus.games":
+                new HookGameSpace().hook(lpparam);
+                break;
+            case "com.android.systemui":
+                new HookSystemUI().hook();
+                break;
+            case "com.android.settings":
+                new HookSettings().hook();
+                break;
         }
     }
 }
