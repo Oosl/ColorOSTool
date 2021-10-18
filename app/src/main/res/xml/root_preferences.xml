@@ -70,12 +70,6 @@
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
-        <SwitchPreferenceCompat
-            app:key="usb_install"
-            app:title="@string/usb_install_title"
-            app:summary="@string/usb_install_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>
 
@@ -110,6 +104,18 @@
             app:key="root_checker"
             app:title="@string/root_checker_title"
             app:summary="@string/root_checker_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/android"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="usb_install"
+            app:title="@string/usb_install_title"
+            app:summary="@string/usb_install_summary"
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
