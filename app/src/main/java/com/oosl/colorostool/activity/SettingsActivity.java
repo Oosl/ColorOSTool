@@ -17,7 +17,7 @@ import com.oosl.colorostool.R;
 public class SettingsActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
-    private Context mContext = null;
+    public Context mContext = null;
     private final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = (sharedPreferences, key) -> {
         if (key.equals("all_120hz")){
             if (sharedPreferences.getBoolean(key,false)){
@@ -52,7 +52,6 @@ public class SettingsActivity extends AppCompatActivity {
                     .commit();
         }
         mContext = getApplicationContext();
-        sharedPreferences = getSharedPreferences("ColorToolPrefs",MODE_PRIVATE);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
             // will not throw SecurityException
             // noinspection deprecation
             // From CorePatch https://github.com/coderstory/CorePatch
-            SharedPreferences sharedPreferences = getSharedPreferences("ColorToolPrefs", Context.MODE_WORLD_READABLE);
+            sharedPreferences = getSharedPreferences("ColorToolPrefs", Context.MODE_WORLD_READABLE);
         } catch (SecurityException exception) {
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.not_supported))
