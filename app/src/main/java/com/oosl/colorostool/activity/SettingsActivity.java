@@ -23,13 +23,19 @@ public class SettingsActivity extends AppCompatActivity {
             if (sharedPreferences.getBoolean(key,false)){
                 try {
                     Runtime.getRuntime().exec("su -c service call SurfaceFlinger 1035 i32 13");
-                    Toast.makeText(mContext,"全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,"2k 全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     Toast.makeText(mContext,"全局 120HZ 设置失败",Toast.LENGTH_SHORT).show();
                     Log.e("ColorOSTool", e.getMessage());
                 }
             }else {
-                Toast.makeText(mContext,"请再打开开关以生效",Toast.LENGTH_SHORT).show();
+                try {
+                    Runtime.getRuntime().exec("su -c service call SurfaceFlinger 1035 i32 5");
+                    Toast.makeText(mContext,"1080p 全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(mContext,"全局 120HZ 设置失败",Toast.LENGTH_SHORT).show();
+                    Log.e("ColorOSTool", e.getMessage());
+                }
             }
         }
     };

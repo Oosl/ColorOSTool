@@ -8,7 +8,8 @@
         <SwitchPreferenceCompat
             app:key="all_120hz"
             app:title="@string/all_120hz_title"
-            app:summary="@string/all_120hz_summary"
+            app:summaryOn="@string/all_120hz_summaryOn"
+            app:summaryOff="@string/all_120hz_summaryOff"
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
