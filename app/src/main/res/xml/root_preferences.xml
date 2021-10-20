@@ -122,4 +122,14 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/costool_about"
+        app:iconSpaceReserved="false">
+
+    <SwitchPreferenceCompat
+        app:key="hide_icon"
+        app:title="@string/hide_icon_title"
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>

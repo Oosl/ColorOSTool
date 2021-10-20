@@ -53,4 +53,6 @@
     <string name="usb_install_title">禁用usb安装确认</string>
     <string name="usb_install_summary">去除usb安装确认，自动静默安装</string>
     <string name="android">系统框架</string>
+    <string name="hide_icon_title">隐藏桌面图标</string>
+    <string name="costool_about">模块设置</string>
 </resources>

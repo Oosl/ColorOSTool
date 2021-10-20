@@ -2,8 +2,10 @@ package com.oosl.colorostool.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,24 +21,37 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     public Context mContext = null;
     private final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = (sharedPreferences, key) -> {
-        if (key.equals("all_120hz")){
-            if (sharedPreferences.getBoolean(key,false)){
-                try {
-                    Runtime.getRuntime().exec("su -c service call SurfaceFlinger 1035 i32 13");
-                    Toast.makeText(mContext,"2k 全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
-                    Toast.makeText(mContext,"全局 120HZ 设置失败",Toast.LENGTH_SHORT).show();
-                    Log.e("ColorOSTool", e.getMessage());
+        switch (key){
+            case "all_120hz":
+                if (sharedPreferences.getBoolean(key,false)){
+                    try {
+                        Runtime.getRuntime().exec("su -c service call SurfaceFlinger 1035 i32 13");
+                        Toast.makeText(mContext,"2k 全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(mContext,"全局 120HZ 设置失败",Toast.LENGTH_SHORT).show();
+                        Log.e("ColorOSTool", e.getMessage());
+                    }
+                }else {
+                    try {
+                        Runtime.getRuntime().exec("su -c service call SurfaceFlinger 1035 i32 5");
+                        Toast.makeText(mContext,"1080p 全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(mContext,"全局 120HZ 设置失败",Toast.LENGTH_SHORT).show();
+                        Log.e("ColorOSTool", e.getMessage());
+                    }
                 }
-            }else {
-                try {
-                    Runtime.getRuntime().exec("su -c service call SurfaceFlinger 1035 i32 5");
-                    Toast.makeText(mContext,"1080p 全局 120HZ 设置成功",Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
-                    Toast.makeText(mContext,"全局 120HZ 设置失败",Toast.LENGTH_SHORT).show();
-                    Log.e("ColorOSTool", e.getMessage());
+            case "hide_icon":
+                ComponentName aliasName = ComponentName.unflattenFromString("com.oosl.colorostool/com.oosl.colorostool.activity.SettingsActivityAlias");
+                int status;
+                if (sharedPreferences.getBoolean(key,false)) status = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+                else status = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+                if (getPackageManager().getComponentEnabledSetting(aliasName) != status){
+                    getPackageManager().setComponentEnabledSetting(
+                            aliasName,
+                            status,
+                            PackageManager.DONT_KILL_APP
+                    );
                 }
-            }
         }
     };
 
