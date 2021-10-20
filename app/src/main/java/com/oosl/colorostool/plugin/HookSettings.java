@@ -3,9 +3,13 @@ package com.oosl.colorostool.plugin;
 import android.annotation.SuppressLint;
 import android.app.AndroidAppHelper;
 import android.app.Application;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.widget.Toast;
 
 import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
@@ -33,6 +37,7 @@ public class HookSettings extends HookBase{
         super.hook();
         if (ColorToolPrefs.getPrefs("more_dark_mode", false)) hookDarkMode();
         else darkListBackup("restore");
+        if (ColorToolPrefs.getPrefs("all_120hz", false)) enableAll120hz();
         Log.n(tag, "Hook Settings success!");
     }
 
@@ -173,5 +178,51 @@ public class HookSettings extends HookBase{
                 Log.n(tag, "Enable Settings Log success!");
             }
         });
+    }
+
+    private void enableAll120hz(){
+        XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                ClassLoader cl = ((Context) param.args[0]).getClassLoader();
+                try {
+                    XposedHelpers.findAndHookMethod("com.oplus.settings.feature.display.ScreenRefreshRateFragment", cl, "e", int.class, new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            super.afterHookedMethod(param);
+                            setAll120(AndroidAppHelper.currentApplication().getApplicationContext());
+                            Log.n(tag, "Hook All 120HZ success!");
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.error(tag, e);
+                }
+            }
+        });
+    }
+
+    private void setAll120(Context context){
+        setFrameRate(context,"min_fresh_rate","59.0");
+        setFrameRate(context,"peak_refresh_rate","59.0");
+        Toast.makeText(context, "应用全局120成功", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setDefault60(Context context){
+        setFrameRate(context,"min_fresh_rate","120.0");
+        setFrameRate(context,"peak_refresh_rate","120.0");
+        Toast.makeText(context, "应用全局60成功", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void setFrameRate(Context context,String rateSettingName, String value){
+        ContentResolver contentResolver = context.getContentResolver();
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", rateSettingName);
+            contentValues.put("value", value);
+            contentResolver.insert(Uri.parse("content://settings/system"), contentValues);
+        } catch (Exception exception) {
+            Log.error(tag, exception);
+        }
     }
 }
