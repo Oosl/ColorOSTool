@@ -10,14 +10,16 @@ import android.content.pm.PackageManager;
 import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -30,6 +32,7 @@ public class HookSettings extends HookBase{
     public void hook() {
         super.hook();
         if (ColorToolPrefs.getPrefs("more_dark_mode", false)) hookDarkMode();
+        else darkListBackup("restore");
         Log.n(tag, "Hook Settings success!");
     }
 
@@ -59,21 +62,13 @@ public class HookSettings extends HookBase{
     }
 
     private File getDarkModelist(){
-        @SuppressLint("SdCardPath") File darkModeList = new File( "/data/data/com.android.settings/files/dark_mode_list.xml");
-        if (!darkModeList.exists()){
-            try{
-                Log.d(tag,"darkModeList dont exist");
-                File dir = new File(Objects.requireNonNull(darkModeList.getParent()));
-                if (!dir.exists()) dir.mkdir();
-                if (!darkModeList.createNewFile()) throw new Exception();
-                Log.d(tag, "darkModeList create successfully");
-            } catch (Exception e){
-                Log.error(tag,e);
-            }
-        }else {
-            Log.d(tag,"darkModeList alrady exists");
+        File darkModeList = new File( "/data/oplus/os/darkmode/sys_dark_mode_third_app_managed.xml");
+        darkListBackup("backup");
+        try {
+            updateDarkModeList(darkModeList);
+        }catch (Exception e){
+            Log.error(tag,e);
         }
-        updateDarkModeList(darkModeList);
         return darkModeList;
     }
 
@@ -101,7 +96,60 @@ public class HookSettings extends HookBase{
             outputStream.write(listBytes);
             outputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.error(tag,e);
+        }
+    }
+
+    private void darkListBackup(String action){
+        File darkModeListBak = new File( "/data/oplus/os/darkmode/sys_dark_mode_third_app_managed.xml.bak");
+        File darkModeList = new File( "/data/oplus/os/darkmode/sys_dark_mode_third_app_managed.xml");
+        switch (action){
+            case "backup":
+                if (!darkModeListBak.exists()){
+                    Log.d(tag,"darkModeList dont backup");
+                    copyFile(darkModeList,darkModeListBak);
+                    Log.d(tag, "darkModeList backup successfully");
+                }
+                break;
+            case "restore":
+                if (darkModeList.exists() && darkModeListBak.exists()) {
+                    copyFile(darkModeListBak,darkModeList);
+                    darkModeListBak.delete();
+                    Log.d(tag,"darkmode list restore success");
+                }
+                break;
+        }
+    }
+
+    private void copyFile(File sourceFile, File targetFile){
+
+        FileInputStream input = null;
+        BufferedInputStream inbuff = null;
+        FileOutputStream out = null;
+        BufferedOutputStream outbuff = null;
+
+        try {
+            input = new FileInputStream(sourceFile);
+            inbuff = new BufferedInputStream(input);
+
+            out = new FileOutputStream(targetFile);
+            outbuff = new BufferedOutputStream(out);
+
+            byte[] b = new byte[1024 * 5];
+            int len = 0;
+            while ((len = inbuff.read(b)) != -1) outbuff.write(b, 0, len);
+            outbuff.flush();
+        } catch (Exception e) {
+            Log.error(tag,e);
+        } finally {
+            try {
+                if (inbuff != null)     inbuff.close();
+                if (outbuff != null)    outbuff.close();
+                if (out != null)        out.close();
+                if (input != null)      input.close();
+            } catch (Exception e) {
+                Log.error(tag,e);
+            }
         }
     }
 
