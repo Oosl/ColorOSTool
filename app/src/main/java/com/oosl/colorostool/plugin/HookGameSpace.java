@@ -17,7 +17,7 @@ public class HookGameSpace extends HookBase {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam){
-        super.hook();
+        super.hook(lpparam);
         if(ColorToolPrefs.getPrefs("root_checker", true)){
             hookRootChecker(lpparam);
             //hookGameSpaceLog(lpparam);
@@ -29,8 +29,8 @@ public class HookGameSpace extends HookBase {
         Class<?> clazz;
 
         try {
-            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.h.d");
-            XposedHelpers.findAndHookMethod(clazz, "c", Context.class, String.class, new XC_MethodHook() {
+            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.ipc.COSAManager");
+            XposedHelpers.findAndHookMethod(clazz, "u3", Context.class, String.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
@@ -38,10 +38,10 @@ public class HookGameSpace extends HookBase {
                     bundle.putInt("isSafe", 0);
                 }
             });
+            Log.d(tag,"Hook gamespace.root.checker success!");
         }catch (Exception e){
             Log.error(tag,e);
         }
-        Log.d(tag,"Hook gamespace.root.checker success!");
     }
 
     @Override
