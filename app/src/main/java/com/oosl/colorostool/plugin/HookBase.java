@@ -1,10 +1,12 @@
 package com.oosl.colorostool.plugin;
 
+import com.oosl.colorostool.BuildConfig;
+
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 abstract class HookBase {
 
-    static final boolean enableLog = true;
+    static final boolean enableLog = BuildConfig.BUILD_TYPE.equals("debug");
 
     public void hook(){
         hookLog();
