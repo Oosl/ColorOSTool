@@ -161,7 +161,6 @@ public class HookSettings extends HookBase{
     @Override
     public void hookLog() {
         super.hookLog();
-        if (!enableLog) return;
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {

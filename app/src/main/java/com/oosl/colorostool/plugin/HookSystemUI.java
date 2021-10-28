@@ -74,7 +74,7 @@ public class HookSystemUI extends HookBase {
     public void hookLog() {
         super.hookLog();
         // disable SystemUI Log if unnecessary
-        if (enableLog) return;
+        if (true) return;
         String tag = "SystemUILog";
         Log.d(tag, "Hook SystemUILog success!");
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {

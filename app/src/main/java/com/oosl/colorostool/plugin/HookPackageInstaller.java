@@ -186,7 +186,6 @@ public class HookPackageInstaller extends HookBase{
     @SuppressLint("PrivateApi")
     public void hookLog(XC_LoadPackage.LoadPackageParam lpparam) {
         super.hookLog(lpparam);
-        if (!enableLog) return;
         Class<?> clazz;
         try {
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.OppoLog");
