@@ -7,35 +7,61 @@ import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class HookSystemUI extends HookBase {
-
+    private final String tag = "SystemUI";
     @Override
     public void hook() {
         super.hook();
         if (ColorToolPrefs.getPrefs("lock_red_one", false)) {
             hookRedOne();
         }
+        if (ColorToolPrefs.getPrefs("charging_ripple", false)) {
+            hookChargeWipe();
+        }
+        Log.d(tag, "Hook SystemUI success!");
     }
 
     private void hookRedOne() {
-        String tag = "SystemUI";
-        Log.d(tag, "Hook SystemUI success!");
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Class<?> clazz, clazz1;
+                Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
                     clazz = cl.loadClass("com.oplusos.systemui.keyguard.clock.RedTextClock");
-                    //clazz1 = cl.loadClass(redHorizontalDualClock);
                     Log.d(tag, "Hook Class success!");
 
                     // the read one in lock screen
                     XposedHelpers.setStaticObjectField(clazz, "NUMBER_ONE", "");
-                    //XposedHelpers.setObjectField(clazz1,"NUMBER_ONE","");
                     Log.d(tag, "Hook RedClock success!");
+
+                } catch (Exception e) {
+                    Log.error(tag,e);
+                }
+            }
+        });
+    }
+
+    private void hookChargeWipe(){
+        XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Class<?> clazz;
+                ClassLoader cl = ((Context) param.args[0]).getClassLoader();
+                try {
+                    clazz = cl.loadClass("com.android.systemui.statusbar.FeatureFlags");
+                    Log.d(tag, "Hook FeatureFlags success!");
+
+                    XposedHelpers.findAndHookMethod(clazz, "isChargingRippleEnabled", new XC_MethodReplacement() {
+                        @Override
+                        protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                            return true;
+                        }
+                    });
+                    Log.d(tag, "Hook ChargingRipple success!");
 
                 } catch (Exception e) {
                     Log.error(tag,e);

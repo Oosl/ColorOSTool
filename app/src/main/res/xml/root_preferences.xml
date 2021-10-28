@@ -95,6 +95,13 @@
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="charging_ripple"
+            app:title="@string/charging_ripple_title"
+            app:summary="@string/charging_ripple_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/gamespace_header"
@@ -109,7 +116,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/android"
+    <PreferenceCategory app:title="@string/android_header"
         app:iconSpaceReserved="false">
 
         <SwitchPreferenceCompat
