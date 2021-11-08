@@ -91,18 +91,14 @@ public class HookSystemUI extends HookBase {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             super.afterHookedMethod(param);
-                            Log.d(tag, "br log tag is " + param.getResult());
                             param.setResult(true);
-                            Log.d(tag, "af log tag is " + param.getResult());
                         }
                     });
                     XposedHelpers.findAndHookMethod(clazz, "updateLevel", new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             super.afterHookedMethod(param);
-                            Log.d(tag, "af updateLevel is " + XposedHelpers.getStaticBooleanField(clazz, "sNormal"));
                             XposedHelpers.setStaticBooleanField(clazz, "sNormal", true);
-                            Log.d(tag, "af updateLevel is " + XposedHelpers.getStaticBooleanField(clazz, "sNormal"));
                         }
                     });
                 } catch (Exception e) {
