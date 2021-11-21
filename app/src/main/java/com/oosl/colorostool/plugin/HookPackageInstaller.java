@@ -102,13 +102,29 @@ public class HookPackageInstaller extends HookBase{
 
     @SuppressLint("PrivateApi")
     private void removeWarn(XC_LoadPackage.LoadPackageParam lpparam){
-        Class<?> clazz;
+        Class<?> clazz,clazz1;
         try {
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
             XposedHelpers.findAndHookMethod(clazz, "isReplaceInstall", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     return false;
+                }
+            });
+        }catch (Exception e){
+            Log.error(tag, e);
+        }
+
+        // uncheck app_suggest_option as default
+        try {
+            clazz1 = lpparam.classLoader.loadClass("com.coui.appcompat.widget.COUICheckBox");
+            XposedHelpers.findAndHookMethod(clazz1, "setState", int.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if ((int)param.args[0] == 2){
+                        param.args[0] = 0;
+                    }
                 }
             });
         }catch (Exception e){
