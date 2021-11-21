@@ -192,6 +192,7 @@ public class HookSettings extends HookBase{
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             super.afterHookedMethod(param);
+                            setTo96(AndroidAppHelper.currentApplication().getApplicationContext());
                             setAll120(AndroidAppHelper.currentApplication().getApplicationContext());
                             Log.n(tag, "Hook All 120HZ success!");
                         }
@@ -215,6 +216,12 @@ public class HookSettings extends HookBase{
         Toast.makeText(context, "应用全局60成功", Toast.LENGTH_SHORT).show();
     }
 
+    private void setTo96(Context context){
+        setFrameRate(context,"min_fresh_rate","96.0");
+        setFrameRate(context,"peak_refresh_rate","96.0");
+        //Toast.makeText(context, "还原96成功", Toast.LENGTH_SHORT).show();
+    }
+
 
     private void setFrameRate(Context context,String rateSettingName, String value){
         ContentResolver contentResolver = context.getContentResolver();
@@ -224,6 +231,7 @@ public class HookSettings extends HookBase{
             contentValues.put("value", value);
             contentResolver.insert(Uri.parse("content://settings/system"), contentValues);
         } catch (Exception exception) {
+            Toast.makeText(context, "刷新率设置失败", Toast.LENGTH_SHORT).show();
             Log.error(tag, exception);
         }
     }
