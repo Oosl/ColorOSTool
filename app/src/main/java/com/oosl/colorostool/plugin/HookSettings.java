@@ -61,6 +61,7 @@ public class HookSettings extends HookBase{
                     });
                     Log.n(tag, "Hook Darkmode success!");
                 } catch (Exception e) {
+                    darkListBackup("restore");
                     Log.error(tag, e);
                 }
             }
