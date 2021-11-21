@@ -105,17 +105,10 @@ public class HookPackageInstaller extends HookBase{
         Class<?> clazz;
         try {
             clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
-            XposedHelpers.findAndHookMethod(clazz, "showDialogInner", int.class, new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod(clazz, "isReplaceInstall", new XC_MethodReplacement() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    param.args[0] = 0;
-                }
-
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    XposedHelpers.callMethod(param.thisObject,"continueAppInstall");
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    return false;
                 }
             });
         }catch (Exception e){
