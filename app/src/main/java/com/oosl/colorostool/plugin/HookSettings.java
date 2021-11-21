@@ -48,7 +48,8 @@ public class HookSettings extends HookBase{
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.a.b");
+//                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.a.b");
+                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.utils.DarkModeFileUtils");
                     XposedHelpers.findAndHookMethod(clazz, "a", Reader.class, new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -167,7 +168,8 @@ public class HookSettings extends HookBase{
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    clazz = cl.loadClass("com.oplus.settings.utils.am");
+//                    clazz = cl.loadClass("com.oplus.settings.utils.am");
+                    clazz = cl.loadClass("com.oplus.settings.utils.LogUtils");
                 } catch (Exception e) {
                     Log.error(tag, e);
                     return;
