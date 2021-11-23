@@ -22,7 +22,7 @@
     <string name="app_lock_title">后台锁定</string>
     <string name="app_lock_summary">解除（多任务列表）仅能锁定5个后台应用的限制</string>
     <string name="launcher_layout_title">桌面布局拓展</string>
-    <string name="launcher_layout_summary">解锁更多桌面布局选项(3x5 ~ 7x7)</string>
+    <string name="launcher_layout_summary">解锁更多桌面布局选项(3x5 ~ 6x7)</string>
 
     <!-- packageinstaller Preferences -->
     <string name="aosp_installer_title">替换APK安装器</string>

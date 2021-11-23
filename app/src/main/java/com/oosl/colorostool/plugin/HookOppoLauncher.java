@@ -59,7 +59,7 @@ public class HookOppoLauncher extends HookBase{
 
                 try {
                     clazz = cl.loadClass("com.android.launcher.togglebar.adapter.ToggleBarLayoutAdapter");
-                    XposedHelpers.setStaticObjectField(clazz,"MIN_MAX_COLUMN", new int[] {3, 7});
+                    XposedHelpers.setStaticObjectField(clazz,"MIN_MAX_COLUMN", new int[] {3, 6});
                     XposedHelpers.setStaticObjectField(clazz,"MIN_MAX_ROW", new int[] {5, 7});
                 } catch (Exception e) {
                     Log.error(tag,e);
