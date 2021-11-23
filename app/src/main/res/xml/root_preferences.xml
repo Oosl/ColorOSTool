@@ -29,6 +29,13 @@
             app:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="launcher_layout"
+            app:title="@string/launcher_layout_title"
+            app:summary="@string/launcher_layout_summary"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/packageinstaller_header"
