@@ -85,9 +85,7 @@ public class HookOppoLauncher extends HookBase{
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             super.afterHookedMethod(param);
                             boolean normal = XposedHelpers.getStaticBooleanField(clazz, "normal");
-                            Log.d(tag, "normal is " + normal);
                             XposedHelpers.setStaticBooleanField(clazz,"normal", true);
-                            Log.d(tag, "normal is " + XposedHelpers.getStaticBooleanField(clazz, "normal"));
                         }
                     });
                 } catch (Exception e) {
