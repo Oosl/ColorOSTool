@@ -7,133 +7,40 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/safecenter_header"
-        app:iconSpaceReserved="false">
+    <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$SafeCenterFragment"
+        app:iconSpaceReserved="false"
+        app:title="@string/safecenter_header"
+        app:key="safe_center_header"/>
 
-        <SwitchPreferenceCompat
-            app:key="startup"
-            app:title="@string/startup_title"
-            app:summary="@string/startup_summary"
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"/>
+    <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$LauncherFragment"
+        app:iconSpaceReserved="false"
+        app:title="@string/launcher_header"
+        app:key="launcher_header"/>
 
-    </PreferenceCategory>
+    <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$PackageInstallerFragment"
+        app:iconSpaceReserved="false"
+        app:title="@string/packageinstaller_header"
+        app:key="packageinstaller_header"/>
 
-    <PreferenceCategory app:title="@string/launcher_header"
-        app:iconSpaceReserved="false">
+    <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$SettingsFragment"
+        app:iconSpaceReserved="false"
+        app:title="@string/system_settings_header"
+        app:key="system_settings_header"/>
 
-        <SwitchPreferenceCompat
-            app:key="app_lock"
-            app:title="@string/app_lock_title"
-            app:summary="@string/app_lock_summary"
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"/>
+    <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$GameSpaceFragment"
+        app:iconSpaceReserved="false"
+        app:title="@string/gamespace_header"
+        app:key="game_space_header"/>
 
-        <SwitchPreferenceCompat
-            app:key="launcher_layout"
-            app:title="@string/launcher_layout_title"
-            app:summary="@string/launcher_layout_summary"
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"/>
+    <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$SystemUiFragment"
+        app:iconSpaceReserved="false"
+        app:title="@string/systemui_header"
+        app:key="systemui_header"/>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/packageinstaller_header"
-        app:iconSpaceReserved="false">
-
-        <SwitchPreferenceCompat
-            app:key="safe_installer"
-            app:title="@string/safe_installer_title"
-            app:summary="@string/safe_installer_summary"
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-            app:key="installer_warn"
-            app:title="@string/installer_warn_title"
-            app:summary="@string/installer_warn_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-            app:key="installer_ads"
-            app:title="@string/installer_ads_title"
-            app:summary="@string/installer_ads_summary"
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-            app:key="aosp_installer"
-            app:summaryOff="@string/aosp_installer_summary_off"
-            app:summaryOn="@string/aosp_installer_summary_on"
-            app:title="@string/aosp_installer_title"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/system_settings_header"
-        app:iconSpaceReserved="false">
-
-        <SwitchPreferenceCompat
-            app:key="more_dark_mode"
-            app:title="@string/more_dark_mode_title"
-            app:summary="@string/more_dark_mode_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-            app:key="all_120hz"
-            app:title="@string/all_120hz_title"
-            app:summary="@string/all_120hz_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/systemui_header"
-        app:iconSpaceReserved="false">
-
-        <SwitchPreferenceCompat
-            app:key="lock_red_one"
-            app:title="@string/lock_red_one_title"
-            app:summary="@string/lock_red_one_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-            app:key="charging_ripple"
-            app:title="@string/charging_ripple_title"
-            app:summary="@string/charging_ripple_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/gamespace_header"
-        app:iconSpaceReserved="false">
-
-        <SwitchPreferenceCompat
-            app:key="root_checker"
-            app:title="@string/root_checker_title"
-            app:summary="@string/root_checker_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/android_header"
-        app:iconSpaceReserved="false">
-
-        <SwitchPreferenceCompat
-            app:key="usb_install"
-            app:title="@string/usb_install_title"
-            app:summary="@string/usb_install_summary"
-            app:defaultValue="false"
-            app:iconSpaceReserved="false"/>
-
-    </PreferenceCategory>
+    <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$AndroidFragment"
+        app:iconSpaceReserved="false"
+        app:title="@string/android_header"
+        app:key="android_header"/>
 
     <PreferenceCategory app:title="@string/costool_about"
         app:iconSpaceReserved="false">

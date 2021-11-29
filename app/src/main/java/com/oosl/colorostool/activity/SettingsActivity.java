@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
+                    .replace(R.id.settings, new CostoolSettingsFragment())
                     .commit();
         }
         mContext = getApplicationContext();
@@ -51,7 +52,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) finishAndRemoveTask();
+//        if (keyCode == KeyEvent.KEYCODE_BACK) finishAndRemoveTask();
+        if (keyCode == KeyEvent.KEYCODE_BACK) Log.d("COSTOOL", getFragmentManager().getFragments().toString());
         return super.onKeyDown(keyCode, event);
     }
 
@@ -72,11 +74,67 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
+    public static class CostoolSettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        }
+    }
+
+    public static class SafeCenterFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
+            setPreferencesFromResource(R.xml.safe_center_preferences, rootKey);
+        }
+    }
+
+    public static class SettingsFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
+            setPreferencesFromResource(R.xml.android_settings_preferences, rootKey);
+        }
+    }
+
+    public static class AndroidFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
+            setPreferencesFromResource(R.xml.android_system_preferences, rootKey);
+        }
+    }
+
+    public static class SystemUiFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
+            setPreferencesFromResource(R.xml.system_ui_preferences, rootKey);
+        }
+    }
+
+    public static class LauncherFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
+            setPreferencesFromResource(R.xml.launcher_preferences, rootKey);
+        }
+    }
+
+    public static class PackageInstallerFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
+            setPreferencesFromResource(R.xml.package_installer_preferences, rootKey);
+        }
+    }
+
+    public static class GameSpaceFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            getPreferenceManager().setSharedPreferencesName("ColorToolPrefs");
+            setPreferencesFromResource(R.xml.game_space_preferences, rootKey);
         }
     }
 

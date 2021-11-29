@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/system_settings_header"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="more_dark_mode"
+            app:title="@string/more_dark_mode_title"
+            app:summary="@string/more_dark_mode_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+        <SwitchPreferenceCompat
+            app:key="all_120hz"
+            app:title="@string/all_120hz_title"
+            app:summary="@string/all_120hz_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

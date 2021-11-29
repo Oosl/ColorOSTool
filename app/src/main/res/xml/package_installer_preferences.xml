@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/packageinstaller_header"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="safe_installer"
+            app:title="@string/safe_installer_title"
+            app:summary="@string/safe_installer_summary"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
+        <SwitchPreferenceCompat
+            app:key="installer_warn"
+            app:title="@string/installer_warn_title"
+            app:summary="@string/installer_warn_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+        <SwitchPreferenceCompat
+            app:key="installer_ads"
+            app:title="@string/installer_ads_title"
+            app:summary="@string/installer_ads_summary"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
+        <SwitchPreferenceCompat
+            app:key="aosp_installer"
+            app:summaryOff="@string/aosp_installer_summary_off"
+            app:summaryOn="@string/aosp_installer_summary_on"
+            app:title="@string/aosp_installer_title"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
