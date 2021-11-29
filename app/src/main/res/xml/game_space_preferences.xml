@@ -11,6 +11,13 @@
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="gs_view_cleaner"
+            app:title="@string/gs_view_cleaner_title"
+            app:summary="@string/gs_view_cleaner_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
