@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/HelpInfo_title"
         app:summary="@string/HelpInfo_summary"
         app:iconSpaceReserved="false">
 
-    </PreferenceCategory>
+
 
     <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$SafeCenterFragment"
         app:iconSpaceReserved="false"
@@ -35,14 +36,18 @@
     <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$SystemUiFragment"
         app:iconSpaceReserved="false"
         app:title="@string/systemui_header"
+        app:summary="@string/reboot_phone"
         app:key="systemui_header"/>
 
     <Preference app:fragment="com.oosl.colorostool.activity.SettingsActivity$AndroidFragment"
         app:iconSpaceReserved="false"
         app:title="@string/android_header"
+        app:summary="@string/reboot_phone"
         app:key="android_header"/>
 
-    <PreferenceCategory app:title="@string/costool_about"
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/costool_settings"
         app:iconSpaceReserved="false">
 
     <SwitchPreferenceCompat
@@ -50,6 +55,31 @@
         app:title="@string/hide_icon_title"
         app:defaultValue="false"
         app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/costool_about"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:key="author"
+            app:summary="@string/author_list"
+            app:title="@string/author"
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/github_url" />
+        </Preference>
+
+        <Preference
+            app:key="tg"
+            app:title="@string/tg_title"
+            app:summary="@string/tg_summary"
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/tg_group_url"/>
+        </Preference>
 
     </PreferenceCategory>
 </PreferenceScreen>
