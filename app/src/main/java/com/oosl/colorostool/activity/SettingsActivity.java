@@ -52,8 +52,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) finishAndRemoveTask();
-        if (keyCode == KeyEvent.KEYCODE_BACK) Log.d("COSTOOL", getFragmentManager().getFragments().toString());
+
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            PreferenceFragmentCompat current = (PreferenceFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.settings);
+            if (current != null && current instanceof CostoolSettingsFragment) finishAndRemoveTask();
+        }
         return super.onKeyDown(keyCode, event);
     }
 
