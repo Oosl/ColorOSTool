@@ -202,5 +202,6 @@ public class HookPackageInstaller extends HookBase{
         } catch (Exception e) {
             Log.error(tag, e);
         }
+        Log.d(tag,"Hook log success!");
     }
 }
