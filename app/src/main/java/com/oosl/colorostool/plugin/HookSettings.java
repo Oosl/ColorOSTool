@@ -171,13 +171,13 @@ public class HookSettings extends HookBase{
                 try {
 //                    clazz = cl.loadClass("com.oplus.settings.utils.am");
                     clazz = cl.loadClass("com.oplus.settings.utils.LogUtils");
+                    XposedHelpers.setStaticIntField(clazz,"a", 2);
+                    XposedHelpers.setStaticBooleanField(clazz, "b", true);
+                    Log.n(tag, "Enable Settings Log success!");
                 } catch (Exception e) {
                     Log.error(tag, e);
                     return;
                 }
-                XposedHelpers.setStaticIntField(clazz,"a", 2);
-                XposedHelpers.setStaticBooleanField(clazz, "b", true);
-                Log.n(tag, "Enable Settings Log success!");
             }
         });
     }
