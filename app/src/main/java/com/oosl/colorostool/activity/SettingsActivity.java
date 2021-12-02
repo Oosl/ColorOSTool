@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -88,6 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Keep
     public static class SafeCenterFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -96,6 +97,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Keep
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -104,6 +106,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Keep
     public static class AndroidFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -112,6 +115,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Keep
     public static class SystemUiFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -120,6 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Keep
     public static class LauncherFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -128,6 +133,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Keep
     public static class PackageInstallerFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -136,6 +142,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Keep
     public static class GameSpaceFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
