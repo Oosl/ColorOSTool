@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="gamespace"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/gamespace_header"
+        android:icon="@drawable/game_space">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.oplus.games"
+            android:targetClass="com.coloros.gamespaceui.activity.GameBoxCoverActivity"
+            />
+    </shortcut>
+</shortcuts>
