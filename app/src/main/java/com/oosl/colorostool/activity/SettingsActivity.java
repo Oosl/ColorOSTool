@@ -71,7 +71,10 @@ public class SettingsActivity extends AppCompatActivity {
         } catch (SecurityException exception) {
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.not_supported))
-                    .setPositiveButton(android.R.string.ok, (dialog12, which) -> exit())
+                    .setPositiveButton(android.R.string.ok, (dialog12, which) -> {
+                        finishAndRemoveTask();
+                        System.exit(0);
+                    })
                     .setNegativeButton(R.string.ignore, null)
                     .show();
         }
@@ -151,10 +154,5 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
-    }
-
-    private void exit(){
-        this.finishAndRemoveTask();
-        System.exit(0);
     }
 }
