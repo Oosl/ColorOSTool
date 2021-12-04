@@ -207,13 +207,13 @@ public class HookSettings extends HookBase{
     private void setAll120(Context context){
         setFrameRate(context,"min_fresh_rate","59.0");
         setFrameRate(context,"peak_refresh_rate","59.0");
-        Toast.makeText(context, "应用全局120成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "120Hz OK", Toast.LENGTH_SHORT).show();
     }
 
     private void setDefault60(Context context){
         setFrameRate(context,"min_fresh_rate","120.0");
         setFrameRate(context,"peak_refresh_rate","120.0");
-        Toast.makeText(context, "应用全局60成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "60Hz OK", Toast.LENGTH_SHORT).show();
     }
 
     private void setTo96(Context context){
@@ -221,7 +221,6 @@ public class HookSettings extends HookBase{
         setFrameRate(context,"peak_refresh_rate","96.0");
         //Toast.makeText(context, "还原96成功", Toast.LENGTH_SHORT).show();
     }
-
 
     private void setFrameRate(Context context,String rateSettingName, String value){
         ContentResolver contentResolver = context.getContentResolver();
@@ -231,7 +230,7 @@ public class HookSettings extends HookBase{
             contentValues.put("value", value);
             contentResolver.insert(Uri.parse("content://settings/system"), contentValues);
         } catch (Exception exception) {
-            Toast.makeText(context, "刷新率设置失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "set rate failed", Toast.LENGTH_SHORT).show();
             Log.error(tag, exception);
         }
     }
