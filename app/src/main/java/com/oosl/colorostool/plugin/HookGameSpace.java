@@ -33,8 +33,9 @@ public class HookGameSpace extends HookBase {
         Class<?> clazz;
 
         try {
-            clazz = lpparam.classLoader.loadClass("com.gamespace.ipc.COSAManager");
-            XposedHelpers.findAndHookMethod(clazz, "B3", Context.class, String.class, new XC_MethodHook() {
+            //tag:isSafe
+            clazz = lpparam.classLoader.loadClass("com.oplus.f.a");
+            XposedHelpers.findAndHookMethod(clazz, "h", Context.class, String.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
@@ -52,17 +53,19 @@ public class HookGameSpace extends HookBase {
         Class<?> clazz, clazz1;
 
         try {
-            clazz = loadPackageParam.classLoader.loadClass("com.coloros.gamespaceui.n.k.a$a");
+            // tag:常见问题
+            clazz = loadPackageParam.classLoader.loadClass("b.b.a.n.a$a");
             XposedHelpers.findAndHookMethod(clazz, "a", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     ArrayList arrayList = (ArrayList) param.getResult();
                     ArrayList arrayList1 = new ArrayList<>();
-                    arrayList1.add(0,arrayList.get(2));
+//                    arrayList1.add(0,arrayList.get(2));
                     param.setResult(arrayList1);
                 }
             });
+            // tag:"startAnimationIn"
             clazz1 = loadPackageParam.classLoader.loadClass("com.coloros.gamespaceui.module.floatwindow.view.GameOptimizedNewView");
             XposedHelpers.findAndHookMethod(clazz1, "c", new XC_MethodReplacement() {
                 @Override
@@ -81,7 +84,8 @@ public class HookGameSpace extends HookBase {
         super.hookLog(lpparam);
         Class<?> clazz;
         try{
-            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.s.a");
+            // tag:= "hlog"
+            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.u.a");
             XposedHelpers.setStaticBooleanField(clazz,"i",true);
             Log.d(tag,"Hook gamespace LogClass success!");
         } catch (Exception e){
