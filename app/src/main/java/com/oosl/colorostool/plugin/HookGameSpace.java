@@ -85,7 +85,8 @@ public class HookGameSpace extends HookBase {
         Class<?> clazz;
         try{
             // tag:= "hlog"
-            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.u.a");
+//            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.u.a");
+            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.v.a");
             XposedHelpers.setStaticBooleanField(clazz,"i",true);
             Log.d(tag,"Hook gamespace LogClass success!");
         } catch (Exception e){
