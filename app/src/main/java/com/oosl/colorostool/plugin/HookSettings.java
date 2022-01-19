@@ -41,6 +41,7 @@ public class HookSettings extends HookBase{
         Log.n(tag, "Hook Settings success!");
     }
 
+//    search (newPullParser.setInput(reader);) to locate follow code
     private void hookDarkMode() {
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
@@ -48,8 +49,9 @@ public class HookSettings extends HookBase{
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-//                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.a.b");
-                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.utils.DarkModeFileUtils");
+                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.a.b");
+//                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.utils.DarkModeFileUtils");
+                    Log.d(tag,AndroidAppHelper.currentApplicationInfo().toString());
                     XposedHelpers.findAndHookMethod(clazz, "a", Reader.class, new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -160,6 +162,7 @@ public class HookSettings extends HookBase{
         }
     }
 
+//    search ("LogUtils", "LogMsg: qeOff: ") to locate follow code
     @Override
     public void hookLog() {
         super.hookLog();
@@ -169,8 +172,9 @@ public class HookSettings extends HookBase{
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
+                    clazz = cl.loadClass("com.oplus.settings.utils.an");
 //                    clazz = cl.loadClass("com.oplus.settings.utils.am");
-                    clazz = cl.loadClass("com.oplus.settings.utils.LogUtils");
+//                    clazz = cl.loadClass("com.oplus.settings.utils.LogUtils");
                     XposedHelpers.setStaticIntField(clazz,"a", 2);
                     XposedHelpers.setStaticBooleanField(clazz, "b", true);
                     Log.n(tag, "Enable Settings Log success!");
