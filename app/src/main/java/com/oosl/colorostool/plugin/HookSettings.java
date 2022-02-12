@@ -51,7 +51,6 @@ public class HookSettings extends HookBase{
                 try {
                     clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.a.b");
 //                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.utils.DarkModeFileUtils");
-                    Log.d(tag,AndroidAppHelper.currentApplicationInfo().toString());
                     XposedHelpers.findAndHookMethod(clazz, "a", Reader.class, new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
