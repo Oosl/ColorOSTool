@@ -5,13 +5,13 @@
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->
-    <string name="safecenter_header">安全中心 12.100.0</string>
-    <string name="launcher_header">启动器 12.0.50</string>
-    <string name="packageinstaller_header">APK安装器 3.6.2438</string>
-    <string name="gamespace_header">游戏助手 6.11.2</string>
-    <string name="systemui_header">系统界面 12.10.00</string>
-    <string name="system_settings_header">设置 12.1.2</string>
-    <string name="android_header">系统框架 12</string>
+    <string name="safecenter_header">安全中心</string>
+    <string name="launcher_header">启动器</string>
+    <string name="packageinstaller_header">APK安装器</string>
+    <string name="gamespace_header">游戏助手</string>
+    <string name="systemui_header">系统界面</string>
+    <string name="system_settings_header">设置</string>
+    <string name="android_header">系统框架</string>
     <string name="costool_about">关于模块</string>
     <string name="costool_settings">模块设置</string>
 
