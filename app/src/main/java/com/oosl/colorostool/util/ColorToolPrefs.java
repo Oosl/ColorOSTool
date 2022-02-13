@@ -11,4 +11,9 @@ public final class ColorToolPrefs {
         //Log.d("prefs:", prefsName + ": " + prefs.getBoolean(prefsName, defaultValue));
         return prefs.getBoolean(prefsName, defaultValue);
     }
+
+    public static String getVersion(String packageName, String defaultValue){
+        //Log.d("prefs:", prefsName + ": " + prefs.getBoolean(packageName, defaultValue));
+        return prefs.getString(packageName, defaultValue);
+    }
 }
