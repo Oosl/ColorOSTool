@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oosl.colorostool">
 
+    <queries>
+        <package android:name="com.oplus.games"/>
+        <package android:name="com.coloros.gamespace"/>
+    </queries>
+
     <application
         android:allowBackup="false"
         android:label="@string/app_name"
