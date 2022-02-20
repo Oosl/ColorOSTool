@@ -61,6 +61,18 @@ public class HookPackageInstaller extends HookBase{
                     fieldName[1] = "o";
                     fieldName[2] = "aM";
                     break;
+                case "38477f0":
+                    funName[0] = "M";
+                    funName[1] = "r";
+                    funName[2] = "s";
+                    funName[3] = "D";
+                    funName[4] = "k";
+                    funName[5] = "U";
+                    funName[6] = "V";
+                    fieldName[0] = "W";
+                    fieldName[1] = "o";
+                    fieldName[2] = "aR";
+                    break;
                 case "75fe984":
                 case "532ffef":
                     funName[0] = "L";
@@ -76,10 +88,11 @@ public class HookPackageInstaller extends HookBase{
                     fieldName[2] = "aM";
                     break;
                 default:
-//                    search -> count_canceled_by_app_detail
+//                    search -> count_canceled_by_app_detail -3
                     funName[0] = "isStartAppDetail";
-//                    search -> 1500L
+//                    search -> 1500L -15
                     funName[1] = "startAccountVerification";
+//                    search -> 1500L +5
                     funName[2] = "continueAppInstall";
 //                    search -> "button_type", "install_old_version_button" -5
                     funName[3] = "checkToScanRisk";
@@ -91,8 +104,9 @@ public class HookPackageInstaller extends HookBase{
                     funName[6] = "checkGameSuggest";
 //                    search -> private InstallFlowAnalytics
                     fieldName[0] = "mInstallFlowAnalytics";
-
+//                    search ->  InstallFlowAnalytics line 196
                     fieldName[1] = "mLoginWindows";
+//                    search -> "oppo_market"
                     fieldName[2] = "mIsOPPOMarketExists";
             }
             clazz = lpparam.classLoader.loadClass(className);
@@ -156,7 +170,7 @@ public class HookPackageInstaller extends HookBase{
     }
 
     @SuppressLint("PrivateApi")
-//    searcch "1 : 0;"
+//    search ->  ? 1 : 0;
     private void removeWarn(XC_LoadPackage.LoadPackageParam lpparam){
         Class<?> clazz,clazz1;
         try {
@@ -165,6 +179,9 @@ public class HookPackageInstaller extends HookBase{
                 case "7bc7db7":
                 case "e1a2c58":
                     funName = "Q";
+                    break;
+                case "38477f0":
+                    funName = "R";
                     break;
                 case "75fe984":
                 case "532ffef":
@@ -191,6 +208,7 @@ public class HookPackageInstaller extends HookBase{
             switch (version){
                 case "7bc7db7":
                 case "e1a2c58":
+                case "38477f0":
                     className = "com.color.support.widget.OppoCheckBox";
                     break;
                 default:
@@ -225,6 +243,7 @@ public class HookPackageInstaller extends HookBase{
                 case "e1a2c58":
                 case "75fe984":
                 case "532ffef":
+                case "38477f0":
                     className[0] = "com.android.packageinstaller.oplus.common.j";
                     className[1] = "com.android.packageinstaller.DeleteStagedFileOnResult";
                     fieldName[0] = "f";
@@ -256,12 +275,13 @@ public class HookPackageInstaller extends HookBase{
         final RelativeLayout[] relativeLayout = new RelativeLayout[1];
         try {
             String[] className = new String[2];
+            className[0] = "com.android.packageinstaller.oplus.InstallAppProgress";
             String[] funName = new String[2];
             String[] fieldName = new String[4];
             switch (version) {
                 case "7bc7db7":
                 case "e1a2c58":
-                    className[0] = "com.android.packageinstaller.oplus.InstallAppProgress";
+                case "38477f0":
                     className[1] = "com.android.packageinstaller.oplus.b";
                     funName[0] = "a";
                     funName[1] = "handleMessage";
@@ -272,7 +292,6 @@ public class HookPackageInstaller extends HookBase{
                     break;
                 case "75fe984":
                 case "532ffef":
-                    className[0] = "com.android.packageinstaller.oplus.InstallAppProgress";
                     className[1] = "com.android.packageinstaller.oplus.b";
                     funName[0] = "a";
                     funName[1] = "handleMessage";
@@ -282,11 +301,15 @@ public class HookPackageInstaller extends HookBase{
                     fieldName[3] = "W";
                     break;
                 default:
-                    className[0] = "com.android.packageinstaller.oplus.InstallAppProgress";
                     className[1] = "com.android.packageinstaller.oplus.InstallAppProgress$1";
-//                  search -> onCreate
+//                  search -> "unexpected scheme " -3
                     funName[0] = "initView";
                     funName[1] = "handleMessage";
+//                    private LinearLayout mSuggestLayoutA;
+//                    ***************
+//                    private RelativeLayout mSuggestLayoutATitle;
+//                    private LinearLayout mSuggestLayoutB;
+//                    private LinearLayout
                     fieldName[0] = "mSuggestLayoutA";
                     fieldName[1] = "mSuggestLayoutB";
                     fieldName[2] = "mSuggestLayoutC";
@@ -322,7 +345,7 @@ public class HookPackageInstaller extends HookBase{
 
     @Override
     @SuppressLint("PrivateApi")
-//    search "OppoLog, isQELogOn ="
+//    search -> OppoLog, isQELogOn =
     public void hookLog(XC_LoadPackage.LoadPackageParam lpparam) {
         super.hookLog(lpparam);
         Class<?> clazz;
@@ -332,6 +355,7 @@ public class HookPackageInstaller extends HookBase{
             switch (version) {
                 case "7bc7db7":
                 case "e1a2c58":
+                case "38477f0":
                     className[0] = "com.android.packageinstaller.oplus.common.k";
                     fieldName[0] = "d";
                     break;
