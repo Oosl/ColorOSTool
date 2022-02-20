@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
@@ -188,7 +189,9 @@ public class SettingsActivity extends AppCompatActivity {
             sharePrefsEditor.putString("safeCenterR", safeCenter11Version);
             sharePrefsEditor.putString("gameSpaceR", gameSpace11Version);
             sharePrefsEditor.apply();
+            Toast.makeText(getApplicationContext(), "Init Completed!", Toast.LENGTH_SHORT).show();
         }catch (Exception exception){
+            Toast.makeText(getApplicationContext(), "Init Failed!", Toast.LENGTH_LONG).show();
             android.util.Log.e(tag,"saveVersion ERROR", exception);
         }
     }
