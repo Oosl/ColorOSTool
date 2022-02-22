@@ -9,8 +9,8 @@ android {
         applicationId "com.oosl.colorostool"
         minSdk 30
         targetSdk 31
-        versionCode 24
-        versionName "1.8.13"
+        versionCode 25
+        versionName "1.9"
     }
 
     buildTypes {

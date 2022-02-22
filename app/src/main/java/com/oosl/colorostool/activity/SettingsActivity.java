@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     public Context mContext = null;
+    private String tag = "COSTOOL_ACT";
     private final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = (sharedPreferences, key) -> {
         if ("hide_icon".equals(key)) {
             ComponentName aliasName = ComponentName.unflattenFromString("com.oosl.colorostool/com.oosl.colorostool.activity.SettingsActivityAlias");
@@ -48,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
                     .commit();
         }
         mContext = getApplicationContext();
+        saveAllVersion();
     }
 
     @Override
@@ -162,4 +165,46 @@ public class SettingsActivity extends AppCompatActivity {
         super.onPause();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
+
+    protected void saveAllVersion(){
+        try {
+            String settingsVersion = getVersion("com.android.settings");
+            String systemuiVersion = getVersion("com.android.systemui");
+            String packageInstallerVersion = getVersion("com.android.packageinstaller");
+            String launcher12Version = getVersion("com.android.launcher");
+            String safeCenter12Version = getVersion("com.oplus.safecenter");
+            String gameSpace12Version = getVersion("com.oplus.games");
+            String gameSpace11Version = getVersion("com.coloros.gamespace");
+            String launcher11Version = getVersion("com.oppo.launcher");
+            String safeCenter11Version = getVersion("com.coloros.safecenter");
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences("ColorToolPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor sharePrefsEditor = sharedPreferences.edit();
+            sharePrefsEditor.putString("settings", settingsVersion);
+            sharePrefsEditor.putString("systemui", systemuiVersion);
+            sharePrefsEditor.putString("packageInstaller", packageInstallerVersion);
+            sharePrefsEditor.putString("launcherS", launcher12Version);
+            sharePrefsEditor.putString("safeCenterS", safeCenter12Version);
+            sharePrefsEditor.putString("gameSpaceS", gameSpace12Version);
+            sharePrefsEditor.putString("launcherR", launcher11Version);
+            sharePrefsEditor.putString("safeCenterR", safeCenter11Version);
+            sharePrefsEditor.putString("gameSpaceR", gameSpace11Version);
+            sharePrefsEditor.apply();
+            Toast.makeText(getApplicationContext(), "Init Completed!", Toast.LENGTH_SHORT).show();
+        }catch (Exception exception){
+            Toast.makeText(getApplicationContext(), "Init Failed!", Toast.LENGTH_LONG).show();
+            android.util.Log.e(tag,"saveVersion ERROR", exception);
+        }
+    }
+
+    protected String getVersion(String packageName){
+        try {
+            PackageManager packageManager = mContext.getPackageManager();
+            return packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData.getString("versionCommit");
+        }catch (Exception exception){
+            android.util.Log.e(tag,"getVersion ERROR", exception);
+            return "Error";
+        }
+    }
+
+
 }

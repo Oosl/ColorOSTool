@@ -18,8 +18,10 @@ public class XposedInit implements IXposedHookLoadPackage {
 
         switch (lpparam.packageName) {
             case "com.oplus.safecenter":
+            case "com.coloros.safecenter":
                 new HookSafeCenter().hook();
                 break;
+            case "com.oppo.launcher":
             case "com.android.launcher":
                 new HookOppoLauncher().hook();
                 break;
@@ -27,6 +29,7 @@ public class XposedInit implements IXposedHookLoadPackage {
                 new HookPackageInstaller().hook(lpparam);
                 break;
             case "com.oplus.games":
+            case "com.coloros.gamespace":
                 new HookGameSpace().hook(lpparam);
                 break;
             case "com.android.systemui":

@@ -19,9 +19,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class HookPackageInstaller extends HookBase{
 
     private static final String tag = "PackageInstaller";
+    private String version = "Null";
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        version = ColorToolPrefs.getVersion("packageInstaller", "Error");
         super.hook(lpparam);
         if (ColorToolPrefs.getPrefs("safe_installer", true)) {
             removeVerify(lpparam);
@@ -35,17 +37,82 @@ public class HookPackageInstaller extends HookBase{
         if (ColorToolPrefs.getPrefs("installer_ads", true)) {
             makeClear(lpparam);
         }
-        Log.d(tag, "Hook packageinstaller success!");
+        Log.d(tag, "Hook packageinstaller-"+ version + " success!");
     }
 
     @SuppressLint("PrivateApi")
     private void removeVerify(XC_LoadPackage.LoadPackageParam lpparam){
         Class<?> clazz;
         try {
-            clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
+            String className = "com.android.packageinstaller.oplus.OPlusPackageInstallerActivity";
+            String[] funName = new String[7];
+            String[] fieldName = new String[3];
+            switch (version){
+                case "7bc7db7":
+                case "e1a2c58":
+                    funName[0] = "L";
+                    funName[1] = "r";
+                    funName[2] = "s";
+                    funName[3] = "C";
+                    funName[4] = "k";
+                    funName[5] = "T";
+                    funName[6] = "U";
+                    fieldName[0] = "R";
+                    fieldName[1] = "o";
+                    fieldName[2] = "aM";
+                    break;
+                case "38477f0":
+                    funName[0] = "M";
+                    funName[1] = "r";
+                    funName[2] = "s";
+                    funName[3] = "D";
+                    funName[4] = "k";
+                    funName[5] = "U";
+                    funName[6] = "V";
+                    fieldName[0] = "W";
+                    fieldName[1] = "o";
+                    fieldName[2] = "aR";
+                    break;
+                case "75fe984":
+                case "532ffef":
+                    funName[0] = "L";
+                    funName[1] = "NULL";
+//                    search -> p()
+                    funName[2] = "p";
+                    funName[3] = "D";
+                    funName[4] = "i";
+                    funName[5] = "R";
+                    funName[6] = "S";
+                    fieldName[0] = "Q";
+                    fieldName[1] = "o";
+                    fieldName[2] = "aM";
+                    break;
+                default:
+//                    search -> count_canceled_by_app_detail -3
+                    funName[0] = "isStartAppDetail";
+//                    search -> 1500L -15
+                    funName[1] = "startAccountVerification";
+//                    search -> 1500L +5
+                    funName[2] = "continueAppInstall";
+//                    search -> "button_type", "install_old_version_button" -5
+                    funName[3] = "checkToScanRisk";
+//                    search -> "button_type", "install_old_version_button" -11
+                    funName[4] = "initiateInstall";
+//                    search -> "PackageInstaller", "startAppdetail: " -7
+                    funName[5] = "checkAppSuggest";
+//                    search -> "PackageInstaller", "don't recommend : -2
+                    funName[6] = "checkGameSuggest";
+//                    search -> private InstallFlowAnalytics
+                    fieldName[0] = "mInstallFlowAnalytics";
+//                    search ->  InstallFlowAnalytics line 196
+                    fieldName[1] = "mLoginWindows";
+//                    search -> "oppo_market"
+                    fieldName[2] = "mIsOPPOMarketExists";
+            }
+            clazz = lpparam.classLoader.loadClass(className);
 
             // Skip install guide
-            XposedHelpers.findAndHookMethod(clazz, "isStartAppDetail", new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod(clazz, funName[0], new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
@@ -54,34 +121,36 @@ public class HookPackageInstaller extends HookBase{
             });
 
             // account verify
-            XposedHelpers.findAndHookMethod(clazz, "startAccountVerification", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                    XposedHelpers.setObjectField(XposedHelpers.getObjectField(param.thisObject, "mInstallFlowAnalytics"),"mLoginWindows","0");
-                    XposedHelpers.callMethod(param.thisObject, "continueAppInstall");
-                    Log.d(tag, "replace startAccountVerification() OK!!");
-                    return null;
-                }
-            });
+            if (!funName[1].equals("NULL")) {
+                XposedHelpers.findAndHookMethod(clazz, funName[1], new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                        XposedHelpers.setObjectField(XposedHelpers.getObjectField(param.thisObject, fieldName[0]), fieldName[1], "0");
+                        XposedHelpers.callMethod(param.thisObject, funName[2]);
+                        Log.d(tag, "replace startAccountVerification() OK!!");
+                        return null;
+                    }
+                });
+            }
 
             //apk scan
-            XposedHelpers.findAndHookMethod(clazz, "checkToScanRisk", new XC_MethodReplacement() {
+            XposedHelpers.findAndHookMethod(clazz, funName[3], new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                    XposedHelpers.callMethod(param.thisObject,"initiateInstall");
+                    XposedHelpers.callMethod(param.thisObject, funName[4]);
                     Log.d(tag,"replace checkToScanRisk OK!!");
                     return null;
                 }
             });
 
-            XposedHelpers.findAndHookMethod(clazz, "checkAppSuggest", new XC_MethodReplacement() {
+            XposedHelpers.findAndHookMethod(clazz, funName[5], new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     return null;
                 }
             });
 
-            XposedHelpers.findAndHookMethod(clazz, "checkGameSuggest", new XC_MethodReplacement() {
+            XposedHelpers.findAndHookMethod(clazz, funName[6], new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     return null;
@@ -92,7 +161,7 @@ public class HookPackageInstaller extends HookBase{
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    XposedHelpers.setBooleanField(param.thisObject,"mIsOPPOMarketExists", false);
+                    XposedHelpers.setBooleanField(param.thisObject,fieldName[2], false);
                 }
             });
         }catch (Exception e){
@@ -101,11 +170,28 @@ public class HookPackageInstaller extends HookBase{
     }
 
     @SuppressLint("PrivateApi")
+//    search ->  ? 1 : 0;
     private void removeWarn(XC_LoadPackage.LoadPackageParam lpparam){
         Class<?> clazz,clazz1;
         try {
-            clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.OPlusPackageInstallerActivity");
-            XposedHelpers.findAndHookMethod(clazz, "isReplaceInstall", new XC_MethodReplacement() {
+            String className = "com.android.packageinstaller.oplus.OPlusPackageInstallerActivity", funName = "";
+            switch (version) {
+                case "7bc7db7":
+                case "e1a2c58":
+                    funName = "Q";
+                    break;
+                case "38477f0":
+                    funName = "R";
+                    break;
+                case "75fe984":
+                case "532ffef":
+                    funName = "P";
+                    break;
+                default:
+                    funName = "isReplaceInstall";
+            }
+            clazz = lpparam.classLoader.loadClass(className);
+            XposedHelpers.findAndHookMethod(clazz, funName, new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     return false;
@@ -115,10 +201,21 @@ public class HookPackageInstaller extends HookBase{
             Log.error(tag, e);
         }
 
-        // uncheck app_suggest_option as default
+//      uncheck app_suggest_option as default
+//      search -> CompoundButton.SavedState{
         try {
-            clazz1 = lpparam.classLoader.loadClass("com.coui.appcompat.widget.COUICheckBox");
-            XposedHelpers.findAndHookMethod(clazz1, "setState", int.class, new XC_MethodHook() {
+            String className = "", funName = "setState";
+            switch (version){
+                case "7bc7db7":
+                case "e1a2c58":
+                case "38477f0":
+                    className = "com.color.support.widget.OppoCheckBox";
+                    break;
+                default:
+                    className = "com.coui.appcompat.widget.COUICheckBox";
+            }
+            clazz1 = lpparam.classLoader.loadClass(className);
+            XposedHelpers.findAndHookMethod(clazz1, funName, int.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
@@ -130,20 +227,39 @@ public class HookPackageInstaller extends HookBase{
         }catch (Exception e){
             Log.error(tag, e);
         }
+
     }
 
     // 使用原生安装器而非OPPO自己写的
+//    search -> DeleteStagedFileOnResult
     @SuppressLint("PrivateApi")
     private void replaceInstaller(XC_LoadPackage.LoadPackageParam lpparam){
-        Class<?> clazz;
+        Class<?> clazz, clazz1;
         try {
-            clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.FeatureOption");
-            Log.d(tag,"sIsClosedSuperFirewall is " + XposedHelpers.getStaticBooleanField(clazz, "sIsClosedSuperFirewall"));
-            XposedHelpers.findAndHookMethod(clazz, "setIsClosedSuperFirewall", Context.class, new XC_MethodHook() {
+            String[] className = new String[2];
+            String[] fieldName = new String[1];
+            switch (version) {
+                case "7bc7db7":
+                case "e1a2c58":
+                case "75fe984":
+                case "532ffef":
+                case "38477f0":
+                    className[0] = "com.android.packageinstaller.oplus.common.j";
+                    className[1] = "com.android.packageinstaller.DeleteStagedFileOnResult";
+                    fieldName[0] = "f";
+                    break;
+                default:
+                    className[0] = "com.android.packageinstaller.oplus.common.FeatureOption";
+                    className[1] = "com.android.packageinstaller.DeleteStagedFileOnResult";
+                    fieldName[0] = "sIsClosedSuperFirewall";
+            }
+            clazz = lpparam.classLoader.loadClass(className[0]);
+            clazz1 = lpparam.classLoader.loadClass(className[1]);
+            XposedHelpers.findAndHookMethod(clazz1, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    XposedHelpers.setStaticBooleanField(clazz, "sIsClosedSuperFirewall", true);
-                    //ColorOSToolLog(tag,"after sIsClosedSuperFirewall is " + XposedHelpers.getStaticBooleanField(clazz, "sIsClosedSuperFirewall"));
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    XposedHelpers.setStaticBooleanField(clazz, fieldName[0], true);
                 }
             });
         }catch (Exception e){
@@ -158,25 +274,61 @@ public class HookPackageInstaller extends HookBase{
         final LinearLayout[] installDoneSuggestLayout = new LinearLayout[3];
         final RelativeLayout[] relativeLayout = new RelativeLayout[1];
         try {
-            clazz0 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.InstallAppProgress");
-            clazz1 = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.InstallAppProgress$1");
-        } catch (Exception e) {
-            Log.error(tag, e);
-        }
-
-        try {
-            XposedHelpers.findAndHookMethod(clazz0, "initView", new XC_MethodHook() {
+            String[] className = new String[2];
+            className[0] = "com.android.packageinstaller.oplus.InstallAppProgress";
+            String[] funName = new String[2];
+            String[] fieldName = new String[4];
+            switch (version) {
+                case "7bc7db7":
+                case "e1a2c58":
+                case "38477f0":
+                    className[1] = "com.android.packageinstaller.oplus.b";
+                    funName[0] = "a";
+                    funName[1] = "handleMessage";
+                    fieldName[0] = "S";
+                    fieldName[1] = "U";
+                    fieldName[2] = "V";
+                    fieldName[3] = "T";
+                    break;
+                case "75fe984":
+                case "532ffef":
+                    className[1] = "com.android.packageinstaller.oplus.b";
+                    funName[0] = "a";
+                    funName[1] = "handleMessage";
+                    fieldName[0] = "V";
+                    fieldName[1] = "X";
+                    fieldName[2] = "Y";
+                    fieldName[3] = "W";
+                    break;
+                default:
+                    className[1] = "com.android.packageinstaller.oplus.InstallAppProgress$1";
+//                  search -> "unexpected scheme " -3
+                    funName[0] = "initView";
+                    funName[1] = "handleMessage";
+//                    private LinearLayout mSuggestLayoutA;
+//                    ***************
+//                    private RelativeLayout mSuggestLayoutATitle;
+//                    private LinearLayout mSuggestLayoutB;
+//                    private LinearLayout
+                    fieldName[0] = "mSuggestLayoutA";
+                    fieldName[1] = "mSuggestLayoutB";
+                    fieldName[2] = "mSuggestLayoutC";
+                    fieldName[3] = "mSuggestLayoutATitle";
+            }
+            clazz0 = lpparam.classLoader.loadClass(className[0]);
+            clazz1 = lpparam.classLoader.loadClass(className[1]);
+            XposedHelpers.findAndHookMethod(clazz0, funName[0], new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    installDoneSuggestLayout[0] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutA");
-                    installDoneSuggestLayout[1] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutB");
-                    installDoneSuggestLayout[2] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutC");
-                    relativeLayout[0] = (RelativeLayout) XposedHelpers.getObjectField(param.thisObject, "mSuggestLayoutATitle");
+                    installDoneSuggestLayout[0] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, fieldName[0]);
+                    installDoneSuggestLayout[1] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, fieldName[1]);
+                    installDoneSuggestLayout[2] = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, fieldName[2]);
+                    relativeLayout[0] = (RelativeLayout) XposedHelpers.getObjectField(param.thisObject, fieldName[3]);
                 }
             });
 
-            XposedHelpers.findAndHookMethod(clazz1, "handleMessage", Message.class, new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod(clazz1, funName[1], Message.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     installDoneSuggestLayout[0].setVisibility(View.GONE);
@@ -193,12 +345,31 @@ public class HookPackageInstaller extends HookBase{
 
     @Override
     @SuppressLint("PrivateApi")
+//    search -> OppoLog, isQELogOn =
     public void hookLog(XC_LoadPackage.LoadPackageParam lpparam) {
         super.hookLog(lpparam);
         Class<?> clazz;
         try {
-            clazz = lpparam.classLoader.loadClass("com.android.packageinstaller.oplus.common.OppoLog");
-            XposedHelpers.setStaticBooleanField(clazz, "DEVELOP_MODE", true);
+            String[] className = new String[1];
+            String[] fieldName = new String[1];
+            switch (version) {
+                case "7bc7db7":
+                case "e1a2c58":
+                case "38477f0":
+                    className[0] = "com.android.packageinstaller.oplus.common.k";
+                    fieldName[0] = "d";
+                    break;
+                case "75fe984":
+                case "532ffef":
+                    className[0] = "com.android.packageinstaller.oplus.common.k";
+                    fieldName[0] = "f2658d";
+                    break;
+                default:
+                    className[0] = "com.android.packageinstaller.oplus.common.OppoLog";
+                    fieldName[0] = "DEVELOP_MODE";
+            }
+            clazz = lpparam.classLoader.loadClass(className[0]);
+            XposedHelpers.setStaticBooleanField(clazz, fieldName[0], true);
         } catch (Exception e) {
             Log.error(tag, e);
         }

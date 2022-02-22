@@ -31,17 +31,20 @@ import de.robv.android.xposed.XposedHelpers;
 public class HookSettings extends HookBase{
 
     private final String tag = "Settings";
+    private String version = "Null";
 
     @Override
     public void hook() {
         super.hook();
+        version = ColorToolPrefs.getVersion("settings", "Error");
+        Log.d(tag,"Version is " + version);
         if (ColorToolPrefs.getPrefs("more_dark_mode", false)) hookDarkMode();
         else darkListBackup("restore");
         if (ColorToolPrefs.getPrefs("all_120hz", false)) enableAll120hz();
         Log.n(tag, "Hook Settings success!");
     }
 
-//    search (newPullParser.setInput(reader);) to locate follow code
+//    search -> newPullParser.setInput(reader);
     private void hookDarkMode() {
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
@@ -49,10 +52,25 @@ public class HookSettings extends HookBase{
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.a.b");
+                    String className = "";
+                    String funName = "";
+                    switch (version){
+                        case "2f580de":
+                            className = "ic.b";
+                            funName = "k";
+                            break;
+                        case "3e74f9f":
+                            className = "jc.b";
+                            funName = "k";
+                            break;
+                        case "8cf83fb":
+                        default:
+                            className = "com.oplus.settings.feature.display.darkmode.a.b";
+                            funName = "a";
+                    }
+                    clazz = cl.loadClass(className);
 //                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.utils.DarkModeFileUtils");
-                    Log.d(tag,AndroidAppHelper.currentApplicationInfo().toString());
-                    XposedHelpers.findAndHookMethod(clazz, "a", Reader.class, new XC_MethodHook() {
+                    XposedHelpers.findAndHookMethod(clazz, funName, Reader.class, new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             super.beforeHookedMethod(param);
@@ -171,12 +189,36 @@ public class HookSettings extends HookBase{
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
+                String[] className = new String[1];
+                String[] fieldName = new String[2];
+                switch (version){
+                    case "2f580de":
+                        className[0] = "ic.b";
+                        fieldName[0] = "k";
+                        fieldName[1] = "k";
+                        break;
+                    case "3e74f9f":
+                        className[0] = "kf.o0";
+                        fieldName[0] = "f17723a";
+                        fieldName[1] = "f17723b";
+                        break;
+                    case "0c1bf83":
+                        className[0] = "com.oplus.settings.utils.ak";
+                        fieldName[0] = "a";
+                        fieldName[1] = "b";
+                        break;
+                    case "8cf83fb":
+                    default:
+                        className[0] = "com.oplus.settings.utils.an";
+                        fieldName[0] = "a";
+                        fieldName[1] = "b";
+                }
                 try {
-                    clazz = cl.loadClass("com.oplus.settings.utils.an");
+                    clazz = cl.loadClass(className[0]);
 //                    clazz = cl.loadClass("com.oplus.settings.utils.am");
 //                    clazz = cl.loadClass("com.oplus.settings.utils.LogUtils");
-                    XposedHelpers.setStaticIntField(clazz,"a", 2);
-                    XposedHelpers.setStaticBooleanField(clazz, "b", true);
+                    XposedHelpers.setStaticIntField(clazz,fieldName[0], 2);
+                    XposedHelpers.setStaticBooleanField(clazz, fieldName[1], true);
                     Log.n(tag, "Enable Settings Log success!");
                 } catch (Exception e) {
                     Log.error(tag, e);
@@ -186,13 +228,26 @@ public class HookSettings extends HookBase{
         });
     }
 
+//    class: ScreenRefreshRateFragment funName: "== 1"
     private void enableAll120hz(){
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 try {
-                    XposedHelpers.findAndHookMethod("com.oplus.settings.feature.display.ScreenRefreshRateFragment", cl, "e", int.class, new XC_MethodHook() {
+                    String className = "com.oplus.settings.feature.display.ScreenRefreshRateFragment";
+                    String funName = "";
+                    switch (version){
+                        case "2f580de":
+                            funName = "r1";
+                            break;
+                        case "3e74f9f":
+                            funName = "q1";
+                            break;
+                        default:
+                            funName = "e";
+                    }
+                        XposedHelpers.findAndHookMethod(className, cl, funName, int.class, new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             super.afterHookedMethod(param);
