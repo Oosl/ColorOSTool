@@ -6,13 +6,13 @@
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->
-    <string name="safecenter_header">安全中心 12.100.0</string>
-    <string name="launcher_header">啟動器 12.0.50</string>
-    <string name="packageinstaller_header">APK安裝器 3.6.2438</string>
-    <string name="gamespace_header">遊戲助手 6.11.2</string>
-    <string name="systemui_header">系統界面 12.10.00</string>
-    <string name="system_settings_header">設置 12.1.2</string>
-    <string name="android_header">系統框架 12</string>
+    <string name="safecenter_header">安全中心</string>
+    <string name="launcher_header">啟動器</string>
+    <string name="packageinstaller_header">APK安裝器</string>
+    <string name="gamespace_header">遊戲助手</string>
+    <string name="systemui_header">系統界面</string>
+    <string name="system_settings_header">設置</string>
+    <string name="android_header">系統框架</string>
     <string name="costool_about">關於模塊</string>
     <string name="costool_settings">模塊設置</string>
 
@@ -23,7 +23,7 @@
     <!-- launcher Preferences -->
     <string name="app_lock_title">後台鎖定</string>
     <string name="app_lock_summary">解除（多任務列表）僅能鎖定5個後台應用的限制</string>
-    <string name="launcher_layout_title">桌面佈局拓展</string>
+    <string name="launcher_layout_title">桌面佈局拓展（僅 COS12）</string>
     <string name="launcher_layout_summary">解鎖更多桌面佈局選項(3x5 ~ 6x7)</string>
 
     <!-- packageinstaller Preferences -->
@@ -49,7 +49,7 @@
     <!-- systemui Preferences -->
     <string name="lock_red_one_title">小時紅1</string>
     <string name="lock_red_one_summary">去除鎖屏界面中小時的紅色1</string>
-    <string name="charging_ripple_title">原生充電動畫</string>
+    <string name="charging_ripple_title">原生充電動畫（仅 COS12）</string>
     <string name="charging_ripple_summary">充電器插入時，啟用安卓12原生動畫</string>
 
     <!-- Not Active Module Warning -->
@@ -60,7 +60,7 @@
     <string name="more_dark_mode_title">三方應用暗色</string>
     <string name="more_dark_mode_summary">添加用戶安裝的所有APP到三方應用暗色列表中</string>
     <string name="all_120hz_title">全局120Hz</string>
-    <string name="all_120hz_summary">開啟後打開一次「設置-显示与亮度-屏幕刷新率”即可</string>
+    <string name="all_120hz_summary">開啟後打開一次“設置-显示与亮度-屏幕刷新率”即可</string>
 
     <!-- android Preferences -->
     <string name="usb_install_title">禁用usb安裝確認</string>
