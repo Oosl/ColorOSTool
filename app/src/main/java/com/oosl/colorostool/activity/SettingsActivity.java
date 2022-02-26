@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -171,23 +172,22 @@ public class SettingsActivity extends AppCompatActivity {
             String settingsVersion = getVersion("com.android.settings");
             String systemuiVersion = getVersion("com.android.systemui");
             String packageInstallerVersion = getVersion("com.android.packageinstaller");
-            String launcher12Version = getVersion("com.android.launcher");
-            String safeCenter12Version = getVersion("com.oplus.safecenter");
-            String gameSpace12Version = getVersion("com.oplus.games");
-            String gameSpace11Version = getVersion("com.coloros.gamespace");
-            String launcher11Version = getVersion("com.oppo.launcher");
-            String safeCenter11Version = getVersion("com.coloros.safecenter");
+            String launcherVersion = getVersion("com.oppo.launcher");
+            String safeCenterVersion = getVersion("com.coloros.safecenter");
+            String gameSpaceVersion = getVersion("com.coloros.gamespace");
+            if (Build.VERSION.SDK_INT == 31) {
+                launcherVersion = getVersion("com.android.launcher");
+                safeCenterVersion = getVersion("com.oplus.safecenter");
+                gameSpaceVersion = getVersion("com.oplus.games");
+            }
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("ColorToolPrefs", MODE_PRIVATE);
             SharedPreferences.Editor sharePrefsEditor = sharedPreferences.edit();
             sharePrefsEditor.putString("settings", settingsVersion);
             sharePrefsEditor.putString("systemui", systemuiVersion);
             sharePrefsEditor.putString("packageInstaller", packageInstallerVersion);
-            sharePrefsEditor.putString("launcherS", launcher12Version);
-            sharePrefsEditor.putString("safeCenterS", safeCenter12Version);
-            sharePrefsEditor.putString("gameSpaceS", gameSpace12Version);
-            sharePrefsEditor.putString("launcherR", launcher11Version);
-            sharePrefsEditor.putString("safeCenterR", safeCenter11Version);
-            sharePrefsEditor.putString("gameSpaceR", gameSpace11Version);
+            sharePrefsEditor.putString("launcher", launcherVersion);
+            sharePrefsEditor.putString("safeCenter", safeCenterVersion);
+            sharePrefsEditor.putString("gameSpace", gameSpaceVersion);
             sharePrefsEditor.apply();
             Toast.makeText(getApplicationContext(), "Init Completed!", Toast.LENGTH_SHORT).show();
         }catch (Exception exception){
