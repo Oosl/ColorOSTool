@@ -38,18 +38,53 @@ public class HookGameSpace extends HookBase {
 
     private void hookRootChecker(final XC_LoadPackage.LoadPackageParam lpparam){
         Class<?> clazz;
+        String[] className = new String[1];
+        String[] funName = new String[1];
+        String flag = "";
 
         try {
-            //tag:isSafe
-            clazz = lpparam.classLoader.loadClass("com.oplus.f.a");
-            XposedHelpers.findAndHookMethod(clazz, "h", Context.class, String.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    Bundle bundle = (Bundle) param.getResult();
-                    bundle.putInt("isSafe", 0);
-                }
-            });
+//            search ->
+//            "dynamic_feature_cool_ex");
+//            ("isSafe")) : null;
+            switch (version){
+                case "6d29cc7":
+                    className[0] = "com.coloros.gamespaceui.g.b";
+                    funName[0] = "d";
+                    flag = "onlyString";
+                    break;
+                case "5e17a18":
+                    className[0] = "com.coloros.gamespaceui.h.d";
+                    funName[0] = "c";
+                    break;
+                case "79df39a":
+                    className[0] = "com.coloros.gamespace.cosa.a";
+                    funName[0] = "a";
+                    flag = "onlyString";
+                    break;
+                default:
+                    className[0] = "com.oplus.f.a";
+                    funName[0] = "h";
+            }
+            clazz = lpparam.classLoader.loadClass(className[0]);
+            if (flag.equals("onlyString")){
+                XposedHelpers.findAndHookMethod(clazz, funName[0], String.class, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        Bundle bundle = (Bundle) param.getResult();
+                        bundle.putInt("isSafe", 0);
+                    }
+                });
+            }else{
+                XposedHelpers.findAndHookMethod(clazz, funName[0], Context.class, String.class, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        Bundle bundle = (Bundle) param.getResult();
+                        bundle.putInt("isSafe", 0);
+                    }
+                });
+            }
             Log.d(tag,"Hook gamespace.root.checker success!");
         }catch (Exception e){
             Log.error(tag,e);
@@ -60,21 +95,32 @@ public class HookGameSpace extends HookBase {
         Class<?> clazz, clazz1;
 
         try {
+            String[] className = new String[2];
+            String[] funName = new String[2];
+//          search -> "GameSpaceUI", "OppoLog, sIsQELogOn = "
+            switch (version){
+                default:
+                    className[0] = "b.b.a.n.a$a";
+//                    search -> "GameOptimizedNewView", "startAnimationIn"
+                    className[1] = "com.coloros.gamespaceui.module.floatwindow.view.GameOptimizedNewView";
+                    funName[0] = "a";
+//                    search -> "GameOptimizedNewView", "startAnimationIn"
+                    funName[1] = "c";
+            }
             // tag:常见问题
-            clazz = loadPackageParam.classLoader.loadClass("b.b.a.n.a$a");
-            XposedHelpers.findAndHookMethod(clazz, "a", new XC_MethodHook() {
+            clazz = loadPackageParam.classLoader.loadClass(className[0]);
+            XposedHelpers.findAndHookMethod(clazz, funName[0], new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     ArrayList arrayList = (ArrayList) param.getResult();
                     ArrayList arrayList1 = new ArrayList<>();
-//                    arrayList1.add(0,arrayList.get(2));
                     param.setResult(arrayList1);
                 }
             });
             // tag:"startAnimationIn"
-            clazz1 = loadPackageParam.classLoader.loadClass("com.coloros.gamespaceui.module.floatwindow.view.GameOptimizedNewView");
-            XposedHelpers.findAndHookMethod(clazz1, "c", new XC_MethodReplacement() {
+            clazz1 = loadPackageParam.classLoader.loadClass(className[1]);
+            XposedHelpers.findAndHookMethod(clazz1, funName[1], new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     return null;
@@ -91,10 +137,21 @@ public class HookGameSpace extends HookBase {
         super.hookLog(lpparam);
         Class<?> clazz;
         try{
-            // tag:= "hlog"
-//            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.u.a");
-            clazz = lpparam.classLoader.loadClass("com.coloros.gamespaceui.v.a");
-            XposedHelpers.setStaticBooleanField(clazz,"i",true);
+            String[] className = new String[1];
+            String[] fieldName = new String[1];
+//          search -> "GameSpaceUI", "OppoLog, sIsQELogOn = "
+            switch (version){
+                case "6d29cc7":
+                    className[0] = "com.coloros.gamespaceui.i.a";
+                    fieldName[0] = "e";
+                    break;
+                default:
+                    className[0] = "com.coloros.gamespaceui.v.a";
+                    fieldName[0] = "i";
+            }
+
+            clazz = lpparam.classLoader.loadClass(className[0]);
+            XposedHelpers.setStaticBooleanField(clazz,fieldName[0],true);
             Log.d(tag,"Hook gamespace LogClass success!");
         } catch (Exception e){
             Log.error(tag,e);
