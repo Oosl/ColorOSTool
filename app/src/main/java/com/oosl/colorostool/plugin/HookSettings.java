@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.widget.Toast;
 
 import com.oosl.colorostool.util.ColorToolPrefs;
@@ -89,7 +90,9 @@ public class HookSettings extends HookBase{
     }
 
     private File getDarkModelist(){
-        File darkModeList = new File( "/data/oplus/os/darkmode/sys_dark_mode_third_app_managed.xml");
+        String filePath = "/data/oplus/os/darkmode/sys_dark_mode_third_app_managed.xml";
+        if (Build.VERSION.SDK_INT == 30) filePath = "/data/oppo/coloros/darkmode/sys_dark_mode_third_app_managed.xml";
+        File darkModeList = new File(filePath);
         darkListBackup("backup");
         try {
             updateDarkModeList(darkModeList);
