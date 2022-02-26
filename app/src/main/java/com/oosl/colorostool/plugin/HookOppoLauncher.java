@@ -42,6 +42,8 @@ public class HookOppoLauncher extends HookBase{
                 String[] className = new String[1];
                 String[] fieldName = new String[1];
                 switch (version){
+//                    search -> mLockAppLimit
+                    case "1d06ce2":
                     case "33b2b9a":
                         className[0] ="com.coloros.quickstep.applock.ColorLockManager";
                         fieldName[0] = "mLockAppLimit";
@@ -114,6 +116,8 @@ public class HookOppoLauncher extends HookBase{
                         className[0] = "com.oplus.quickstep.utils.LogUtils";
                         funName[0] = "updateState";
                         fieldName[0] = "sDebug";
+                        break;
+                    case "1d06ce2":
                     case "33b2b9a":
                         className[0] ="com.coloros.quickstep.utils.LogUtils";
                         funName[0] = "updateState";
