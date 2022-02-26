@@ -67,7 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
     @SuppressLint("WorldReadableFiles")
     private void checkEdXposed() {
         try {
-            // getSharedPreferences will hooked by LSPosed and change xml file path to /data/misc/lsp**
+            // getSharedPreferences will hooked by LSPosed and change xml file path to /data/misc/[random code]
             // will not throw SecurityException
             // noinspection deprecation
             // From CorePatch https://github.com/coderstory/CorePatch
