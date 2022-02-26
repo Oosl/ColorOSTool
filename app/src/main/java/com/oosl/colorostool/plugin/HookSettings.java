@@ -202,8 +202,8 @@ public class HookSettings extends HookBase{
                         break;
                     case "3e74f9f":
                         className[0] = "kf.o0";
-                        fieldName[0] = "f17723a";
-                        fieldName[1] = "f17723b";
+                        fieldName[0] = "a";
+                        fieldName[1] = "b";
                         break;
                     case "0c1bf83":
                         className[0] = "com.oplus.settings.utils.ak";
