@@ -38,6 +38,10 @@ public class HookSettings extends HookBase{
     public void hook() {
         super.hook();
         version = ColorToolPrefs.getVersion("settings", "Error");
+        if (version.equals("Error") || version.equals("Null")){
+            Log.d(tag, "Version code is Error! pls check it!");
+            return;
+        }
         Log.d(tag,"Version is " + version);
         if (ColorToolPrefs.getPrefs("more_dark_mode", false)) hookDarkMode();
         else darkListBackup("restore");

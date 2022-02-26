@@ -24,6 +24,11 @@ public class HookPackageInstaller extends HookBase{
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         version = ColorToolPrefs.getVersion("packageInstaller", "Error");
+        if (version.equals("Error")){
+            Log.d(tag, "Version code is Error! pls check it!");
+            return;
+        }
+        Log.d(tag,"Version is " + version);
         super.hook(lpparam);
         if (ColorToolPrefs.getPrefs("safe_installer", true)) {
             removeVerify(lpparam);

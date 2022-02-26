@@ -17,10 +17,12 @@ public class HookSafeCenter extends HookBase {
 
     @Override
     public void hook() {
-        String version = ColorToolPrefs.getVersion("safeCenterR", "Error");
-        if(version.equals("Error") || version.equals("Null")) {
-            version = ColorToolPrefs.getVersion("safeCenterS", "Error");
+        version = ColorToolPrefs.getVersion("safeCenter", "Error");
+        if (version.equals("Error") || version.equals("Null")){
+            Log.d(tag, "Version code is Error! pls check it!");
+            return;
         }
+        Log.d(tag,"Version is " + version);
         if(ColorToolPrefs.getPrefs("startup", true)) {
             hookMaxStartup();
         }

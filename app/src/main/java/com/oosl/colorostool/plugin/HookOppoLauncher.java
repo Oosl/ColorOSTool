@@ -5,6 +5,7 @@ import com.oosl.colorostool.util.Log;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -13,20 +14,19 @@ public class HookOppoLauncher extends HookBase{
 
     private static final String tag = "OppoLauncher";
     private String version = "Null";
-    private String android = "R";
 
     @Override
     public void hook() {
-        version = ColorToolPrefs.getVersion("launcherR", "Error");
-        if(version.equals("Error") || version.equals("Null")) {
-            version = ColorToolPrefs.getVersion("launcherS", "Error");
-            android = "S";
+        version = ColorToolPrefs.getVersion("launcher", "Error");
+        if (version.equals("Error") || version.equals("Null")){
+            Log.d(tag, "Version code is Error! pls check it!");
+            return;
         }
-        Log.d(tag, "Launcher version is " + version);
+        Log.d(tag, "version is " + version);
         if (ColorToolPrefs.getPrefs("app_lock", true)){
             hookMaxAppLock();
         }
-        if (ColorToolPrefs.getPrefs("launcher_layout", true) && android.equals("S")){
+        if (ColorToolPrefs.getPrefs("launcher_layout", true) && Build.VERSION.SDK_INT == 31){
             hookLayout();
         }
         super.hook();

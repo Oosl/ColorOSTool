@@ -15,10 +15,17 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookGameSpace extends HookBase {
 
-    String tag = "GameSpace";
+    private String tag = "GameSpace";
+    private String version = "Null";
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam){
+        version = ColorToolPrefs.getVersion("gameSpace", "Error");
+        if (version.equals("Error") || version.equals("Null")){
+            Log.d(tag, "Version code is Error! pls check it!");
+            return;
+        }
+        Log.d(tag, "version is " + version);
         super.hook(lpparam);
         if(ColorToolPrefs.getPrefs("root_checker", false)){
             hookRootChecker(lpparam);
