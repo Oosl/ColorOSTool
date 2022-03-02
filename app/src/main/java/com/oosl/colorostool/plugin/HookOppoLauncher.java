@@ -41,16 +41,12 @@ public class HookOppoLauncher extends HookBase{
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 String[] className = new String[1];
                 String[] fieldName = new String[1];
-                switch (version){
-//                    search -> mLockAppLimit
-                    case "1d06ce2":
-                    case "33b2b9a":
-                        className[0] ="com.coloros.quickstep.applock.ColorLockManager";
-                        fieldName[0] = "mLockAppLimit";
-                        break;
-                    default:
-                        className[0] ="com.oplus.quickstep.applock.OplusLockManager";
-                        fieldName[0] = "mLockAppLimit";
+                if(Build.VERSION.SDK_INT == 31){
+                    className[0] ="com.oplus.quickstep.applock.OplusLockManager";
+                    fieldName[0] = "mLockAppLimit";
+                }else {
+                    className[0] ="com.coloros.quickstep.applock.ColorLockManager";
+                    fieldName[0] = "mLockAppLimit";
                 }
                 try {
                     clazz = cl.loadClass(className[0]);
