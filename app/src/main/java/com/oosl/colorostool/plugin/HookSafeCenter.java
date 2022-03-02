@@ -46,6 +46,7 @@ public class HookSafeCenter extends HookBase {
                         funName[0] = "c";
                         fieldName[0] = "b";
                         break;
+                    case "6ab6242":
                     case "8efbcbb":
                         className[0] ="com.coloros.safecenter.startupapp.b";
                         funName[0] = "c";
