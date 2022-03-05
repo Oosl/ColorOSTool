@@ -63,7 +63,7 @@ public class HookOppoLauncher extends HookBase{
                     });
                     Log.d(tag,"Hook launcher app_lock success!");
                 } catch (Exception e) {
-                    Log.error(tag,e);
+                    Log.error(tag, e);
                 }
             }
         });
@@ -170,6 +170,7 @@ public class HookOppoLauncher extends HookBase{
                             XposedHelpers.setStaticBooleanField(clazz,fieldName[0], true);
                         }
                     });
+                    Log.d(tag, "hook log successfully!");
                 } catch (Exception e) {
                     Log.error(tag,e);
                 }
