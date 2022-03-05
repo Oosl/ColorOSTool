@@ -18,6 +18,13 @@
             app:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="launcher_update_dot"
+            app:title="@string/launcher_update_dot_title"
+            app:summary="@string/launcher_update_dot_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

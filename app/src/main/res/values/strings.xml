@@ -24,6 +24,8 @@
     <string name="app_lock_summary">Allow more than 5 apps to be locked in recent tasks panel.</string>
     <string name="launcher_layout_title">Launcher layout expansion</string>
     <string name="launcher_layout_summary">More launcher layout options(3x5 ~ 6x7).</string>
+    <string name="launcher_update_dot_title">App update dot</string>
+    <string name="launcher_update_dot_summary">Undisplay a dot next to the name of updated apps.</string>
 
     <!-- packageinstaller Preferences -->
     <string name="aosp_installer_title">Replace APK installer</string>

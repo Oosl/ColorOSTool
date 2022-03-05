@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Build;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class HookOppoLauncher extends HookBase{
@@ -28,6 +29,9 @@ public class HookOppoLauncher extends HookBase{
         }
         if (ColorToolPrefs.getPrefs("launcher_layout", true) && Build.VERSION.SDK_INT == 31){
             hookLayout();
+        }
+        if (ColorToolPrefs.getPrefs("launcher_update_dot", false)){
+            hookUpdateDot();
         }
         super.hook();
     }
@@ -92,6 +96,39 @@ public class HookOppoLauncher extends HookBase{
             }
         });
         Log.d(tag,"hookLayout success!");
+    }
+
+    private void hookUpdateDot(){
+        XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Class<?> clazz;
+                ClassLoader cl = ((Context) param.args[0]).getClassLoader();
+
+                String[] className = new String[1];
+                String[] funName = new String[1];
+                if(Build.VERSION.SDK_INT == 31){
+//                        search -> isNeedShowAppUpdateDot() {
+                    className[0] = "com.android.launcher3.OplusBubbleTextView";
+                    funName[0] = "isNeedShowAppUpdateDot";
+                }else {
+                    className[0] = "com.android.launcher3.ColorBubbleTextView";
+                    funName[0] = "isNeedShowAppUpdateDot";
+                }
+                try {
+                    clazz = cl.loadClass(className[0]);
+                    XposedHelpers.findAndHookMethod(clazz, funName[0], new XC_MethodReplacement() {
+                        @Override
+                        protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                            return false;
+                        }
+                    });
+                    Log.d(tag, "Undisplay the update info!");
+                }catch (Exception e) {
+                    Log.error(tag, e);
+                }
+            }
+        });
     }
 
     @Override

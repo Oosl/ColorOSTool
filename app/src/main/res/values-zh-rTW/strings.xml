@@ -25,6 +25,8 @@
     <string name="app_lock_summary">解除（多任務列表）僅能鎖定5個後台應用的限制</string>
     <string name="launcher_layout_title">桌面佈局拓展（僅 COS12）</string>
     <string name="launcher_layout_summary">解鎖更多桌面佈局選項(3x5 ~ 6x7)</string>
+    <string name="launcher_update_dot_summary">應用程式更新後，應用程式名稱的左側不顯示小圓點</string>
+    <string name="launcher_update_dot_title">更新小圓點</string>
 
     <!-- packageinstaller Preferences -->
     <string name="aosp_installer_title">替換APK安裝器</string>
