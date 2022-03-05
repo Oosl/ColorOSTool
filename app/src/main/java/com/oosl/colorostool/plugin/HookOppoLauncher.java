@@ -123,7 +123,7 @@ public class HookOppoLauncher extends HookBase{
                             return false;
                         }
                     });
-                    Log.d(tag, "Undisplay the update info!");
+                    Log.d(tag, "Undisplay the update dot!");
                 }catch (Exception e) {
                     Log.error(tag, e);
                 }
