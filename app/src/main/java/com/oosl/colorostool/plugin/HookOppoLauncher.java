@@ -7,11 +7,14 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 
+import android.widget.TextView;
+import java.lang.*;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
-public class HookOppoLauncher extends HookBase{
+public class HookOppoLauncher extends HookBase {
 
     private static final String tag = "OppoLauncher";
     private String version = "Null";
@@ -107,8 +110,7 @@ public class HookOppoLauncher extends HookBase{
 
                 String[] className = new String[1];
                 String[] funName = new String[1];
-                if(Build.VERSION.SDK_INT == 31){
-//                        search -> isNeedShowAppUpdateDot() {
+                if(Build.VERSION.SDK_INT >= 31){
                     className[0] = "com.android.launcher3.OplusBubbleTextView";
                     funName[0] = "isNeedShowAppUpdateDot";
                 }else {
@@ -124,6 +126,28 @@ public class HookOppoLauncher extends HookBase{
                         }
                     });
                     Log.d(tag, "Undisplay the update dot!");
+                }catch (Exception e) {
+                    Log.error(tag, e);
+                }
+
+                String itemInfoWithIconClass = "com.android.launcher3.model.data.ItemInfoWithIcon";
+                String itemInfoClass = "com.android.launcher3.model.data.ItemInfo";
+
+                try {
+                    clazz = cl.loadClass(className[0]);
+                    clazzPm = cl.loadClass(itemInfoWithIconClass);
+                    clazzPmc = cl.loadClass(itemInfoClass);
+                    XposedHelpers.findAndHookMethod(clazz, "applyLabel", clazzPm, Boolean.class, Boolean.class, new XC_MethodReplacement() {
+                        @Override
+                        protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                            Field field = clazzPmc.getDeclaredField("title");
+                            field.setAccessible(true);
+                            CharSequence title = (CharSequence) field.get(param.args[0]);
+                            ((TextView) param.thisObject).setText(title);
+                            return null;
+                        }
+                    });
+                    Log.d(tag, "Undisplay the update dot again!");
                 }catch (Exception e) {
                     Log.error(tag, e);
                 }
