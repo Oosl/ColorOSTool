@@ -127,7 +127,7 @@ public class HookOppoLauncher extends HookBase {
                     clazz = cl.loadClass(className[0]);
                     Class clazzPm = cl.loadClass(itemInfoWithIconClass);
                     Class clazzPmc = cl.loadClass(itemInfoClass);
-                    XposedHelpers.findAndHookMethod(clazz, "applyLabel", clazzPm, Boolean.class, Boolean.class, new XC_MethodReplacement() {
+                    XposedHelpers.findAndHookMethod(clazz, "applyLabel", clazzPm, Boolean.TYPE, Boolean.TYPE, new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                             Field field = clazzPmc.getDeclaredField("title");
