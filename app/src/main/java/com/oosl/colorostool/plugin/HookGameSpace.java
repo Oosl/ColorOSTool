@@ -3,6 +3,7 @@ package com.oosl.colorostool.plugin;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.oosl.colorostool.plugin.base.HookBase;
 import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
@@ -15,7 +16,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookGameSpace extends HookBase {
 
-    private String tag = "GameSpace";
+    private final String tag = "GameSpace";
     private String version = "Null";
 
     @Override

@@ -1,22 +1,22 @@
 package com.oosl.colorostool.plugin;
 
-import com.oosl.colorostool.util.Log;
-import com.oosl.colorostool.util.ColorToolPrefs;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.oosl.colorostool.plugin.base.HookBase;
+import com.oosl.colorostool.util.ColorToolPrefs;
+import com.oosl.colorostool.util.Log;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class HookPackageInstaller extends HookBase{
+public class HookPackageInstaller extends HookBase {
 
     private static final String tag = "PackageInstaller";
     private String version = "Null";
@@ -24,11 +24,11 @@ public class HookPackageInstaller extends HookBase{
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         version = ColorToolPrefs.getVersion("packageInstaller", "Error");
-        if (version.equals("Error")){
+        if (version.equals("Error")) {
             Log.d(tag, "Version code is Error! pls check it!");
             return;
         }
-        Log.d(tag,"Version is " + version);
+        Log.d(tag, "Version is " + version);
         super.hook(lpparam);
         if (ColorToolPrefs.getPrefs("safe_installer", true)) {
             removeVerify(lpparam);
@@ -42,17 +42,17 @@ public class HookPackageInstaller extends HookBase{
         if (ColorToolPrefs.getPrefs("installer_ads", true)) {
             makeClear(lpparam);
         }
-        Log.d(tag, "Hook packageinstaller-"+ version + " success!");
+        Log.d(tag, "Hook packageinstaller-" + version + " success!");
     }
 
     @SuppressLint("PrivateApi")
-    private void removeVerify(XC_LoadPackage.LoadPackageParam lpparam){
+    private void removeVerify(XC_LoadPackage.LoadPackageParam lpparam) {
         Class<?> clazz;
         try {
             String className = "com.android.packageinstaller.oplus.OPlusPackageInstallerActivity";
             String[] funName = new String[7];
             String[] fieldName = new String[3];
-            switch (version){
+            switch (version) {
                 case "7bc7db7":
                 case "e1a2c58":
                     funName[0] = "L";
@@ -143,7 +143,7 @@ public class HookPackageInstaller extends HookBase{
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     XposedHelpers.callMethod(param.thisObject, funName[4]);
-                    Log.d(tag,"replace checkToScanRisk OK!!");
+                    Log.d(tag, "replace checkToScanRisk OK!!");
                     return null;
                 }
             });
@@ -166,18 +166,18 @@ public class HookPackageInstaller extends HookBase{
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    XposedHelpers.setBooleanField(param.thisObject,fieldName[2], false);
+                    XposedHelpers.setBooleanField(param.thisObject, fieldName[2], false);
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.error(tag, e);
         }
     }
 
     @SuppressLint("PrivateApi")
 //    search ->  ? 1 : 0;
-    private void removeWarn(XC_LoadPackage.LoadPackageParam lpparam){
-        Class<?> clazz,clazz1;
+    private void removeWarn(XC_LoadPackage.LoadPackageParam lpparam) {
+        Class<?> clazz, clazz1;
         try {
             String className = "com.android.packageinstaller.oplus.OPlusPackageInstallerActivity", funName = "";
             switch (version) {
@@ -202,7 +202,7 @@ public class HookPackageInstaller extends HookBase{
                     return false;
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.error(tag, e);
         }
 
@@ -210,7 +210,7 @@ public class HookPackageInstaller extends HookBase{
 //      search -> CompoundButton.SavedState{
         try {
             String className = "", funName = "setState";
-            switch (version){
+            switch (version) {
                 case "7bc7db7":
                 case "e1a2c58":
                 case "38477f0":
@@ -224,12 +224,12 @@ public class HookPackageInstaller extends HookBase{
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    if ((int)param.args[0] == 2){
+                    if ((int) param.args[0] == 2) {
                         param.args[0] = 0;
                     }
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.error(tag, e);
         }
 
@@ -238,7 +238,7 @@ public class HookPackageInstaller extends HookBase{
     // 使用原生安装器而非OPPO自己写的
 //    search -> DeleteStagedFileOnResult
     @SuppressLint("PrivateApi")
-    private void replaceInstaller(XC_LoadPackage.LoadPackageParam lpparam){
+    private void replaceInstaller(XC_LoadPackage.LoadPackageParam lpparam) {
         Class<?> clazz, clazz1;
         try {
             String[] className = new String[2];
@@ -267,7 +267,7 @@ public class HookPackageInstaller extends HookBase{
                     XposedHelpers.setStaticBooleanField(clazz, fieldName[0], true);
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.error(tag, e);
         }
     }
@@ -343,8 +343,8 @@ public class HookPackageInstaller extends HookBase{
                 }
             });
             Log.d(tag, "Hide installed suggest layout successfully");
-        }catch (Exception e){
-            Log.error(tag,e);
+        } catch (Exception e) {
+            Log.error(tag, e);
         }
     }
 
@@ -378,6 +378,6 @@ public class HookPackageInstaller extends HookBase{
         } catch (Exception e) {
             Log.error(tag, e);
         }
-        Log.d(tag,"Hook log success!");
+        Log.d(tag, "Hook log success!");
     }
 }

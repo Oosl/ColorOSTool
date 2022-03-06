@@ -1,5 +1,6 @@
 package com.oosl.colorostool.plugin;
 
+import com.oosl.colorostool.plugin.base.HookBase;
 import com.oosl.colorostool.util.Log;
 import com.oosl.colorostool.util.ColorToolPrefs;
 
@@ -7,7 +8,6 @@ import android.app.Application;
 import android.content.Context;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class HookSafeCenter extends HookBase {

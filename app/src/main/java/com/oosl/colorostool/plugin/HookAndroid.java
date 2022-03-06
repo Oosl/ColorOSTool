@@ -1,5 +1,6 @@
 package com.oosl.colorostool.plugin;
 
+import com.oosl.colorostool.plugin.base.HookBase;
 import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
