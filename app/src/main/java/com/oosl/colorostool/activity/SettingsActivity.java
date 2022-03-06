@@ -20,9 +20,11 @@ import com.oosl.colorostool.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private final String tag = "COSTOOL_ACT";
+
     private SharedPreferences sharedPreferences;
     public Context mContext = null;
-    private String tag = "COSTOOL_ACT";
+
     private final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = (sharedPreferences, key) -> {
         if ("hide_icon".equals(key)) {
             ComponentName aliasName = new ComponentName(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID + ".activity.SettingsActivityAlias");
@@ -57,10 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             PreferenceFragmentCompat current = (PreferenceFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.settings);
-            if (current != null && current instanceof CostoolSettingsFragment) finishAndRemoveTask();
+            if (current instanceof CostoolSettingsFragment) finishAndRemoveTask();
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -70,7 +71,6 @@ public class SettingsActivity extends AppCompatActivity {
         try {
             // getSharedPreferences will hooked by LSPosed and change xml file path to /data/misc/[random code]
             // will not throw SecurityException
-            // noinspection deprecation
             // From CorePatch https://github.com/coderstory/CorePatch
             sharedPreferences = getSharedPreferences("ColorToolPrefs", Context.MODE_WORLD_READABLE);
         } catch (SecurityException exception) {
@@ -206,6 +206,4 @@ public class SettingsActivity extends AppCompatActivity {
             return "Error";
         }
     }
-
-
 }

@@ -6,17 +6,19 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 abstract class HookBase {
 
-    static final boolean enableLog = BuildConfig.BUILD_TYPE.equals("debug");
+    static final boolean enableLog = BuildConfig.DEBUG;
 
-    public void hook(){
+    public void hook() {
         if (enableLog) hookLog();
     }
 
-    public void hook(XC_LoadPackage.LoadPackageParam lpparam){
+    public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         if (enableLog) hookLog(lpparam);
     }
 
-    public void hookLog(){}
+    public void hookLog() {
+    }
 
-    public void hookLog(XC_LoadPackage.LoadPackageParam lpparam){}
+    public void hookLog(XC_LoadPackage.LoadPackageParam lpparam) {
+    }
 }
