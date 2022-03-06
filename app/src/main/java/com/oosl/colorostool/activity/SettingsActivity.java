@@ -15,6 +15,7 @@ import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.oosl.colorostool.BuildConfig;
 import com.oosl.colorostool.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
     private String tag = "COSTOOL_ACT";
     private final SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = (sharedPreferences, key) -> {
         if ("hide_icon".equals(key)) {
-            ComponentName aliasName = ComponentName.unflattenFromString("com.oosl.colorostool/com.oosl.colorostool.activity.SettingsActivityAlias");
+            ComponentName aliasName = new ComponentName(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID + ".activity.SettingsActivityAlias");
             int status;
             if (sharedPreferences.getBoolean(key, false))
                 status = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
@@ -57,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             PreferenceFragmentCompat current = (PreferenceFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.settings);
             if (current != null && current instanceof CostoolSettingsFragment) finishAndRemoveTask();
         }
@@ -167,7 +168,7 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
-    protected void saveAllVersion(){
+    protected void saveAllVersion() {
         try {
             String settingsVersion = getVersion("com.android.settings");
             String systemuiVersion = getVersion("com.android.systemui");
@@ -190,18 +191,18 @@ public class SettingsActivity extends AppCompatActivity {
             sharePrefsEditor.putString("gameSpace", gameSpaceVersion);
             sharePrefsEditor.apply();
             Toast.makeText(getApplicationContext(), "Init Completed!", Toast.LENGTH_SHORT).show();
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Toast.makeText(getApplicationContext(), "Init Failed!", Toast.LENGTH_LONG).show();
-            android.util.Log.e(tag,"saveVersion ERROR", exception);
+            android.util.Log.e(tag, "saveVersion ERROR", exception);
         }
     }
 
-    protected String getVersion(String packageName){
+    protected String getVersion(String packageName) {
         try {
             PackageManager packageManager = mContext.getPackageManager();
             return packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData.getString("versionCommit");
-        }catch (Exception exception){
-            android.util.Log.e(tag,"getVersion ERROR", exception);
+        } catch (Exception exception) {
+            android.util.Log.e(tag, "getVersion ERROR", exception);
             return "Error";
         }
     }
