@@ -3,6 +3,7 @@ package com.oosl.colorostool.plugin;
 import android.app.Application;
 import android.content.Context;
 
+import com.oosl.colorostool.plugin.base.HookBase;
 import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
@@ -11,7 +12,9 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class HookSystemUI extends HookBase {
+
     private final String tag = "SystemUI";
+
     @Override
     public void hook() {
         super.hook();
@@ -39,13 +42,13 @@ public class HookSystemUI extends HookBase {
                     Log.d(tag, "Hook RedClock success!");
 
                 } catch (Exception e) {
-                    Log.error(tag,e);
+                    Log.error(tag, e);
                 }
             }
         });
     }
 
-    private void hookChargeWipe(){
+    private void hookChargeWipe() {
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -64,7 +67,7 @@ public class HookSystemUI extends HookBase {
                     Log.d(tag, "Hook ChargingRipple success!");
 
                 } catch (Exception e) {
-                    Log.error(tag,e);
+                    Log.error(tag, e);
                 }
             }
         });

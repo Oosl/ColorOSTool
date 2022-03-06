@@ -3,6 +3,7 @@ package com.oosl.colorostool.plugin;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.oosl.colorostool.plugin.base.HookBase;
 import com.oosl.colorostool.util.ColorToolPrefs;
 import com.oosl.colorostool.util.Log;
 
@@ -15,28 +16,28 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookGameSpace extends HookBase {
 
-    private String tag = "GameSpace";
+    private final String tag = "GameSpace";
     private String version = "Null";
 
     @Override
-    public void hook(XC_LoadPackage.LoadPackageParam lpparam){
+    public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         version = ColorToolPrefs.getVersion("gameSpace", "Error");
-        if (version.equals("Error") || version.equals("Null")){
+        if (version.equals("Error") || version.equals("Null")) {
             Log.d(tag, "Version code is Error! pls check it!");
             return;
         }
         Log.d(tag, "version is " + version);
         super.hook(lpparam);
-        if(ColorToolPrefs.getPrefs("root_checker", false)){
+        if (ColorToolPrefs.getPrefs("root_checker", false)) {
             hookRootChecker(lpparam);
         }
-        if (ColorToolPrefs.getPrefs("gs_view_cleaner",false)){
+        if (ColorToolPrefs.getPrefs("gs_view_cleaner", false)) {
             hookView(lpparam);
         }
-        Log.d(tag,"Hook gamespace success!");
+        Log.d(tag, "Hook gamespace success!");
     }
 
-    private void hookRootChecker(final XC_LoadPackage.LoadPackageParam lpparam){
+    private void hookRootChecker(final XC_LoadPackage.LoadPackageParam lpparam) {
         Class<?> clazz;
         String[] className = new String[1];
         String[] funName = new String[1];
@@ -46,7 +47,7 @@ public class HookGameSpace extends HookBase {
 //            search ->
 //            "dynamic_feature_cool_ex");
 //            ("isSafe")) : null;
-            switch (version){
+            switch (version) {
                 case "6d29cc7":
                     className[0] = "com.coloros.gamespaceui.g.b";
                     funName[0] = "d";
@@ -66,7 +67,7 @@ public class HookGameSpace extends HookBase {
                     funName[0] = "h";
             }
             clazz = lpparam.classLoader.loadClass(className[0]);
-            if (flag.equals("onlyString")){
+            if (flag.equals("onlyString")) {
                 XposedHelpers.findAndHookMethod(clazz, funName[0], String.class, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -75,7 +76,7 @@ public class HookGameSpace extends HookBase {
                         bundle.putInt("isSafe", 0);
                     }
                 });
-            }else{
+            } else {
                 XposedHelpers.findAndHookMethod(clazz, funName[0], Context.class, String.class, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -85,20 +86,20 @@ public class HookGameSpace extends HookBase {
                     }
                 });
             }
-            Log.d(tag,"Hook gamespace.root.checker success!");
-        }catch (Exception e){
-            Log.error(tag,e);
+            Log.d(tag, "Hook gamespace.root.checker success!");
+        } catch (Exception e) {
+            Log.error(tag, e);
         }
     }
 
-    private void hookView(XC_LoadPackage.LoadPackageParam loadPackageParam){
+    private void hookView(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         Class<?> clazz, clazz1;
 
         try {
             String[] className = new String[2];
             String[] funName = new String[2];
 //          search -> "GameSpaceUI", "OppoLog, sIsQELogOn = "
-            switch (version){
+            switch (version) {
                 default:
                     className[0] = "b.b.a.n.a$a";
 //                    search -> "GameOptimizedNewView", "startAnimationIn"
@@ -126,9 +127,9 @@ public class HookGameSpace extends HookBase {
                     return null;
                 }
             });
-            Log.d(tag,"gamespace viewer cleaner success!");
-        }catch (Exception e){
-            Log.error(tag,e);
+            Log.d(tag, "gamespace viewer cleaner success!");
+        } catch (Exception e) {
+            Log.error(tag, e);
         }
     }
 
@@ -136,11 +137,11 @@ public class HookGameSpace extends HookBase {
     public void hookLog(XC_LoadPackage.LoadPackageParam lpparam) {
         super.hookLog(lpparam);
         Class<?> clazz;
-        try{
+        try {
             String[] className = new String[1];
             String[] fieldName = new String[1];
 //          search -> "GameSpaceUI", "OppoLog, sIsQELogOn = "
-            switch (version){
+            switch (version) {
                 case "6d29cc7":
                     className[0] = "com.coloros.gamespaceui.i.a";
                     fieldName[0] = "e";
@@ -151,10 +152,10 @@ public class HookGameSpace extends HookBase {
             }
 
             clazz = lpparam.classLoader.loadClass(className[0]);
-            XposedHelpers.setStaticBooleanField(clazz,fieldName[0],true);
-            Log.d(tag,"Hook gamespace LogClass success!");
-        } catch (Exception e){
-            Log.error(tag,e);
+            XposedHelpers.setStaticBooleanField(clazz, fieldName[0], true);
+            Log.d(tag, "Hook gamespace LogClass success!");
+        } catch (Exception e) {
+            Log.error(tag, e);
         }
     }
 }

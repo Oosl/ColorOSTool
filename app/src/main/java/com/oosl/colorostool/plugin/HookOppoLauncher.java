@@ -1,17 +1,21 @@
 package com.oosl.colorostool.plugin;
 
-import com.oosl.colorostool.util.ColorToolPrefs;
-import com.oosl.colorostool.util.Log;
-
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
+import android.widget.TextView;
+
+import com.oosl.colorostool.plugin.base.HookBase;
+import com.oosl.colorostool.util.ColorToolPrefs;
+import com.oosl.colorostool.util.Log;
+
+import java.lang.reflect.Field;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
-public class HookOppoLauncher extends HookBase{
+public class HookOppoLauncher extends HookBase {
 
     private static final String tag = "OppoLauncher";
     private String version = "Null";
@@ -19,24 +23,24 @@ public class HookOppoLauncher extends HookBase{
     @Override
     public void hook() {
         version = ColorToolPrefs.getVersion("launcher", "Error");
-        if (version.equals("Error") || version.equals("Null")){
+        if (version.equals("Error") || version.equals("Null")) {
             Log.d(tag, "Version code is Error! pls check it!");
             return;
         }
         Log.d(tag, "version is " + version);
-        if (ColorToolPrefs.getPrefs("app_lock", true)){
+        if (ColorToolPrefs.getPrefs("app_lock", true)) {
             hookMaxAppLock();
         }
-        if (ColorToolPrefs.getPrefs("launcher_layout", true) && Build.VERSION.SDK_INT == 31){
+        if (ColorToolPrefs.getPrefs("launcher_layout", true) && Build.VERSION.SDK_INT == 31) {
             hookLayout();
         }
-        if (ColorToolPrefs.getPrefs("launcher_update_dot", false)){
+        if (ColorToolPrefs.getPrefs("launcher_update_dot", false)) {
             hookUpdateDot();
         }
         super.hook();
     }
 
-    private void hookMaxAppLock(){
+    private void hookMaxAppLock() {
         // 去除多任务后台只能锁定5个的限制
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
@@ -45,11 +49,11 @@ public class HookOppoLauncher extends HookBase{
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
                 String[] className = new String[1];
                 String[] fieldName = new String[1];
-                if(Build.VERSION.SDK_INT == 31){
-                    className[0] ="com.oplus.quickstep.applock.OplusLockManager";
+                if (Build.VERSION.SDK_INT == 31) {
+                    className[0] = "com.oplus.quickstep.applock.OplusLockManager";
                     fieldName[0] = "mLockAppLimit";
-                }else {
-                    className[0] ="com.coloros.quickstep.applock.ColorLockManager";
+                } else {
+                    className[0] = "com.coloros.quickstep.applock.ColorLockManager";
                     fieldName[0] = "mLockAppLimit";
                 }
                 try {
@@ -58,19 +62,19 @@ public class HookOppoLauncher extends HookBase{
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             XposedHelpers.setIntField(param.thisObject, fieldName[0], 114514);
-                            Log.d(tag,"Hook app_lock to 114514 successfully!");
+                            Log.d(tag, "Hook app_lock to 114514 successfully!");
                         }
                     });
-                    Log.d(tag,"Hook launcher app_lock success!");
+                    Log.d(tag, "Hook launcher app_lock success!");
                 } catch (Exception e) {
                     Log.error(tag, e);
                 }
             }
         });
-        Log.d(tag,"Hook oppoLauncher success!");
+        Log.d(tag, "Hook oppoLauncher success!");
     }
 
-    private void hookLayout(){
+    private void hookLayout() {
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -79,26 +83,26 @@ public class HookOppoLauncher extends HookBase{
 
                 String[] className = new String[1];
                 String[] fieldName = new String[2];
-                switch (version){
+                switch (version) {
                     default:
-                        className[0] ="com.android.launcher.togglebar.adapter.ToggleBarLayoutAdapter";
+                        className[0] = "com.android.launcher.togglebar.adapter.ToggleBarLayoutAdapter";
                         fieldName[0] = "MIN_MAX_COLUMN";
                         fieldName[1] = "MIN_MAX_ROW";
                 }
 
                 try {
                     clazz = cl.loadClass(className[0]);
-                    XposedHelpers.setStaticObjectField(clazz,fieldName[0], new int[] {3, 8});
-                    XposedHelpers.setStaticObjectField(clazz,fieldName[1], new int[] {5, 8});
+                    XposedHelpers.setStaticObjectField(clazz, fieldName[0], new int[]{3, 8});
+                    XposedHelpers.setStaticObjectField(clazz, fieldName[1], new int[]{5, 8});
                 } catch (Exception e) {
-                    Log.error(tag,e);
+                    Log.error(tag, e);
                 }
             }
         });
-        Log.d(tag,"hookLayout success!");
+        Log.d(tag, "hookLayout success!");
     }
 
-    private void hookUpdateDot(){
+    private void hookUpdateDot() {
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -107,24 +111,34 @@ public class HookOppoLauncher extends HookBase{
 
                 String[] className = new String[1];
                 String[] funName = new String[1];
-                if(Build.VERSION.SDK_INT == 31){
-//                        search -> isNeedShowAppUpdateDot() {
+
+                funName[0] = "isNeedShowAppUpdateDot";
+
+                if (Build.VERSION.SDK_INT >= 31) {
                     className[0] = "com.android.launcher3.OplusBubbleTextView";
-                    funName[0] = "isNeedShowAppUpdateDot";
-                }else {
+                } else {
                     className[0] = "com.android.launcher3.ColorBubbleTextView";
-                    funName[0] = "isNeedShowAppUpdateDot";
                 }
+
+                String itemInfoWithIconClass = "com.android.launcher3.model.data.ItemInfoWithIcon";
+                String itemInfoClass = "com.android.launcher3.model.data.ItemInfo";
+
                 try {
                     clazz = cl.loadClass(className[0]);
-                    XposedHelpers.findAndHookMethod(clazz, funName[0], new XC_MethodReplacement() {
+                    Class clazzPm = cl.loadClass(itemInfoWithIconClass);
+                    Class clazzPmc = cl.loadClass(itemInfoClass);
+                    XposedHelpers.findAndHookMethod(clazz, "applyLabel", clazzPm, Boolean.class, Boolean.class, new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                            return false;
+                            Field field = clazzPmc.getDeclaredField("title");
+                            field.setAccessible(true);
+                            CharSequence title = (CharSequence) field.get(param.args[0]);
+                            ((TextView) param.thisObject).setText(title);
+                            return null;
                         }
                     });
                     Log.d(tag, "Undisplay the update dot!");
-                }catch (Exception e) {
+                } catch (Exception e) {
                     Log.error(tag, e);
                 }
             }
@@ -144,7 +158,7 @@ public class HookOppoLauncher extends HookBase{
                 String[] fieldName = new String[2];
 
 //              search -> private static boolean sDebug = true
-                switch (version){
+                switch (version) {
                     case "57cef08":
                         className[0] = "com.oplus.quickstep.utils.LogUtils";
                         funName[0] = "updateState";
@@ -152,12 +166,12 @@ public class HookOppoLauncher extends HookBase{
                         break;
                     case "1d06ce2":
                     case "33b2b9a":
-                        className[0] ="com.coloros.quickstep.utils.LogUtils";
+                        className[0] = "com.coloros.quickstep.utils.LogUtils";
                         funName[0] = "updateState";
                         fieldName[0] = "sDebug";
                         break;
                     default:
-                        className[0] ="com.android.common.debug.LogUtils";
+                        className[0] = "com.android.common.debug.LogUtils";
                         funName[0] = "updateState";
                         fieldName[0] = "normal";
                 }
@@ -167,12 +181,12 @@ public class HookOppoLauncher extends HookBase{
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             super.afterHookedMethod(param);
-                            XposedHelpers.setStaticBooleanField(clazz,fieldName[0], true);
+                            XposedHelpers.setStaticBooleanField(clazz, fieldName[0], true);
                         }
                     });
                     Log.d(tag, "hook log successfully!");
                 } catch (Exception e) {
-                    Log.error(tag,e);
+                    Log.error(tag, e);
                 }
             }
         });
