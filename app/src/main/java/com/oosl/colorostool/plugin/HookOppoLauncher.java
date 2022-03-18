@@ -109,22 +109,16 @@ public class HookOppoLauncher extends HookBase {
                 Class<?> clazz;
                 ClassLoader cl = ((Context) param.args[0]).getClassLoader();
 
-                String[] className = new String[1];
-                String[] funName = new String[1];
-
-                funName[0] = "isNeedShowAppUpdateDot";
-
-                if (Build.VERSION.SDK_INT >= 31) {
-                    className[0] = "com.android.launcher3.OplusBubbleTextView";
-                } else {
-                    className[0] = "com.android.launcher3.ColorBubbleTextView";
-                }
-
+                String bubbleTextViewClass = "com.android.launcher3.ColorBubbleTextView";
                 String itemInfoWithIconClass = "com.android.launcher3.model.data.ItemInfoWithIcon";
                 String itemInfoClass = "com.android.launcher3.model.data.ItemInfo";
 
+                if (Build.VERSION.SDK_INT >= 31) {
+                    bubbleTextViewClass = "com.android.launcher3.OplusBubbleTextView";
+                }
+
                 try {
-                    clazz = cl.loadClass(className[0]);
+                    clazz = cl.loadClass(bubbleTextViewClass);
                     Class clazzPm = cl.loadClass(itemInfoWithIconClass);
                     Class clazzPmc = cl.loadClass(itemInfoClass);
                     XposedHelpers.findAndHookMethod(clazz, "applyLabel", clazzPm, Boolean.TYPE, Boolean.TYPE, new XC_MethodReplacement() {
