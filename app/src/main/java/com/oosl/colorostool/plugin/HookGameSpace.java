@@ -62,6 +62,10 @@ public class HookGameSpace extends HookBase {
                     funName[0] = "a";
                     flag = "onlyString";
                     break;
+                case "8ca6c06":
+                    className[0] = "com.oplus.f.a";
+                    funName[0] = "j";
+                    break;
                 default:
                     className[0] = "com.oplus.f.a";
                     funName[0] = "h";
@@ -96,17 +100,19 @@ public class HookGameSpace extends HookBase {
         Class<?> clazz, clazz1;
 
         try {
-            String[] className = new String[2];
-            String[] funName = new String[2];
-//          search -> "GameSpaceUI", "OppoLog, sIsQELogOn = "
+            String[] className = {"b.b.a.n.a$a", "com.coloros.gamespaceui.module.floatwindow.view.GameOptimizedNewView"};
+            String[] funName = {"a", "c"};
             switch (version) {
-                default:
-                    className[0] = "b.b.a.n.a$a";
-//                    search -> "GameOptimizedNewView", "startAnimationIn"
-                    className[1] = "com.coloros.gamespaceui.module.floatwindow.view.GameOptimizedNewView";
-                    funName[0] = "a";
-//                    search -> "GameOptimizedNewView", "startAnimationIn"
-                    funName[1] = "c";
+                case "8ca6c06":
+                    className[0] = "d.b.a.n.a$a";
+                    break;
+//                default:
+////                    search -> addGameSdk(RouterConstants.PATH_OPERATION_HOME_CUSTOMER)
+//                    className[0] = "b.b.a.n.a$a";
+//                    funName[0] = "a";
+////                    search -> "GameOptimizedNewView", "startAnimationIn"
+//                    className[1] = "com.coloros.gamespaceui.module.floatwindow.view.GameOptimizedNewView";
+//                    funName[1] = "c";
             }
             // tag:常见问题
             clazz = loadPackageParam.classLoader.loadClass(className[0]);
