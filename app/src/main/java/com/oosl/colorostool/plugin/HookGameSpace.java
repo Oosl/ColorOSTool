@@ -62,13 +62,16 @@ public class HookGameSpace extends HookBase {
                     funName[0] = "a";
                     flag = "onlyString";
                     break;
-                case "8ca6c06":
-                    className[0] = "com.oplus.f.a";
-                    funName[0] = "j";
-                    break;
-                default:
+                case "620aca8":
                     className[0] = "com.oplus.f.a";
                     funName[0] = "h";
+                    break;
+                case "8ca6c06":
+                case "73422a6":
+                case "ae05e0f":
+                default:
+                    className[0] = "com.oplus.f.a";
+                    funName[0] = "j";
             }
             clazz = lpparam.classLoader.loadClass(className[0]);
             if (flag.equals("onlyString")) {
@@ -104,6 +107,7 @@ public class HookGameSpace extends HookBase {
             String[] funName = {"a", "c"};
             switch (version) {
                 case "8ca6c06":
+                case "73422a6":
                     className[0] = "d.b.a.n.a$a";
                     break;
 //                default:
