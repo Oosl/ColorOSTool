@@ -74,6 +74,6 @@
     <string name="tg_summary">Tap to join our telegram group</string>
     <string name="tg_group_url">https://t.me/ColorOSTool</string>
     <string name="author">Author</string>
-    <string name="author_list">Oosl (lc5900)</string>
+    <string name="author_list">Oosl (fankes, lc5900)</string>
     <string name="github_url">https://github.com/Oosl</string>
 </resources>
