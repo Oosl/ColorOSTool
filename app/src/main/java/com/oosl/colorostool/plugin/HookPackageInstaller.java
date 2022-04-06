@@ -92,6 +92,18 @@ public class HookPackageInstaller extends HookBase {
                     fieldName[1] = "o";
                     fieldName[2] = "aM";
                     break;
+                case "a222497":
+                    funName[0] = "M";
+                    funName[1] = "NULL";
+                    funName[2] = "p";
+                    funName[3] = "E";
+                    funName[4] = "j";
+                    funName[5] = "S";
+                    funName[6] = "T";
+                    fieldName[0] = "Q";
+                    fieldName[1] = "o";
+                    fieldName[2] = "aN";
+                    break;
                 default:
 //                    search -> count_canceled_by_app_detail -3
                     funName[0] = "isStartAppDetail";
@@ -129,7 +141,7 @@ public class HookPackageInstaller extends HookBase {
             if (!funName[1].equals("NULL")) {
                 XposedHelpers.findAndHookMethod(clazz, funName[1], new XC_MethodReplacement() {
                     @Override
-                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    protected Object replaceHookedMethod(MethodHookParam param) {
                         XposedHelpers.setObjectField(XposedHelpers.getObjectField(param.thisObject, fieldName[0]), fieldName[1], "0");
                         XposedHelpers.callMethod(param.thisObject, funName[2]);
                         Log.d(tag, "replace startAccountVerification() OK!!");
@@ -141,7 +153,7 @@ public class HookPackageInstaller extends HookBase {
             //apk scan
             XposedHelpers.findAndHookMethod(clazz, funName[3], new XC_MethodReplacement() {
                 @Override
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                protected Object replaceHookedMethod(MethodHookParam param) {
                     XposedHelpers.callMethod(param.thisObject, funName[4]);
                     Log.d(tag, "replace checkToScanRisk OK!!");
                     return null;
@@ -150,14 +162,14 @@ public class HookPackageInstaller extends HookBase {
 
             XposedHelpers.findAndHookMethod(clazz, funName[5], new XC_MethodReplacement() {
                 @Override
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                protected Object replaceHookedMethod(MethodHookParam param) {
                     return null;
                 }
             });
 
             XposedHelpers.findAndHookMethod(clazz, funName[6], new XC_MethodReplacement() {
                 @Override
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                protected Object replaceHookedMethod(MethodHookParam param) {
                     return null;
                 }
             });
@@ -179,10 +191,11 @@ public class HookPackageInstaller extends HookBase {
     private void removeWarn(XC_LoadPackage.LoadPackageParam lpparam) {
         Class<?> clazz, clazz1;
         try {
-            String className = "com.android.packageinstaller.oplus.OPlusPackageInstallerActivity", funName = "";
+            String className = "com.android.packageinstaller.oplus.OPlusPackageInstallerActivity", funName;
             switch (version) {
                 case "7bc7db7":
                 case "e1a2c58":
+                case "a222497":
                     funName = "Q";
                     break;
                 case "38477f0":
@@ -198,7 +211,7 @@ public class HookPackageInstaller extends HookBase {
             clazz = lpparam.classLoader.loadClass(className);
             XposedHelpers.findAndHookMethod(clazz, funName, new XC_MethodReplacement() {
                 @Override
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                protected Object replaceHookedMethod(MethodHookParam param) {
                     return false;
                 }
             });
@@ -209,7 +222,7 @@ public class HookPackageInstaller extends HookBase {
 //      uncheck app_suggest_option as default
 //      search -> CompoundButton.SavedState{
         try {
-            String className = "", funName = "setState";
+            String className, funName = "setState";
             switch (version) {
                 case "7bc7db7":
                 case "e1a2c58":
@@ -249,6 +262,7 @@ public class HookPackageInstaller extends HookBase {
                 case "75fe984":
                 case "532ffef":
                 case "38477f0":
+                case "a222497":
                     className[0] = "com.android.packageinstaller.oplus.common.j";
                     className[1] = "com.android.packageinstaller.DeleteStagedFileOnResult";
                     fieldName[0] = "f";
@@ -275,7 +289,7 @@ public class HookPackageInstaller extends HookBase {
     //hide the suggest layout when install successfully
     @SuppressLint("PrivateApi")
     private void makeClear(XC_LoadPackage.LoadPackageParam lpparam) {
-        Class<?> clazz1 = null, clazz0 = null;
+        Class<?> clazz1, clazz0;
         final LinearLayout[] installDoneSuggestLayout = new LinearLayout[3];
         final RelativeLayout[] relativeLayout = new RelativeLayout[1];
         try {
@@ -305,6 +319,15 @@ public class HookPackageInstaller extends HookBase {
                     fieldName[2] = "Y";
                     fieldName[3] = "W";
                     break;
+                case "a222497":
+                    className[1] = "com.android.packageinstaller.oplus.b";
+                    funName[0] = "a";
+                    funName[1] = "handleMessage";
+                    fieldName[0] = "W";
+                    fieldName[1] = "Y";
+                    fieldName[2] = "Z";
+                    fieldName[3] = "X";
+                    break;
                 default:
                     className[1] = "com.android.packageinstaller.oplus.InstallAppProgress$1";
 //                  search -> "unexpected scheme " -3
@@ -314,7 +337,7 @@ public class HookPackageInstaller extends HookBase {
 //                    ***************
 //                    private RelativeLayout mSuggestLayoutATitle;
 //                    private LinearLayout mSuggestLayoutB;
-//                    private LinearLayout
+//                    private LinearLayout mSuggestLayoutC;
                     fieldName[0] = "mSuggestLayoutA";
                     fieldName[1] = "mSuggestLayoutB";
                     fieldName[2] = "mSuggestLayoutC";
@@ -335,7 +358,7 @@ public class HookPackageInstaller extends HookBase {
 
             XposedHelpers.findAndHookMethod(clazz1, funName[1], Message.class, new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                protected void afterHookedMethod(MethodHookParam param) {
                     installDoneSuggestLayout[0].setVisibility(View.GONE);
                     installDoneSuggestLayout[1].setVisibility(View.GONE);
                     installDoneSuggestLayout[2].setVisibility(View.GONE);
@@ -361,6 +384,7 @@ public class HookPackageInstaller extends HookBase {
                 case "7bc7db7":
                 case "e1a2c58":
                 case "38477f0":
+                case "a222497":
                     className[0] = "com.android.packageinstaller.oplus.common.k";
                     fieldName[0] = "d";
                     break;
