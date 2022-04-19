@@ -19,6 +19,6 @@ public final class Log {
     }
 
     public static void error(String tag, Exception e){
-        XposedBridge.log("[COST-ERROR:-"+ tag + "]: " + e.getLocalizedMessage());
+        XposedBridge.log("[ColorOSTool-ERROR:-"+ tag + "]: " + e.getLocalizedMessage());
     }
 }
