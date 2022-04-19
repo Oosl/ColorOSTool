@@ -69,6 +69,10 @@ public class HookSettings extends HookBase {
                             className = "jc.b";
                             funName = "k";
                             break;
+                        case "393408f":
+                            className = "oc.b";
+                            funName = "k";
+                            break;
                         case "8cf83fb":
                         default:
                             className = "com.oplus.settings.feature.display.darkmode.a.b";
