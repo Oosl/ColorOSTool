@@ -69,14 +69,16 @@ public class HookSettings extends HookBase {
                             className = "jc.b";
                             funName = "k";
                             break;
-                        case "393408f":
-                            className = "oc.b";
-                            funName = "k";
-                            break;
                         case "8cf83fb":
-                        default:
+                        case "3736907":
                             className = "com.oplus.settings.feature.display.darkmode.a.b";
                             funName = "a";
+                            break;
+                        case "393408f":
+                        case "108cf63":
+                        default:
+                            className = "oc.b";
+                            funName = "k";
                     }
                     clazz = cl.loadClass(className);
 //                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.utils.DarkModeFileUtils");
