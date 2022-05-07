@@ -76,4 +76,6 @@
     <string name="author">Author</string>
     <string name="author_list">Oosl (fankes, lc5900)</string>
     <string name="github_url">https://github.com/Oosl</string>
+    <string name="remove_oppo_default_app_title">Unrestrict some default applications</string>
+    <string name="remove_oppo_default_app_summary">Unlock OPPO\'s restrictions on default apps</string>
 </resources>

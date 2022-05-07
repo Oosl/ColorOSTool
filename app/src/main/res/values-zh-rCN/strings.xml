@@ -76,4 +76,6 @@
     <string name="author">作者</string>
     <string name="author_list">Oosl (lc5900)</string>
     <string name="github_url">https://github.com/Oosl</string>
+    <string name="remove_oppo_default_app_title">解除默认应用限制</string>
+    <string name="remove_oppo_default_app_summary">解除COS对部分默认应用的限制</string>
 </resources>
