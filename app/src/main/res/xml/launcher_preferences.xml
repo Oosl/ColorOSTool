@@ -11,12 +11,12 @@
             app:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
-        <SwitchPreferenceCompat
-            app:key="launcher_layout"
-            app:title="@string/launcher_layout_title"
-            app:summary="@string/launcher_layout_summary"
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"/>
+<!--        <SwitchPreferenceCompat-->
+<!--            app:key="launcher_layout"-->
+<!--            app:title="@string/launcher_layout_title"-->
+<!--            app:summary="@string/launcher_layout_summary"-->
+<!--            app:defaultValue="false"-->
+<!--            app:iconSpaceReserved="false"/>-->
 
         <SwitchPreferenceCompat
             app:key="launcher_update_dot"

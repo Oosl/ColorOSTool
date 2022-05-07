@@ -31,9 +31,9 @@ public class HookOppoLauncher extends HookBase {
         if (ColorToolPrefs.getPrefs("app_lock", true)) {
             hookMaxAppLock();
         }
-        if (ColorToolPrefs.getPrefs("launcher_layout", true) && Build.VERSION.SDK_INT == 31) {
-            hookLayout();
-        }
+//        if (ColorToolPrefs.getPrefs("launcher_layout", false) && Build.VERSION.SDK_INT == 31) {
+//            hookLayout();
+//        }
         if (ColorToolPrefs.getPrefs("launcher_update_dot", false)) {
             hookUpdateDot();
         }
