@@ -256,6 +256,7 @@ public class HookSettings extends HookBase {
                             funName = "r1";
                             break;
                         case "3e74f9f":
+                        case "108cf63":
                             funName = "q1";
                             break;
                         default:
