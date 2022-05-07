@@ -11,6 +11,13 @@
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="remove_oppo_default_app"
+            app:title="@string/remove_oppo_default_app_title"
+            app:summary="@string/remove_oppo_default_app_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
