@@ -22,7 +22,7 @@ public class HookAndroid extends HookBase {
         super.hook(lpparam);
         ClassLoader classLoader = lpparam.classLoader;
         if (ColorToolPrefs.getPrefs("usb_install", false)) {
-            removeForceApp(classLoader);
+            usbInstall(classLoader);
         }
         if (ColorToolPrefs.getPrefs("remove_oppo_default_app", false)) {
             removeForceApp(classLoader);
