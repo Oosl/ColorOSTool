@@ -53,6 +53,8 @@
     <string name="lock_red_one_summary">去除鎖屏界面中小時的紅色1</string>
     <string name="charging_ripple_title">原生充電動畫（僅 COS12）</string>
     <string name="charging_ripple_summary">充電器插入時，啟用安卓12原生動畫</string>
+    <string name="developer_notification_title">開發者模式通知</string>
+    <string name="developer_notification_summary">啟用開發者模式時隱藏通知</string>
 
     <!-- Not Active Module Warning -->
     <string name="not_supported">看起來你的LSP版本太舊了或者是沒激活，請更新或激活LSP後再試試。</string>

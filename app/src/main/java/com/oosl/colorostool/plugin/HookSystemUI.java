@@ -10,19 +10,23 @@ import com.oosl.colorostool.util.Log;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookSystemUI extends HookBase {
 
     private final String tag = "SystemUI";
 
     @Override
-    public void hook() {
-        super.hook();
+    public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        super.hook(lpparam);
         if (ColorToolPrefs.getPrefs("lock_red_one", false)) {
             hookRedOne();
         }
         if (ColorToolPrefs.getPrefs("charging_ripple", false)) {
             hookChargeWipe();
+        }
+        if (ColorToolPrefs.getPrefs("developer_notification", false)) {
+            hookDeveloperModeNotification(lpparam);
         }
         Log.d(tag, "Hook SystemUI success!");
     }
@@ -109,5 +113,21 @@ public class HookSystemUI extends HookBase {
                 }
             }
         });
+    }
+
+    private void hookDeveloperModeNotification(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> clazz = lpparam.classLoader.loadClass("com.oplusos.systemui.common.feature.FeatureOption");
+            XposedHelpers.findAndHookMethod(clazz, "isSendDeveloperModeNotification", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    param.setResult(false);
+                    Log.d(tag, "hook DeveloperModeNotification success!");
+                }
+            });
+        } catch (Throwable t) {
+            Log.error(tag, t);
+        }
+
     }
 }
