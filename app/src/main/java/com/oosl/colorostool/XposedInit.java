@@ -33,7 +33,7 @@ public class XposedInit implements IXposedHookLoadPackage {
                 new HookGameSpace().hook(lpparam);
                 break;
             case "com.android.systemui":
-                new HookSystemUI().hook();
+                new HookSystemUI().hook(lpparam);
                 break;
             case "com.android.settings":
                 new HookSettings().hook();

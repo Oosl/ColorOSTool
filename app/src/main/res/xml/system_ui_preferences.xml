@@ -18,6 +18,13 @@
             app:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="developer_notification"
+            app:title="@string/developer_notification_title"
+            app:summary="@string/developer_notification_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

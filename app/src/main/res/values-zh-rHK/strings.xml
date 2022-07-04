@@ -63,6 +63,8 @@
     <string name="more_dark_mode_summary">添加用戶安裝的所有APP到三方應用暗色列表中</string>
     <string name="all_120hz_title">全局120Hz</string>
     <string name="all_120hz_summary">開啟後打開一次“設置-显示与亮度-屏幕刷新率”即可</string>
+    <string name="developer_notification_title">開發者模式通知</string>
+    <string name="developer_notification_summary">啟用開發者模式時隱藏通知</string>
 
     <!-- android Preferences -->
     <string name="usb_install_title">禁用usb安裝確認</string>
