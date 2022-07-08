@@ -18,7 +18,7 @@ public final class Log {
         XposedBridge.log("[" + TAG + "-"+ tag + "]: " + logMesg);
     }
 
-    public static void error(String tag, Exception e){
+    public static void error(String tag, Throwable e){
         XposedBridge.log("[ColorOSTool-ERROR:-"+ tag + "]: " + e.getLocalizedMessage());
     }
 }
