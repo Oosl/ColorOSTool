@@ -9,8 +9,8 @@ android {
         applicationId "com.oosl.colorostool"
         minSdk 30
         targetSdk 31
-        versionCode 31
-        versionName "1.9.9.9"
+        versionCode 32
+        versionName "1.9.9.10"
     }
 
     buildTypes {
@@ -38,8 +38,8 @@ android {
 
 dependencies {
 
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.preference:preference:1.2.0'
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.6.1'
 }
