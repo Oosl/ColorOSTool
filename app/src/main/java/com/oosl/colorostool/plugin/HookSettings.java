@@ -76,9 +76,15 @@ public class HookSettings extends HookBase {
                             break;
                         case "393408f":
                         case "108cf63":
-                        default:
                             className = "oc.b";
                             funName = "k";
+                            break;
+                        case "b857e6f":
+                        case "1801866":
+                        default:
+                            className = "pc.b";
+                            funName = "k";
+
                     }
                     clazz = cl.loadClass(className);
 //                    clazz = cl.loadClass("com.oplus.settings.feature.display.darkmode.utils.DarkModeFileUtils");
@@ -257,10 +263,11 @@ public class HookSettings extends HookBase {
                             break;
                         case "3e74f9f":
                         case "108cf63":
+                        case "b857e6f":
+                        default:
                             funName = "q1";
                             break;
-                        default:
-                            funName = "e";
+//                            funName = "e"; //for unknown version
                     }
                     XposedHelpers.findAndHookMethod(className, cl, funName, int.class, new XC_MethodHook() {
                         @Override

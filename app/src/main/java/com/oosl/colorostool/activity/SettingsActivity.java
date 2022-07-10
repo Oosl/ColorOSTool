@@ -200,7 +200,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected String getVersion(String packageName) {
         try {
             PackageManager packageManager = mContext.getPackageManager();
-            return packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData.getString("versionCommit");
+            return packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData.get("versionCommit").toString();
         } catch (Exception exception) {
             android.util.Log.e(tag, "getVersion ERROR", exception);
             return "Error";
