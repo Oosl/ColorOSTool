@@ -173,13 +173,13 @@ public class SettingsActivity extends AppCompatActivity {
             String settingsVersion = getVersion("com.android.settings");
             String systemuiVersion = getVersion("com.android.systemui");
             String packageInstallerVersion = getVersion("com.android.packageinstaller");
-            String launcherVersion = getVersion("com.oppo.launcher");
-            String safeCenterVersion = getVersion("com.coloros.safecenter");
-            String gameSpaceVersion = getVersion("com.coloros.gamespace");
-            if (Build.VERSION.SDK_INT == 31) {
-                launcherVersion = getVersion("com.android.launcher");
-                safeCenterVersion = getVersion("com.oplus.safecenter");
-                gameSpaceVersion = getVersion("com.oplus.games");
+            String launcherVersion = getVersion("com.android.launcher");
+            String safeCenterVersion = getVersion("com.oplus.safecenter");
+            String gameSpaceVersion = getVersion("com.oplus.games");
+            if (Build.VERSION.SDK_INT == 30) {
+                launcherVersion = getVersion("com.oppo.launcher");
+                safeCenterVersion = getVersion("com.coloros.safecenter");
+                gameSpaceVersion = getVersion("com.coloros.gamespace");
             }
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("ColorToolPrefs", MODE_PRIVATE);
             SharedPreferences.Editor sharePrefsEditor = sharedPreferences.edit();
